@@ -8,79 +8,57 @@
 </head>
 <body>
 <header>
-  <div class="container">
-    <div class="header-content">
-      <h1>Yana's Bakery</h1>
-<!--      <p></p>-->
-      <nav>
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#testimonials">Testimonials</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+  <h1>Yana's Bakery</h1>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 </header>
 
-<section id="about">
-  <div class="container">
-    <h2>About Me</h2>
-    <img src="your-photo.jpg" alt="Iana Samoilova">
-    <p>I’m Yana, and baking is my love and passion, so I love what I do, and do what I love.
-
-      I have something to share with you: pastry should not necessarily be sweet or limited to white and chocolate colors.
-
-      Crunchy layers, velvety sponge cakes, delicate creams, and imaginative combinations of flavors and textures are the essence of my baking. I adhere to the finest European traditions while infusing my own ideas to craft beloved familiar and uniquely unexpected flavors.
-    </p>
-  </div>
-</section>
-
-<section id="portfolio">
-  <div class="container">
-    <h2>Portfolio</h2>
-    <div class="gallery">
-      <!-- Add images here -->
-      <img src="pastry1.jpg" alt="Pastry 1">
-      <img src="pastry2.jpg" alt="Pastry 2">
-      <img src="pastry3.jpg" alt="Pastry 3">
+<main>
+  <section id="home" class="page">
+    <div class="content">
+      <h2>Indulge in Heavenly Pastries</h2>
+      <p>Experience the art of pastry-making with our exquisite creations</p>
+      <a href="#contact" class="cta-button">Order Now</a>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="testimonials">
-  <div class="container">
-    <h2>Testimonials</h2>
-    <blockquote>
-      <p>"Jane's pastries are a work of art!" - Client Name</p>
-    </blockquote>
-    <blockquote>
-      <p>"The best pastry experience I've ever had." - Another Client</p>
-    </blockquote>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="container">
-    <h2>Contact Me</h2>
-    <form action="submit-form.php" method="post">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-    <div class="social-media">
-      <a href="https://www.instagram.com" target="_blank">Instagram</a>
-      <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+  <section id="about" class="page">
+    <div class="content chef-bio">
+      <img src="/api/placeholder/300/300" alt="Chef Yana" class="chef-photo">
+      <div class="bio-content">
+        <h2>Meet Chef Yana</h2>
+        <p>Passionate about creating delightful pastries that bring joy to every bite.</p>
+        <ul>
+          <li>Trained in Paris at the renowned Le Cordon Bleu</li>
+          <li>Specializes in fusion of traditional and modern pastry techniques</li>
+          <li>Winner of the National Pastry Chef Competition 2023</li>
+          <li>Believes in using locally-sourced, organic ingredients</li>
+        </ul>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <section id="gallery" class="page">
+    <div class="content">
+      <h2>Our Creations</h2>
+      <div class="gallery-grid">
+        <img src="/api/placeholder/400/300" alt="Delicious pastry 1">
+        <img src="/api/placeholder/400/300" alt="Delicious pastry 2">
+        <img src="/api/placeholder/400/300" alt="Delicious pastry 3">
+        <img src="/api/placeholder/400/300" alt="Delicious pastry 4">
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer>
-  <div class="container">
-    <p>&copy; 2024 Iana Samoilova. All rights reserved.</p>
-  </div>
+  <p>Yana's Bakery | Designed with love</p>
 </footer>
 </body>
 </html>
