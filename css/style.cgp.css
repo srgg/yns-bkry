@@ -22,7 +22,7 @@ body {
 /* Header with Full-Screen Background Image */
 /* Header with Full-Screen Background Image */
 header {
-  background: url('../img/background/zefir-bd-huge.png') no-repeat center center;
+  background: url('../img/background/home-4k.png') no-repeat center center;
   background-size: cover; /* Ensures the image covers the entire screen */
   height: 100vh; /* Full viewport height */
   color: #fff;
