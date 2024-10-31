@@ -32,7 +32,8 @@ deploy: dist
 	fi
 	git add -f $(DIST_DIR)
 	git commit -m "Build for deployment" || true
-	git push origin `git subtree split --prefix $(DIST_DIR) main`:$(BRANCH) --force
+	@SPLIT_SHA=$$(git subtree split --prefix $(DIST_DIR) main) && \
+		git push origin $$SPLIT_SHA:refs/heads/$(BRANCH) --force
 	@echo "Deployed dist/ to $(BRANCH) branch"
 
 serve: dist
