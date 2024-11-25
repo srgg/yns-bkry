@@ -1,2 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cakes on Yana's Bakery</title><link>https://yanasbakery.com/categories/cakes/</link><description>Recent content in cakes on Yana's Bakery</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yanasbakery.com/categories/cakes/index.xml" rel="self" type="application/rss+xml"/><item><title>Honey Cake</title><link>https://yanasbakery.com/products/honey-cake/</link><pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate><guid>https://yanasbakery.com/products/honey-cake/</guid><description>Additional details about the Honey Cake can go here as markdown content.</description></item><item><title>Mille-feuille</title><link>https://yanasbakery.com/products/millefeuille/</link><pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate><guid>https://yanasbakery.com/products/millefeuille/</guid><description>Additional details about the mille-feuille can go here as markdown content.</description></item><item><title>Stollen</title><link>https://yanasbakery.com/products/stollen/</link><pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate><guid>https://yanasbakery.com/products/stollen/</guid><description>Additional details about the Stollen can go here as markdown content.</description></item><item><title>Naked Cake</title><link>https://yanasbakery.com/products/naked-cake/</link><pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate><guid>https://yanasbakery.com/products/naked-cake/</guid><description>Additional details about the naked cake can go here as markdown content.
-title: &amp;ldquo;Classic Birthday Cake&amp;rdquo;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cakes on Yana&#39;s Bakery</title>
+    <link>https://yanasbakery.com/categories/cakes/</link>
+    <description>Recent content in cakes on Yana&#39;s Bakery</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yanasbakery.com/categories/cakes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Honey Cake</title>
+      <link>https://yanasbakery.com/products/honey-cake/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yanasbakery.com/products/honey-cake/</guid>
+      <description>Additional details about the Honey Cake can go here as markdown content.</description>
+    </item>
+    
+    <item>
+      <title>Mille-feuille</title>
+      <link>https://yanasbakery.com/products/millefeuille/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yanasbakery.com/products/millefeuille/</guid>
+      <description>Additional details about the mille-feuille can go here as markdown content.</description>
+    </item>
+    
+    <item>
+      <title>Stollen</title>
+      <link>https://yanasbakery.com/products/stollen/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yanasbakery.com/products/stollen/</guid>
+      <description>Additional details about the Stollen can go here as markdown content.</description>
+    </item>
+    
+    <item>
+      <title>Naked Cake</title>
+      <link>https://yanasbakery.com/products/naked-cake/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yanasbakery.com/products/naked-cake/</guid>
+      <description>Additional details about the naked cake can go here as markdown content.
+title: &amp;ldquo;Classic Birthday Cake&amp;rdquo;</description>
+    </item>
+    
+  </channel>
+</rss>
