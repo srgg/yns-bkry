@@ -1,5 +1,14 @@
 # www.robotstxt.org/
 
-# Allow crawling of all content
+# Allow search engines to crawl the homepage
 User-agent: *
-Disallow:
+Allow: /$
+
+# Allow search engines to crawl the /products page
+Allow: /products$
+
+# Allow search engines to crawl any pages under /products/ (e.g., /products/item1, /products/item2)
+Allow: /products/
+
+# Disallow everything else
+Disallow: /
