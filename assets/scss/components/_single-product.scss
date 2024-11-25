@@ -1,0 +1,109 @@
+@import '../variables';
+
+.products-section {
+  .single-product {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: $spacing-xl $spacing-md;
+
+    @include grid-md {
+      grid-template-columns: 1fr 1fr;
+      padding: $spacing-xl;
+    }
+  }
+
+  .product-hero {
+    width: 100%;
+    margin-bottom: $spacing-xl;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      box-shadow: $shadow-md;
+    }
+
+    @include mobile {
+      height: 200px;
+    }
+
+    @include tablet {
+      height: 300px;
+    }
+
+    @include desktop {
+      height: 400px;
+    }
+
+    @media (min-width: $breakpoint-xl) {
+      height: 500px;
+    }
+  }
+
+  .product-info {
+    h1 {
+      font-size: 2rem;
+      color: $primary-color;
+      margin-bottom: $spacing-md;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: $secondary-color;
+      margin-bottom: $spacing-md;
+    }
+
+    .description {
+      font-size: 1rem;
+      color: $text-color;
+      line-height: 1.5;
+      margin-bottom: $spacing-lg;
+    }
+
+    .product-details {
+      margin-bottom: $spacing-lg;
+      font-family: $font-secondary;
+      color: $text-color;
+
+      p {
+        margin-bottom: $spacing-md;
+      }
+    }
+
+    .add-to-cart-button {
+      display: inline-block;
+      padding: $spacing-sm $spacing-lg;
+      background-color: $primary-color;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      transition: background-color $transition-speed $transition-ease;
+
+      &:hover {
+        background-color: $secondary-color;
+      }
+    }
+  }
+
+  .product-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-md;
+    margin-top: $spacing-xl;
+
+    .gallery-item {
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: $shadow-sm;
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{{ define "main" }}
+    <div class="taxonomy-list">
+        <h1>Our Categories</h1>
+
+        <div class="items-grid">
+            {{ range $key, $value := .Site.Taxonomies.categories }}
+                <div class="item-card">
+                    <h2><a href="{{ $value.Page.RelPermalink }}">
+                        {{ title $key }}
+                    </a></h2>
+                    <p>{{ len $value.Pages }} {{ if eq (len $value.Pages) 1 }}item{{ else }}items{{ end }}</p>
+                    {{ if eq $key "bestsellers" }}
+                        <span class="badge">★ Popular Items</span>
+                    {{ end }}
+                </div>
+            {{ end }}
+        </div>
+    </div>
+{{ end }}
+
+{{/*{{ define "main" }}*/}}
+{{/*    <div class="taxonomy-list">*/}}
+{{/*        <h1>All Categories</h1>*/}}
+{{/**/}}
+{{/*        <!-- Debug information -->*/}}
+{{/*        {{ if site.BuildDrafts }}*/}}
+{{/*            <div style="margin-top: 2rem; padding: 1rem; background: #f5f5f5;">*/}}
+{{/*                <h3>Debug Info:</h3>*/}}
+{{/*                <pre>*/}}
+{{/*Available Terms:*/}}
+{{/*{{ range $key, $value := .Site.Taxonomies.categories }}*/}}
+{{/*    - {{ $key }} ({{ len $value.Pages }} pages)*/}}
+{{/*{{ end }}*/}}
+{{/*        </pre>*/}}
+{{/*            </div>*/}}
+{{/*        {{ end }}*/}}
+{{/**/}}
+{{/*        <div class="items-grid">*/}}
+{{/*            {{ range $key, $value := .Site.Taxonomies.categories }}*/}}
+{{/*                <div class="item-card">*/}}
+{{/*                    <h2><a href="{{ $value.Page.RelPermalink }}">{{ $key }}</a></h2>*/}}
+{{/*                    <p>{{ len $value.Pages }} items</p>*/}}
+{{/*                </div>*/}}
+{{/*            {{ end }}*/}}
+{{/*        </div>*/}}
+{{/*    </div>*/}}
+{{/*{{ end }}*/}}

@@ -1,0 +1,27 @@
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <h1>{{ .Site.Title }}</h1>
+            <p>{{ .Site.Params.description }}</p>
+        </div>
+
+        {{ if .Site.Params.showBreadcrumbs | default true }}
+            {{ partial "navbar.html" . }}
+        {{ end }}
+
+        <div class="header-contact">
+            <a href="mailto:{{ .Site.Params.email }}" title="Email us">
+                {{ partial "icons/email.html" . }}
+            </a>
+            <a href="{{ .Site.Params.facebook }}" target="_blank" title="Follow us on Facebook">
+                {{ partial "icons/facebook.html" . }}
+            </a>
+            <a href="{{ .Site.Params.instagram }}" target="_blank" title="Follow us on Instagram">
+                {{ partial "icons/instagram.html" . }}
+            </a>
+            <a href="sms:{{ .Site.Params.phone }}" title="Text us">
+                {{ partial "icons/message.html" . }}
+            </a>
+        </div>
+    </div>
+</header>

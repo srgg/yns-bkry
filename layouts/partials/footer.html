@@ -1,0 +1,70 @@
+<footer class="footer">
+    <div class="footer-content">
+        <div class="contact-section">
+            <h3>Stay Connected</h3>
+            <div class="contact-links">
+                <div class="contact-group">
+                    <div class="contact-group-title">Email us</div>
+                    <a href="mailto:{{ .Site.Params.email }}?subject=Order%20Inquiry" class="contact-link">
+                        {{ partial "icons/email.html" . }}
+                        {{ .Site.Params.email }}
+                    </a>
+                </div>
+
+                <div class="contact-divider"></div>
+
+                <div class="contact-group">
+                    <div class="contact-group-title">Follow us</div>
+                    <div class="social-links">
+                        {{ with .Site.Params.facebook }}
+                            <a href="{{ . }}" class="contact-link" target="_blank">
+                                {{ partial "icons/facebook.html" $ }}
+                                Facebook
+                            </a>
+                        {{ end }}
+
+                        {{ with .Site.Params.instagram }}
+                            <a href="{{ . }}" class="contact-link" target="_blank">
+                                {{ partial "icons/instagram.html" $ }}
+                                Instagram
+                            </a>
+                        {{ end }}
+                    </div>
+                </div>
+
+                <div class="contact-divider"></div>
+
+                <div class="contact-group">
+                    <div class="contact-group-title">Text us</div>
+                    <a href="sms:{{ .Site.Params.phone }}" class="contact-link">
+                        {{ partial "icons/message.html" . }}
+                        {{ .Site.Params.phone }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{ with .Site.Params.businessHours }}
+            <div class="business-hours">
+                <h4>Business Hours</h4>
+                <ul>
+                    {{ range . }}
+                        <li>{{ . }}</li>
+                    {{ end }}
+                </ul>
+            </div>
+        {{ end }}
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                © {{ now.Format "2006" }} <span>{{ .Site.Title }}</span> • All rights reserved • Handcrafted with love
+            </div>
+
+            {{ with .Site.Params.address }}
+                <div class="address">
+                    {{ . }}
+                </div>
+            {{ end }}
+        </div>
+    </div>
+</footer>

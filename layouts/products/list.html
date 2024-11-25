@@ -1,0 +1,19 @@
+{{/*{{ define "main" }}*/}}
+{{/*    <div class="products-intro">*/}}
+{{/*        <div class="products-intro-content">*/}}
+{{/*            <h1>{{ .Title }}</h1>*/}}
+{{/*            {{ with .Description }}*/}}
+{{/*                <p class="intro-description">{{ . }}</p>*/}}
+{{/*            {{ end }}*/}}
+{{/*            {{ with .Content }}*/}}
+{{/*                <div class="intro-content">{{ . }}</div>*/}}
+{{/*            {{ end }}*/}}
+{{/*        </div>*/}}
+{{/*    </div>*/}}
+{{/**/}}
+{{/*    {{ .Render "_list" }}*/}}
+{{/*{{ end }}*/}}
+
+{{ define "main" }}
+    {{ .Render "_list" }}
+{{ end }}

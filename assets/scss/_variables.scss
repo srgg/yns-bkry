@@ -1,0 +1,87 @@
+// Colors
+$primary-color: #9b4f4f;
+$secondary-color: #7a3d3d;
+$background-color: #fdf6f0;
+$border-color: #f0e4d9;
+$text-color: #666;
+
+// Fonts
+$font-primary: Georgia, "Palatino Linotype", "Book Antiqua", Palatino, serif;
+$font-secondary: "Courier New", Courier, monospace;
+$font-display: 'Playfair Display', serif;
+
+// Breakpoints
+$breakpoint-sm: 480px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Common dimensions
+$container-max-width: 1200px;
+$header-height: 5.5rem;
+$mobile-header-height: 8rem;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Mixins for media queries
+@mixin mobile {
+  @media (max-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+// Grid breakpoints mixins
+@mixin grid-sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin grid-md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin grid-lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin grid-xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+// Common transitions
+$transition-speed: 0.3s;
+$transition-ease: ease;
+
+// Shadows
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);

@@ -1,0 +1,331 @@
+@import "variables";
+@import "components/product";
+@import "components/single-product";
+@import "components/navbar";
+//@import "fallback-images";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-primary;
+}
+
+body {
+  background-color: $background-color;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+// New header respect all breaking points
+header {
+  background-color: #fff;
+  padding: $spacing-md 0;
+  box-shadow: $shadow-sm;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 100%;
+  height: auto;
+
+  .header-container {
+    width: 100%;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-xl;
+    position: relative;
+
+    @include desktop {
+      width: 90%;
+    }
+
+    @include tablet {
+      padding: 0.5rem $spacing-md;
+      width: 95%;
+    }
+
+    @include mobile {
+      width: 100%;
+      padding: 0 $spacing-sm;
+    }
+  }
+
+  .logo {
+    text-align: center;
+    color: $primary-color;
+    font-style: italic;
+    padding: $spacing-xs 0;
+    width: 100%;
+
+    h1 {
+      font-family: $font-display;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-bottom: $spacing-xs;
+
+      @include desktop {
+        font-size: 2.2rem;
+      }
+
+      @include tablet {
+        font-size: 1.8rem;
+        margin-bottom: $spacing-xs;
+      }
+
+      @include mobile {
+        font-size: 1.5rem;
+      }
+    }
+
+    p {
+      font-family: $font-secondary;
+      color: $text-color;
+      font-size: 0.9rem;
+      font-style: italic;
+
+      @include tablet {
+        font-size: 0.8rem;
+      }
+
+      @include mobile {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .header-contact {
+    position: absolute;
+    right: $spacing-xl;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: $spacing-lg;
+    align-items: center;
+    padding: $spacing-xs 0;
+
+    @include desktop {
+      right: $spacing-lg;
+    }
+
+    @include tablet {
+      position: relative;
+      right: 0;
+      top: 0;
+      transform: none;
+      width: 100%;
+      justify-content: center;
+      margin-top: $spacing-sm;
+      gap: $spacing-md;
+    }
+
+    @include mobile {
+      gap: $spacing-sm;
+    }
+
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      transition: color $transition-speed $transition-ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $spacing-xs;
+      flex-shrink: 0;
+      min-width: 24px;
+
+      &:hover {
+        color: $secondary-color;
+      }
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+
+      @include desktop {
+        width: 18px;
+        height: 18px;
+      }
+
+      @include tablet {
+        width: 22px;
+        height: 22px;
+      }
+
+      @include mobile {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+.footer {
+  background-color: #fff;
+  padding: ($spacing-xl * 1.5) 0 $spacing-xl;
+  margin-top: $spacing-xl * 2;
+  border-top: 2px solid $border-color;
+  width: 100%;
+
+  .footer-content {
+    width: 100%;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-xl;
+
+    @include tablet {
+      padding: 0 $spacing-md;
+    }
+
+    .contact-section {
+      width: 100%;
+      margin-bottom: $spacing-xl;
+      text-align: center;
+
+      h3 {
+        color: $primary-color;
+        font-style: italic;
+        margin-bottom: $spacing-lg;
+        font-size: 1.8rem;
+
+        @include tablet {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .contact-links {
+      display: flex;
+      gap: $spacing-xl;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+
+      @include tablet {
+        flex-direction: column;
+        align-items: center;
+        gap: $spacing-lg;
+      }
+
+      .contact-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $spacing-sm;
+
+        .contact-group-title {
+          color: $text-color;
+          font-family: $font-secondary;
+          font-size: 0.9rem;
+          margin-bottom: $spacing-xs;
+        }
+
+        .contact-link {
+          display: flex;
+          align-items: center;
+          gap: $spacing-sm;
+          color: $primary-color;
+          text-decoration: none;
+          transition: color $transition-speed $transition-ease;
+          padding: $spacing-sm;
+
+          &:hover {
+            color: $secondary-color;
+          }
+
+          svg {
+            width: 20px;
+            height: 20px;
+
+            @include tablet {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+      }
+
+      .social-links {
+        display: flex;
+        gap: $spacing-md;
+
+        @include tablet {
+          flex-direction: row;
+          justify-content: center;
+          width: 100%;
+        }
+      }
+
+      .contact-divider {
+        width: 2px;
+        height: 40px;
+        background-color: $border-color;
+        margin: 0 $spacing-md;
+
+        @include tablet {
+          width: 80%;
+          height: 2px;
+          margin: $spacing-sm 0;
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    width: 100%;
+    padding-top: $spacing-xl;
+    margin-top: $spacing-xl;
+    border-top: 1px solid $border-color;
+    text-align: center;
+
+    .copyright {
+      color: $text-color;
+      font-family: $font-secondary;
+      font-size: 0.9rem;
+      margin-bottom: $spacing-md;
+    }
+
+    .address {
+      color: $text-color;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.business-hours {
+  margin: $spacing-xl 0;
+  padding: $spacing-md;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  width: 100%;
+  text-align: center;
+
+  h4 {
+    color: $primary-color;
+    margin-bottom: $spacing-md;
+    font-style: italic;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      color: $text-color;
+      margin: $spacing-sm 0;
+      font-family: $font-secondary;
+    }
+  }
+}
+
+// Utility Classes
+.full-width {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}

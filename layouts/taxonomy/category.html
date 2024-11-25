@@ -1,0 +1,64 @@
+{{ define "main" }}
+{{ partial "debug.html" . }}
+
+<div class="taxonomy-list">
+        <h1>{{ title .Title }}</h1>
+        {{ $count := len .Pages }}
+        <p class="category-count">{{ $count }} {{ if eq $count 1 }}item{{ else }}items{{ end }}</p>
+
+        <div class="items-grid">
+            {{ range .Pages }}
+                <div class="item-card">
+                    {{ with .Params.image }}
+                        <img src="{{ . }}" alt="{{ $.Title }}">
+                    {{ end }}
+                    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+                    {{ with .Params.price }}
+                        <div class="price">{{ . }}</div>
+                    {{ end }}
+                    {{ with .Params.description }}
+                        <p class="description">{{ . }}</p>
+                    {{ end }}
+                    {{ if in .Params.categories "bestsellers" }}
+                        <span class="badge">★ Bestseller</span>
+                    {{ end }}
+                </div>
+            {{ end }}
+        </div>
+    </div>
+{{ end }}
+
+{{/*{{ define "main" }}*/}}
+{{/*    <div class="taxonomy-list">*/}}
+{{/*        <h1>Category: {{ .Title }}</h1>*/}}
+{{/*        {{ $pages := .Pages }}*/}}
+{{/*        {{ $count := len $pages }}*/}}
+{{/*        <p>Found {{ $count }} items</p>*/}}
+{{/**/}}
+{{/*        <div class="items-grid">*/}}
+{{/*            {{ range $pages }}*/}}
+{{/*                <div class="item-card">*/}}
+{{/*                    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>*/}}
+{{/*                    <p>{{ .Section }}</p>*/}}
+{{/*                    {{ with .Params.description }}*/}}
+{{/*                        <p>{{ . }}</p>*/}}
+{{/*                    {{ end }}*/}}
+{{/*                </div>*/}}
+{{/*            {{ end }}*/}}
+{{/*        </div>*/}}
+{{/**/}}
+{{/*        <!-- Debug information -->*/}}
+{{/*        {{ if site.BuildDrafts }}*/}}
+{{/*            <div style="margin-top: 2rem; padding: 1rem; background: #f5f5f5;">*/}}
+{{/*                <h3>Debug Info:</h3>*/}}
+{{/*                <pre>*/}}
+{{/*Page Type: {{ .Type }}*/}}
+{{/*Page Kind: {{ .Kind }}*/}}
+{{/*Term: {{ .Title }}*/}}
+{{/*Number of Pages: {{ len .Pages }}*/}}
+{{/*        </pre>*/}}
+{{/*            </div>*/}}
+{{/*        {{ end }}*/}}
+{{/*    </div>*/}}
+{{/*{{ end }}*/}}
+{{/**/}}

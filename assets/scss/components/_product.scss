@@ -1,0 +1,225 @@
+.products-intro {
+  width: 100%;
+  padding: $spacing-lg 0;
+  margin-bottom: $spacing-lg;
+  background: linear-gradient(rgba($primary-color, 0.02), rgba($primary-color, 0.05));
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right,
+            transparent,
+            $border-color,
+            $primary-color,
+            $border-color,
+            transparent
+    );
+  }
+
+  .products-intro-content {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-xl;
+
+    @include tablet {
+      padding: 0 $spacing-md;
+    }
+
+    h1 {
+      color: $primary-color;
+      font-family: $font-display;
+      font-size: 2rem;
+      margin-bottom: $spacing-md;
+      font-weight: 600;
+
+      @include tablet {
+        font-size: 1.75rem;
+      }
+
+      @include mobile {
+        font-size: 1.5rem;
+      }
+    }
+
+    .intro-description {
+      color: $text-color;
+      font-size: 1.1rem;
+      margin-bottom: $spacing-md;
+      line-height: 1.6;
+      max-width: 800px;
+
+      @include tablet {
+        font-size: 1rem;
+      }
+    }
+
+    .intro-content {
+      color: $text-color;
+      font-size: 1rem;
+      line-height: 1.6;
+
+      p {
+        margin-bottom: $spacing-sm;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+.products-section {
+  width: 100%;
+  padding: $spacing-md 0;
+
+  .gallery {
+    width: 100%;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+    display: grid;
+    gap: $spacing-lg;
+    grid-template-columns: minmax(0, 1fr);
+
+    @include grid-md {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      padding: 0 $spacing-xl;
+    }
+
+    @include grid-lg {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @include grid-xl {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+}
+
+.pastry-card {
+  width: 100%;
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+  transition: transform $transition-speed $transition-ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .pastry-image {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom: 1px solid $border-color;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform $transition-speed $transition-ease;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+  }
+
+  .pastry-info {
+    padding: $spacing-md;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: $spacing-sm;
+      color: $primary-color;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: $text-color;
+      margin-bottom: $spacing-md;
+      line-height: 1.5;
+
+      @include grid-md {
+        font-size: 1rem;
+      }
+    }
+
+    .price {
+      font-size: 1.125rem;
+      font-weight: bold;
+      color: $primary-color;
+      margin-bottom: auto;
+      padding-bottom: $spacing-md;
+    }
+
+    .view-button {
+      display: inline-block;
+      width: 100%;
+      padding: $spacing-sm $spacing-md;
+      background-color: $primary-color;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      transition: background-color $transition-speed $transition-ease;
+      text-align: center;
+      margin-top: auto;
+
+      &:hover {
+        background-color: $secondary-color;
+      }
+    }
+  }
+}
+
+// Additional Responsive Breakpoints for products
+@include desktop {
+  .products-section .gallery {
+    width: 90%;
+  }
+}
+
+@include tablet {
+  .products-section .gallery {
+    width: 95%;
+    padding: 0 $spacing-md;
+  }
+}
+
+@include mobile {
+  .products-section .gallery {
+    width: 100%;
+    padding: 0 $spacing-sm;
+  }
+
+  .pastry-card {
+    .pastry-info {
+      h3 {
+        font-size: 1.15rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
+
+      .price {
+        font-size: 1rem;
+      }
+    }
+  }
+}

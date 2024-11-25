@@ -1,0 +1,29 @@
+{{ define "main" }}
+    {{ partial "debug.html" . }}
+
+    <article class="content-single">
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.image }}
+            <img src="{{ . }}" alt="{{ $.Title }}">
+        {{ end }}
+
+        {{ with .Params.price }}
+            <div class="price">{{ . }}</div>
+        {{ end }}
+
+        <div class="content">
+            {{ .Content }}
+        </div>
+
+        {{ with .Params.categories }}
+            <div class="categories">
+                <h3>Categories:</h3>
+                <ul>
+                    {{ range . }}
+                        <li><a href="/categories/{{ . | urlize }}">{{ . }}</a></li>
+                    {{ end }}
+                </ul>
+            </div>
+        {{ end }}
+    </article>
+{{ end }}

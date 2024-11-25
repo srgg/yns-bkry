@@ -1,0 +1,438 @@
+{{- /* layouts/partials/images/process-product-images.html */ -}}
+{{/**/}}
+{{- /* Read config from Site Params */ -}}
+{{- $config := .Site.Params.images.products -}}
+{{- warnf "\n=== Starting Image Processing ===" -}}
+{{/**/}}
+{{- /* Log available config */ -}}
+{{- range $type, $sizes := $config -}}
+    {{- if ne $type "options" -}}
+        {{- warnf "\nFound image type: %s" $type -}}
+        {{- range $sizeName, $dims := $sizes -}}
+            {{- $width := strings.TrimRight "," (string $dims.width) | int -}}
+            {{- $height := strings.TrimRight "," (string $dims.height) | int -}}
+            {{- warnf "- Size %s: %dx%d" $sizeName $width $height -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{/**/}}
+{{- /* Get options */ -}}
+{{- $options := $config.options -}}
+{{- $defaultQuality := $options.default_quality -}}
+{{/**/}}
+{{- /* Find and process images */ -}}
+{{- $images := .Resources.Match "*.{jpg,jpeg,png}" -}}
+{{- warnf "\nFound %d images to process" (len $images) -}}
+{{/**/}}
+{{- range $image := $images -}}
+    {{- $basename := $image.Name -}}
+    {{- $nameParts := split $basename "-" -}}
+    {{- if ge (len $nameParts) 2 -}}
+        {{- $nameWithoutExt := index (split $basename ".") 0 -}}
+        {{- $imageType := index (split (index $nameParts (sub (len $nameParts) 1)) ".") 0 -}}
+        {{- $productPath := path.Dir $image.RelPermalink -}}
+        {{- warnf "\nProcessing %s (%dx%d)" $basename $image.Width $image.Height -}}
+        {{- warnf "Path: %s" $productPath -}}
+        {{/**/}}
+        {{- with index $config $imageType -}}
+            {{- range $sizeName, $dims := . -}}
+                {{- if and (reflect.IsMap $dims) (isset $dims "width") (isset $dims "height") -}}
+                    {{- /* Clean up dimension values */ -}}
+                    {{- $width := strings.TrimRight "," (string $dims.width) | int -}}
+                    {{- $height := strings.TrimRight "," (string $dims.height) | int -}}
+                    {{/**/}}
+                    {{- if and (ge $image.Width $width) (ge $image.Height $height) -}}
+                        {{- /* Create path-aware filenames */ -}}
+                        {{- $newWebpName := printf "%s/%s-%s.webp" $productPath $nameWithoutExt $sizeName -}}
+                        {{- $newJpgName := printf "%s/%s-%s.jpg" $productPath $nameWithoutExt $sizeName -}}
+                        {{/**/}}
+                        {{- /* Process WebP with options */ -}}
+                        {{- $webp := $image.Resize (printf "%dx%d webp q%d" $width $height $defaultQuality) -}}
+                        {{- $webp = $webp | resources.Copy $newWebpName -}}
+                        {{/**/}}
+                        {{- /* Process JPG fallback */ -}}
+                        {{- $jpg := $image.Resize (printf "%dx%d jpg q%d" $width $height $defaultQuality) -}}
+                        {{- $jpg = $jpg | resources.Copy $newJpgName -}}
+                        {{/**/}}
+                        {{- warnf "✓ Created %s (%dx%d)" $sizeName $width $height -}}
+                        {{- warnf "  WebP: %s" $webp.RelPermalink -}}
+                        {{- warnf "  JPG: %s" $jpg.RelPermalink -}}
+                    {{- else -}}
+                        {{- warnf "✗ Skipped %s: image too small (%dx%d needed, have %dx%d)"
+                                $sizeName $width $height $image.Width $image.Height -}}
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+        {{- else -}}
+            {{- warnf "✗ No config found for type: %s" $imageType -}}
+        {{- end -}}
+    {{- else -}}
+        {{- warnf "✗ Invalid filename format: %s (expected: name-type.ext)" $basename -}}
+    {{- end -}}
+{{- end -}}
+{{/**/}}
+{{- warnf "\n=== Image Processing Complete ===" -}}
+
+
+{{- /* layouts/partials/images/process-product-images.html */ -}}
+{{/**/}}
+{{- /* Read config from Site Params */ -}}
+{{/*{{- $config := .Site.Params.images.products -}}*/}}
+{{/*{{- warnf "\n=== Starting Image Processing ===" -}}*/}}
+{{/**/}}
+{{- /* Log available config */ -}}
+{{/*{{- range $type, $sizes := $config -}}*/}}
+{{/*    {{- if ne $type "options" -}}*/}}
+{{/*        {{- warnf "\nFound image type: %s" $type -}}*/}}
+{{/*        {{- range $sizeName, $dims := $sizes -}}*/}}
+{{/*            {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*            {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/*            {{- warnf "- Size %s: %dx%d" $sizeName $width $height -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{- /* Get options */ -}}
+{{/*{{- $options := $config.options -}}*/}}
+{{/*{{- $defaultQuality := $options.default_quality -}}*/}}
+{{/**/}}
+{{- /* Find and process images */ -}}
+{{/*{{- $images := .Resources.Match "*.{jpg,jpeg,png}" -}}*/}}
+{{/*{{- warnf "\nFound %d images to process" (len $images) -}}*/}}
+{{/**/}}
+{{/*{{- range $image := $images -}}*/}}
+{{/*    {{- $basename := $image.Name -}}*/}}
+{{/*    {{- $nameParts := split $basename "-" -}}*/}}
+{{/*    {{- if ge (len $nameParts) 2 -}}*/}}
+{{/*        {{- $nameWithoutExt := index (split $basename ".") 0 -}}*/}}
+{{/*        {{- $imageType := index (split (index $nameParts (sub (len $nameParts) 1)) ".") 0 -}}*/}}
+{{/*        {{- $productPath := path.Dir $image.RelPermalink -}}*/}}
+{{/*        {{- warnf "\nProcessing %s (%dx%d)" $basename $image.Width $image.Height -}}*/}}
+{{/*        {{- warnf "Path: %s" $productPath -}}*/}}
+{{/**/}}
+{{/*        {{- with index $config $imageType -}}*/}}
+{{/*            {{- range $sizeName, $dims := . -}}*/}}
+{{/*                {{- if and (reflect.IsMap $dims) (isset $dims "width") (isset $dims "height") -}}*/}}
+{{/*                    */}}{{- /* Clean up dimension values */ -}}
+{{/*                    {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*                    {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/**/}}
+{{/*                    {{- if and (ge $image.Width $width) (ge $image.Height $height) -}}*/}}
+{{/*                        */}}{{- /* Create path-aware filenames */ -}}
+{{/*                        {{- $newWebpName := printf "%s/%s-%s.webp" $productPath $nameWithoutExt $sizeName -}}*/}}
+{{/*                        {{- $newJpgName := printf "%s/%s-%s.jpg" $productPath $nameWithoutExt $sizeName -}}*/}}
+{{/**/}}
+{{/*                        */}}{{- /* Process WebP with options */ -}}
+{{/*                        {{- $webp := $image.Resize (printf "%dx%d webp q%d" $width $height $defaultQuality) -}}*/}}
+{{/*                        {{- $webp = $webp | resources.Copy $newWebpName -}}*/}}
+{{/**/}}
+{{/*                        */}}{{- /* Process JPG fallback */ -}}
+{{/*                        {{- $jpg := $image.Resize (printf "%dx%d jpg q%d" $width $height $defaultQuality) -}}*/}}
+{{/*                        {{- $jpg = $jpg | resources.Copy $newJpgName -}}*/}}
+{{/**/}}
+{{/*                        {{- warnf "✓ Created %s (%dx%d)" $sizeName $width $height -}}*/}}
+{{/*                        {{- warnf "  WebP: %s" $webp.RelPermalink -}}*/}}
+{{/*                        {{- warnf "  JPG: %s" $jpg.RelPermalink -}}*/}}
+{{/*                    {{- else -}}*/}}
+{{/*                        {{- warnf "✗ Skipped %s: image too small (%dx%d needed, have %dx%d)"*/}}
+{{/*                                $sizeName $width $height $image.Width $image.Height -}}*/}}
+{{/*                    {{- end -}}*/}}
+{{/*                {{- end -}}*/}}
+{{/*            {{- end -}}*/}}
+{{/*        {{- else -}}*/}}
+{{/*            {{- warnf "✗ No config found for type: %s" $imageType -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- else -}}*/}}
+{{/*        {{- warnf "✗ Invalid filename format: %s (expected: name-type.ext)" $basename -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{/*{{- warnf "\n=== Image Processing Complete ===" -}}*/}}
+
+{{/* =========================================================================== */}}
+
+
+{{- /* layouts/partials/images/process-product-images.html */ -}}
+{{/**/}}
+{{- /* Read config from Site Params */ -}}
+{{/*{{- $config := .Site.Params.images.products -}}*/}}
+{{/*{{- warnf "\n=== Starting Image Processing ===" -}}*/}}
+{{/**/}}
+{{- /* Log available config */ -}}
+{{/*{{- range $type, $sizes := $config -}}*/}}
+{{/*    {{- if ne $type "options" -}}*/}}
+{{/*        {{- warnf "\nFound image type: %s" $type -}}*/}}
+{{/*        {{- range $sizeName, $dims := $sizes -}}*/}}
+{{/*            {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*            {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/*            {{- warnf "- Size %s: %dx%d" $sizeName $width $height -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{- /* Get options */ -}}
+{{/*{{- $options := $config.options -}}*/}}
+{{/*{{- $defaultQuality := $options.default_quality -}}*/}}
+{{/**/}}
+{{- /* Find and process images */ -}}
+{{/*{{- $images := .Resources.Match "*.{jpg,jpeg,png}" -}}*/}}
+{{/*{{- warnf "\nFound %d images to process" (len $images) -}}*/}}
+{{/**/}}
+{{/*{{- range $image := $images -}}*/}}
+{{/*    {{- $basename := $image.Name -}}*/}}
+{{/*    {{- $nameParts := split $basename "-" -}}*/}}
+{{/*    {{- if ge (len $nameParts) 2 -}}*/}}
+{{/*        {{- $nameWithoutExt := index (split $basename ".") 0 -}}*/}}
+{{/*        {{- $imageType := index (split (index $nameParts (sub (len $nameParts) 1)) ".") 0 -}}*/}}
+{{/*        {{- warnf "\nProcessing %s (%dx%d)" $basename $image.Width $image.Height -}}*/}}
+{{/**/}}
+{{/*        {{- with index $config $imageType -}}*/}}
+{{/*            {{- range $sizeName, $dims := . -}}*/}}
+{{/*                {{- if and (reflect.IsMap $dims) (isset $dims "width") (isset $dims "height") -}}*/}}
+{{/*                    */}}{{- /* Clean up dimension values */ -}}
+{{/*                    {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*                    {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/**/}}
+{{/*                    {{- if and (ge $image.Width $width) (ge $image.Height $height) -}}*/}}
+{{/*                        */}}{{- /* Process WebP with options */ -}}
+{{/*                        {{- $webp := $image.Resize (printf "%dx%d webp q%d" $width $height $defaultQuality) -}}*/}}
+{{/*                        {{- $newWebpName := printf "%s-%s.webp" $nameWithoutExt $sizeName -}}*/}}
+{{/*                        {{- $webp = $webp | resources.Copy $newWebpName -}}*/}}
+{{/**/}}
+{{/*                        */}}{{- /* Process JPG fallback */ -}}
+{{/*                        {{- $jpg := $image.Resize (printf "%dx%d jpg q%d" $width $height $defaultQuality) -}}*/}}
+{{/*                        {{- $newJpgName := printf "%s-%s.jpg" $nameWithoutExt $sizeName -}}*/}}
+{{/*                        {{- $jpg = $jpg | resources.Copy $newJpgName -}}*/}}
+{{/**/}}
+{{/*                        {{- warnf "✓ Created %s (%dx%d)" $sizeName $width $height -}}*/}}
+{{/*                        {{- warnf "  WebP: %s" $webp.RelPermalink -}}*/}}
+{{/*                        {{- warnf "  JPG: %s" $jpg.RelPermalink -}}*/}}
+{{/*                    {{- else -}}*/}}
+{{/*                        {{- warnf "✗ Skipped %s: image too small (%dx%d needed, have %dx%d)"*/}}
+{{/*                                $sizeName $width $height $image.Width $image.Height -}}*/}}
+{{/*                    {{- end -}}*/}}
+{{/*                {{- end -}}*/}}
+{{/*            {{- end -}}*/}}
+{{/*        {{- else -}}*/}}
+{{/*            {{- warnf "✗ No config found for type: %s" $imageType -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- else -}}*/}}
+{{/*        {{- warnf "✗ Invalid filename format: %s (expected: name-type.ext)" $basename -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{/*{{- warnf "\n=== Image Processing Complete ===" -}}*/}}
+
+{{/* =========================================================================== */}}
+
+{{- /* layouts/partials/images/process-product-images.html */ -}}
+{{/**/}}
+{{- /* Read config from Site Params */ -}}
+{{/*{{- $config := .Site.Params.images.products -}}*/}}
+{{/*{{- warnf "\n=== Starting Image Processing ===" -}}*/}}
+{{/**/}}
+{{- /* Log available config */ -}}
+{{/*{{- range $type, $sizes := $config -}}*/}}
+{{/*    {{- if ne $type "options" -}}*/}}
+{{/*        {{- warnf "\nFound image type: %s" $type -}}*/}}
+{{/*        {{- range $size, $dims := $sizes -}}*/}}
+{{/*            {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*            {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/*            {{- warnf "- Size %s: %dx%d" $size $width $height -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{- /* Get options */ -}}
+{{/*{{- $options := $config.options -}}*/}}
+{{/*{{- $defaultQuality := $options.default_quality -}}*/}}
+{{/**/}}
+{{- /* Find and process images */ -}}
+{{/*{{- $images := .Resources.Match "*.{jpg,jpeg,png}" -}}*/}}
+{{/*{{- warnf "\nFound %d images to process" (len $images) -}}*/}}
+{{/**/}}
+{{/*{{- range $image := $images -}}*/}}
+{{/*    {{- $basename := $image.Name -}}*/}}
+{{/*    {{- $nameParts := split $basename "-" -}}*/}}
+{{/*    {{- if ge (len $nameParts) 2 -}}*/}}
+{{/*        {{- $imageType := index (split (index $nameParts (sub (len $nameParts) 1)) ".") 0 -}}*/}}
+{{/*        {{- warnf "\nProcessing %s (%dx%d)" $basename $image.Width $image.Height -}}*/}}
+{{/**/}}
+{{/*        {{- with index $config $imageType -}}*/}}
+{{/*            {{- range $sizeName, $dims := . -}}*/}}
+{{/*                {{- if and (reflect.IsMap $dims) (isset $dims "width") (isset $dims "height") -}}*/}}
+{{/*                    */}}{{- /* Clean up dimension values */ -}}
+{{/*                    {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*                    {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/**/}}
+{{/*                    {{- if and (ge $image.Width $width) (ge $image.Height $height) -}}*/}}
+{{/*                        */}}{{- /* Process WebP with options */ -}}
+{{/*                        {{- $webp := $image.Resize (printf "%dx%d webp q%d" $width $height $defaultQuality) -}}*/}}
+{{/**/}}
+{{/*                        */}}{{- /* Process JPG fallback */ -}}
+{{/*                        {{- $jpg := $image.Resize (printf "%dx%d jpg q%d" $width $height $defaultQuality) -}}*/}}
+{{/**/}}
+{{/*                        {{- warnf "✓ Created %s (%dx%d)" $sizeName $width $height -}}*/}}
+{{/*                        {{- warnf "  WebP: %s" $webp.RelPermalink -}}*/}}
+{{/*                        {{- warnf "  JPG: %s" $jpg.RelPermalink -}}*/}}
+{{/*                    {{- else -}}*/}}
+{{/*                        {{- warnf "✗ Skipped %s: image too small (%dx%d needed, have %dx%d)"*/}}
+{{/*                                $sizeName $width $height $image.Width $image.Height -}}*/}}
+{{/*                    {{- end -}}*/}}
+{{/*                {{- end -}}*/}}
+{{/*            {{- end -}}*/}}
+{{/*        {{- else -}}*/}}
+{{/*            {{- warnf "✗ No config found for type: %s" $imageType -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- else -}}*/}}
+{{/*        {{- warnf "✗ Invalid filename format: %s (expected: name-type.ext)" $basename -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{/*{{- warnf "\n=== Image Processing Complete ===" -}}*/}}
+
+{{/* =========================================================================== */}}
+
+{{- /* layouts/partials/images/process-product-images.html */ -}}
+{{/**/}}
+{{- /* Read config from Site Params */ -}}
+{{/*{{- $config := .Site.Params.images.products -}}*/}}
+{{/*{{- warnf "\n=== Starting Image Processing ===" -}}*/}}
+{{/**/}}
+{{- /* Log available config */ -}}
+{{/*{{- range $type, $sizes := $config -}}*/}}
+{{/*    {{- if ne $type "options" -}}*/}}
+{{/*        {{- warnf "\nFound image type: %s" $type -}}*/}}
+{{/*        {{- range $size, $dims := $sizes -}}*/}}
+{{/*            {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*            {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/*            {{- warnf "- Size %s: %dx%d" $size $width $height -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{- /* Get options */ -}}
+{{/*{{- $options := $config.options -}}*/}}
+{{/*{{- $defaultQuality := $options.default_quality -}}*/}}
+{{/**/}}
+{{- /* Find and process images */ -}}
+{{/*{{- $images := .Resources.Match "*.{jpg,jpeg,png}" -}}*/}}
+{{/*{{- warnf "\nFound %d images to process" (len $images) -}}*/}}
+{{/**/}}
+{{/*{{- range $image := $images -}}*/}}
+{{/*    {{- $basename := $image.Name -}}*/}}
+{{/*    {{- $nameParts := split $basename "-" -}}*/}}
+{{/*    {{- if ge (len $nameParts) 2 -}}*/}}
+{{/*        {{- $nameWithoutExt := index (split $basename ".") 0 -}}*/}}
+{{/*        {{- $imageType := index (split (index $nameParts (sub (len $nameParts) 1)) ".") 0 -}}*/}}
+{{/*        {{- warnf "\nProcessing %s (%dx%d)" $basename $image.Width $image.Height -}}*/}}
+{{/**/}}
+{{/*        {{- with index $config $imageType -}}*/}}
+{{/*            {{- range $size, $dims := . -}}*/}}
+{{/*                {{- if and (reflect.IsMap $dims) (isset $dims "width") (isset $dims "height") -}}*/}}
+{{/*                    */}}{{- /* Clean up dimension values */ -}}
+{{/*                    {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*                    {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/**/}}
+{{/*                    {{- if and (ge $image.Width $width) (ge $image.Height $height) -}}*/}}
+{{/*                        */}}{{- /* Create filenames with size suffixes */ -}}
+{{/*                        {{- $webpName := printf "%s-%s.webp" $nameWithoutExt $size -}}*/}}
+{{/*                        {{- $jpgName := printf "%s-%s.jpg" $nameWithoutExt $size -}}*/}}
+{{/**/}}
+{{/*                        */}}{{- /* Process WebP with options */ -}}
+{{/*                        {{- $webp := $image.Resize (printf "%dx%d webp q%d format-name=%s" $width $height $defaultQuality $webpName) -}}*/}}
+{{/**/}}
+{{/*                        */}}{{- /* Process JPG fallback */ -}}
+{{/*                        {{- $jpg := $image.Resize (printf "%dx%d jpg q%d format-name=%s" $width $height $defaultQuality $jpgName) -}}*/}}
+{{/**/}}
+{{/*                        {{- warnf "✓ Created %s (%dx%d)" $size $width $height -}}*/}}
+{{/*                        {{- warnf "  WebP: %s" $webp.RelPermalink -}}*/}}
+{{/*                        {{- warnf "  JPG: %s" $jpg.RelPermalink -}}*/}}
+{{/*                    {{- else -}}*/}}
+{{/*                        {{- warnf "✗ Skipped %s: image too small (%dx%d needed, have %dx%d)"*/}}
+{{/*                                $size $width $height $image.Width $image.Height -}}*/}}
+{{/*                    {{- end -}}*/}}
+{{/*                {{- end -}}*/}}
+{{/*            {{- end -}}*/}}
+{{/*        {{- else -}}*/}}
+{{/*            {{- warnf "✗ No config found for type: %s" $imageType -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- else -}}*/}}
+{{/*        {{- warnf "✗ Invalid filename format: %s (expected: name-type.ext)" $basename -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{/*{{- warnf "\n=== Image Processing Complete ===" -}}*/}}
+{{/**/}}
+
+{{/* =========================================================================== */}}
+{{- /* layouts/partials/images/process-product-images.html */ -}}
+{{/**/}}
+{{- /* Read config from Site Params */ -}}
+{{/*{{- $config := .Site.Params.images.products -}}*/}}
+{{/*{{- warnf "\n=== Starting Image Processing ===" -}}*/}}
+{{/**/}}
+{{- /* Log available config */ -}}
+{{/*{{- range $type, $sizes := $config -}}*/}}
+{{/*    {{- if ne $type "options" -}}*/}}
+{{/*        {{- warnf "\nFound image type: %s" $type -}}*/}}
+{{/*        {{- range $size, $dims := $sizes -}}*/}}
+{{/*            */}}{{- /* Clean up any trailing commas from string values */ -}}
+{{/*            {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*            {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/*            {{- warnf "- Size %s: %dx%d" $size $width $height -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{- /* Get options */ -}}
+{{/*{{- $options := $config.options -}}*/}}
+{{/*{{- $defaultQuality := $options.default_quality -}}*/}}
+{{/*{{- $compression := $options.webp.compression -}}*/}}
+{{/*{{- $nearLossless := $options.webp.near_lossless -}}*/}}
+{{/**/}}
+{{- /* Find and process images */ -}}
+{{/*{{- $images := .Resources.Match "*.{jpg,jpeg,png}" -}}*/}}
+{{/*{{- warnf "\nFound %d images to process" (len $images) -}}*/}}
+{{/**/}}
+{{/*{{- range $image := $images -}}*/}}
+{{/*    {{- $basename := $image.Name -}}*/}}
+{{/*    {{- $nameParts := split $basename "-" -}}*/}}
+{{/*    {{- if ge (len $nameParts) 2 -}}*/}}
+{{/*        {{- $imageType := index (split (index $nameParts (sub (len $nameParts) 1)) ".") 0 -}}*/}}
+{{/*        {{- warnf "\nProcessing %s (%dx%d)" $basename $image.Width $image.Height -}}*/}}
+{{/**/}}
+{{/*        {{- with index $config $imageType -}}*/}}
+{{/*            {{- range $size, $dims := . -}}*/}}
+{{/*                {{- if and (reflect.IsMap $dims) (isset $dims "width") (isset $dims "height") -}}*/}}
+{{/*                    */}}{{- /* Clean up dimension values */ -}}
+{{/*                    {{- $width := strings.TrimRight "," (string $dims.width) | int -}}*/}}
+{{/*                    {{- $height := strings.TrimRight "," (string $dims.height) | int -}}*/}}
+{{/**/}}
+{{/*                    {{- if and (ge $image.Width $width) (ge $image.Height $height) -}}*/}}
+{{/*                        */}}{{- /* Process WebP with options */ -}}
+{{/*                        {{- $webpOptions := printf "%dx%d webp q%d" $width $height $defaultQuality -}}*/}}
+{{/*                        {{- $webp := $image.Resize $webpOptions -}}*/}}
+{{/**/}}
+{{/*                        */}}{{- /* Process JPG fallback */ -}}
+{{/*                        {{- $jpgOptions := printf "%dx%d jpg q%d" $width $height $defaultQuality -}}*/}}
+{{/*                        {{- $jpg := $image.Resize $jpgOptions -}}*/}}
+{{/**/}}
+{{/*                        {{- warnf "✓ Created %s (%dx%d)" $size $width $height -}}*/}}
+{{/*                        {{- warnf "  WebP: %s" $webp.RelPermalink -}}*/}}
+{{/*                        {{- warnf "  JPG: %s" $jpg.RelPermalink -}}*/}}
+{{/*                    {{- else -}}*/}}
+{{/*                        {{- warnf "✗ Skipped %s: image too small (%dx%d needed, have %dx%d)"*/}}
+{{/*                                $size $width $height $image.Width $image.Height -}}*/}}
+{{/*                    {{- end -}}*/}}
+{{/*                {{- end -}}*/}}
+{{/*            {{- end -}}*/}}
+{{/*        {{- else -}}*/}}
+{{/*            {{- warnf "✗ No config found for type: %s" $imageType -}}*/}}
+{{/*        {{- end -}}*/}}
+{{/*    {{- else -}}*/}}
+{{/*        {{- warnf "✗ Invalid filename format: %s (expected: name-type.ext)" $basename -}}*/}}
+{{/*    {{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{/*{{- warnf "\n=== Image Processing Complete ===" -}}*/}}

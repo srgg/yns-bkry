@@ -1,0 +1,155 @@
+baseURL: "https://yanasbakery.com"
+languageCode: 'en-us'
+title: "Yana's Bakery"
+enableInlineShortcodes: true
+
+
+taxonomies:
+  category: categories  # This is crucial
+
+permalinks:
+  categories: "/categories/:slug/"
+
+build:
+  writeStats: true
+
+# Media management
+imaging:
+  quality: 85
+  resampleFilter: Lanczos
+  anchor: Smart
+
+# Asset pipeline
+module:
+  mounts:
+    - source: assets
+      target: assets
+    - source: static
+      target: static
+    - source: content
+      target: content
+
+params:
+  debug: true
+  description: Handcrafted Memorable Bites
+  email: yanas.cosbakery@gmail.com
+  phone: '+17193018351'
+  facebook: 'https://www.facebook.com/profile.php?id=61557290430496'
+  instagram: 'https://www.instagram.com/yanas_cosbakery/'
+  mainSections:
+    - categories
+
+  categories:
+    cakes:
+      title: "Cakes"
+      description: "Cakes"
+      subcategories:
+        cookies:
+          title: "Sub cookies"
+#    cakes:
+#      title: "Cakes"
+#      description: "Cakes"
+    cookies:
+      title: ""
+#      subcategories:
+#        computers:
+#          title: "Computers"
+#          description: "Desktop and laptop computers"
+#        phones:
+#          title: "Phones"
+#          description: "Mobile phones and accessories"
+
+  # Custom image resizing logic
+  images:
+    products:
+      listing:
+        small:
+          width: 300
+          height: 250
+        medium:
+          width: 400
+          height: 250
+        large:
+          width: 800
+          height: 250
+          lossless: false
+          near_lossless: 60  # 0-100, higher is better quality
+          compression: 6     # 0-6, higher is better compression
+        2xsmall:
+          width: 600,
+          height: 500,
+        2xmedium:
+          width: 800,
+          height: 518,
+        2xlarge:
+          width: 1600,
+          height: 500,
+      options:
+        default_format: "webp"
+        default_quality: 85
+        fallback_format: "jpg"  # For older browsers
+        webp:
+          compression: 6
+          near_lossless: 60
+          smart_subsample: true
+          sharp_yuv: true
+#menu:
+#  main:
+#    - identifier: home
+#      name: Home
+#      url: /
+#      weight: 1
+##    - identifier: products
+##      name: Products
+##      url: /products/
+##      weight: 2
+#    - identifier: cakes
+#      name: Cakes
+#      url: /categories/cakes/
+#      parent: products
+#      weight: 2
+#    - identifier: deserts
+#      name: Deserts
+#      url: /categories/deserts/
+#      parent: categories
+#      weight: 2
+#    - identifier: cookies
+#      name: Cookies
+#      url: /categories/cookies/
+#      parent: products
+#      weight: 2
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
+    - identifier: cakes
+      name: Cakes
+      url: /categories/cakes/
+      weight: 2
+    - identifier: cookies
+      name: Cookies
+      url: /categories/cookies/
+      weight: 2
+
+#menu:
+#  main:
+#    - identifier: home
+#      name: Home
+#      url: /
+#      weight: 1
+#    - identifier: categories
+#      name: Categories
+#      url: /categories/
+#      weight: 2
+#    - identifier: products
+#      name: Products
+#      url: /products/
+#      weight: 3
+
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    renderer:
+      unsafe: true

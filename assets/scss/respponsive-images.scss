@@ -1,0 +1,107 @@
+//// Define image sizes and breakpoints
+//$breakpoints: (
+//        desktop: 1024px,
+//        mobile: 767px
+//);
+//
+//$image-sizes: (
+//        small: (
+//                suffix: "-small",
+//                width: null  // For desktop/default
+//        ),
+//        medium: (
+//                suffix: "-medium",
+//                width: map-get($breakpoints, desktop)
+//        ),
+//        large: (
+//                suffix: "-large",
+//                width: map-get($breakpoints, mobile)
+//        )
+//);
+//
+//// Mixin for responsive background images with retina support
+//@mixin responsive-background($image-name, $base-path: "images/pastries/") {
+//  $image-path: $base-path + $image-name;
+//
+//  // Default (small) image
+//  &::before {
+//    background-image:
+//            url("#{$image-path}-small.jpg"),
+//            url("#{$base-path}placeholder-small.svg");
+//  }
+//
+//  // Retina for default size
+//  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+//    &::before {
+//      background-image:
+//              url("#{$image-path}-2xsmall.jpg"),
+//              url("#{$image-path}-small.jpg"),
+//              url("#{$base-path}placeholder-small.svg");
+//    }
+//  }
+//
+//  // Medium size (tablet)
+//  @media (max-width: map-get($breakpoints, desktop)) {
+//    &::before {
+//      background-image:
+//              url("#{$image-path}-medium.jpg"),
+//              url("#{$base-path}placeholder-medium.svg");
+//    }
+//
+//    // Retina for medium size
+//    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+//      &::before {
+//        background-image:
+//                url("#{$image-path}-2xmedium.jpg"),
+//                url("#{$image-path}-medium.jpg"),
+//                url("#{$base-path}placeholder-medium.svg");
+//      }
+//    }
+//  }
+//
+//  // Large size (mobile)
+//  @media (max-width: map-get($breakpoints, mobile)) {
+//    &::before {
+//      background-image:
+//              url("#{$image-path}-large.jpg"),
+//              url("#{$base-path}placeholder-large.svg");
+//    }
+//
+//    // Retina for large size
+//    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+//      &::before {
+//        background-image:
+//                url("#{$image-path}-2xlarge.jpg"),
+//                url("#{$image-path}-large.jpg"),
+//                url("#{$base-path}placeholder-large.svg");
+//      }
+//    }
+//  }
+//}
+//
+////// Usage example
+////.pastry-card {
+////  &[data-image="naked-cake"] {
+////    @include responsive-background("naked-cake");
+////  }
+////
+////  &[data-image="chocolate-cake"] {
+////    @include responsive-background("chocolate-cake");
+////  }
+////
+////  // Add more pastries as needed...
+////}
+////
+////// Optional: Generate classes automatically if you have a list of pastries
+////$pastries: (
+////        "naked-cake",
+////        "chocolate-cake",
+////        "strawberry-cake"
+////  // Add more pastries here
+////);
+////
+////@each $pastry in $pastries {
+////  .pastry-card[data-image="#{$pastry}"] {
+////    @include responsive-background($pastry);
+////  }
+////}

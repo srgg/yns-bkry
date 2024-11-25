@@ -1,0 +1,55 @@
+{{ define "main" }}
+    {{ if not .Site.BuildDrafts }}
+        {{ if .Draft }}
+            {{ warnf "Skipping draft product page '%s' because --buildDrafts is not set." .File.Path }}
+            {{ return }}
+        {{ end }}
+    {{ end }}
+
+    <main>
+        <div class="products-section full-width">
+            <div class="single-product">
+                {{ $heroImage := printf "products/%s/%s-hero.*" .File.ContentBaseName .File.ContentBaseName }}
+                {{ $heroImageResource := (.Resources.ByType "image").GetMatch $heroImage }}
+
+                <div class="product-hero">
+                    {{ if $heroImageResource }}
+                        <img src="{{ $heroImageResource.RelPermalink }}" alt="{{ .Title }} Hero Image" />
+                    {{ else }}
+                        {{ $listingImage := printf "%s-listing.*" .File.ContentBaseName }}
+                        {{ warnf "Looking for listing image with pattern: %s" $listingImage }}
+                        {{ $listingImageResource := (.Resources.ByType "image").GetMatch $listingImage }}
+
+                        {{ if $listingImageResource }}
+                            {{ warnf "Hero image not found for product '%s'. Using listing image as fallback." .File.ContentBaseName }}
+                            <img src="{{ $listingImageResource.RelPermalink }}" alt="{{ .Title }} Listing Image" />
+                        {{ else }}
+                            {{ if .Draft }}
+                                {{ warnf "No hero image or listing image found for draft product '%s'." .File.ContentBaseName }}
+                            {{ else }}
+                                {{ errorf "No hero image or listing image found for product '%s'." .File.ContentBaseName }}
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                </div>
+                <div class="product-info">
+                    <h1>{{ .Title }}</h1>
+                    <p class="price">${{ .Params.price }}</p>
+                    <p class="description">{{ .Params.description }}</p>
+                    <div class="product-details">
+                        {{ .Content }}
+                    </div>
+{{/*                    <a href="#" class="add-to-cart-button">Add to Cart</a>*/}}
+                </div>
+            </div>
+            <div class="product-gallery">
+                {{ $galleryPath := printf "products/%s/gallery/*" .File.ContentBaseName }}
+                {{ range ((.Resources.ByType "image").Match $galleryPath) }}
+                    <div class="gallery-item">
+                        <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
+                    </div>
+                {{ end }}
+            </div>
+        </div>
+    </main>
+{{ end }}

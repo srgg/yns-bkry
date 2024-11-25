@@ -1,0 +1,55 @@
+{{/* layouts/partials/images/process-product-images.html */}}
+{{/* Initial debugging */}}
+{{ warnf "\n\n=== Product Images Processing started for: %s ===" .Title | safeHTML }}
+{{ warnf "\nPage Path: %s" .File.Path | safeHTML }}
+{{ warnf "\nContent Type: %s" .Type | safeHTML }}
+{{ warnf "\nAvailable Resources: %v" .Resources | safeHTML }}
+{{ warnf "\nCategories: %v" .Params.categories | safeHTML }}
+
+{{ $original := .Resources.GetMatch "*.{jpg,jpeg,png}" }}
+{{ if not $original }}
+    {{ errorf "\nNo image found for product: %s" .Title }}
+    {{ warnf "File Path: %s" .File.Path }}
+    {{ warnf "Available Resources 42: %v" .Resources }}
+    {{ warnf "Resource Pattern tried: *.{jpg,jpeg,png}" }}
+{{ else }}
+    {{ warnf "\nFound original image: %s" $original.Name | safeHTML }}
+    {{ with $original }}
+        {{/* Process for each category the product belongs to */}}
+        {{ if $.Params.categories }}
+            {{ warnf "\nProcessing %d categories" (len $.Params.categories) | safeHTML }}
+            {{ range $.Params.categories }}
+                {{ $category := . }}
+                {{ warnf "\n\nProcessing category: %s" $category | safeHTML }}
+
+                {{/* Process different sizes */}}
+                {{ $small := $original.Resize "400x" }}
+                {{ warnf "\nCreated small image: %s" $small.Name | safeHTML }}
+                {{ $medium := $original.Resize "800x" }}
+                {{ warnf "\nCreated medium image: %s" $medium.Name | safeHTML }}
+                {{ $large := $original.Resize "1200x" }}
+                {{ warnf "\nCreated large image: %s" $large.Name | safeHTML }}
+
+                {{/* Create target path */}}
+                {{ $targetPath := printf "images/%s/%s" $category $.File.ContentBaseName }}
+                {{ printf "\nTarget path base: %s" $targetPath | safeHTML }}
+
+                {{/* Save processed images */}}
+                {{ $processedSmall := $small.RelPermalink | replaceRE "^/.*/" (printf "/%s-small.jpg" $targetPath) }}
+                {{ $processedMedium := $medium.RelPermalink | replaceRE "^/.*/" (printf "/%s-medium.jpg" $targetPath) }}
+                {{ $processedLarge := $large.RelPermalink | replaceRE "^/.*/" (printf "/%s-large.jpg" $targetPath) }}
+
+                {{/* Debug output */}}
+                {{ warnf "\n=== Generated images for %s in category %s ===" $.Title $category | safeHTML }}
+                {{ warnf "\n- Small: %s" $processedSmall | safeHTML }}
+                {{ warnf "\n- Medium: %s" $processedMedium | safeHTML }}
+                {{ warnf "\n- Large: %s" $processedLarge | safeHTML }}
+                {{ warnf "\n=== End of category %s processing ===" $category | safeHTML }}
+            {{ end }}
+        {{ else }}
+            {{ warnf "\nNo categories found for product: %s" .Title }}
+            {{ warnf "\nParams available: %v" $.Params | safeHTML }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+{{ warnf "\n=== Processing finished for: %s ===\n" .Title | safeHTML }}

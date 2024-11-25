@@ -1,0 +1,56 @@
+{{ define "main" }}
+    <div style="padding: 2rem; background: #f5f5f5; font-family: monospace; white-space: pre-wrap;">
+        <h1>Hugo Debug Information</h1>
+
+        <h2>1. Site Taxonomies</h2>
+        <pre>
+Available Taxonomies:
+{{ printf "%#v" .Site.Taxonomies }}
+
+Categories Found:
+{{ range $key, $value := .Site.Taxonomies.categories }}
+    Category "{{ $key }}": <a href="{{ printf "/categories/%s" $key | urlize }}">/categories/{{ $key }}</a>
+    Count: {{ len $value.Pages }}
+    Pages:
+    {{- range $value.Pages }}
+        - {{ .Title }} <a href="{{ printf "%s%s" $.Site.BaseURL .RelPermalink }}">{{ .RelPermalink }}</a>
+    {{- end }}
+{{ end }}
+    </pre>
+
+        <h2>2. All Pages with Categories</h2>
+        <pre>
+            {{ range .Site.RegularPages }}
+                {{- if .Params.categories }}
+                    {{ .Title }} <a href="{{ printf "%s%s" $.Site.BaseURL .RelPermalink }}">{{ .RelPermalink }}</a>
+                    Categories:
+                    {{- $cats := .Params.categories -}}
+                    {{- range $index, $category := $cats -}}
+                        <a href="/categories/{{ $category | urlize }}">{{ $category }}</a>
+                        {{- if lt $index (sub (len $cats) 1) }}, {{ end }}
+                    {{- end }}
+                {{ end -}}
+            {{ end }}
+        </pre>
+
+        <h2>3. Template Information</h2>
+        <pre>
+Current Layout: {{ .Layout }}
+Kind: {{ .Kind }}
+Type: {{ .Type }}
+Section: {{ .Section }}
+    </pre>
+
+        <h2>4. Category Terms</h2>
+        <pre>
+{{ range $termName, $term := .Site.Taxonomies.categories }}
+    Term: {{ $termName }}
+    Count: {{ len $term.Pages }}
+    URLs:
+    {{- range $term.Pages }}
+        - {{ .RelPermalink }}
+    {{- end }}
+{{ end }}
+    </pre>
+    </div>
+{{ end }}

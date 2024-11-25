@@ -1,0 +1,33 @@
+{{ if eq hugo.Environment "development" }}
+    {{ if .Site.Params.debug }}
+        <h3>Debug Info:</h3>
+        <ul>
+            <p>Kind: {{ .Kind }}</p>
+            <p>Section: {{ .Section }}</p>
+            <p>Type: {{ .Type }}</p>
+            {{ with .File }}<p>File: {{ .Path }}</p>{{ end }}
+            <p>URL: {{ .RelPermalink }}</p>
+            <p>Layout Type: {{ .Layout }}</p>
+            <!-- Get the actual layout file being used -->
+            {{ with .Page }}
+                <p>Current Layout Path: {{ path.Join "layouts" (printf "%s/%s.html" .Type .Kind) }}</p>
+            {{ end }}
+{{/*            <p>Current Template: {{ template.Name }}</p>*/}}
+        </ul>
+        </ul>
+        <!-- Context dump for debugging -->
+        <!-- Context dump for debugging -->
+        <details>
+            <summary>Full Context Debug Info</summary>
+            <pre>
+Title: {{ .Title }}
+                Permalink: {{ .Permalink }}
+                Kind: {{ .Kind }}
+                Data: {{ printf "%#v" .Data }}
+                Current Section: {{ .Section }}
+                Pages: {{ len .Pages }}
+                RegularPages: {{ len .RegularPages }}
+            </pre>
+        </details>
+    {{ end }}
+{{ end }}

@@ -1,0 +1,50 @@
+//// assets/css/fallback-images.scss
+//// Mixin to generate the necessary CSS for fallback images
+//@mixin generate-fallback-images() {
+//  @each $product-name, $product-config in $products {
+//    @include fallback-image($product-name, $product-config.listing);
+//  }
+//}
+//
+//@mixin fallback-image($base-name, $sizes) {
+//  @each $size-name, $size-config in $sizes {
+//    .pastry-card[data-image=#{$base-name}]::before {
+//      $fallback-images: ();
+//
+//      @each $fallback-size-name, $fallback-size-config in $sizes {
+//        $fallback-images: append($fallback-images, url("images/pastries/#{$base-name}-#{$fallback-size-config['width']}x#{$fallback-size-config['height']}.jpg"), comma);
+//      }
+//
+//      $fallback-images: append($fallback-images, url("images/pastries/placeholder-#{$size-config['width']}x#{$size-config['height']}.svg"));
+//
+//      background-image: #{$fallback-images};
+//    }
+//
+//    @each $breakpoint, $breakpoint-config in ('sm': (max-width: 767px), 'md': (max-width: 1024px), 'lg': (max-width: 1200px)) {
+//      @media #{map-get($breakpoint-config, 'query')} {
+//        @if map-get($breakpoint-config, 'size') == $size-name {
+//          .pastry-card[data-image=#{$base-name}]::before {
+//            background-image: url("images/pastries/#{$base-name}-#{$size-config['width']}x#{$size-config['height']}.jpg"),
+//            url("images/pastries/placeholder-#{$size-config['width']}x#{$size-config['height']}.svg");
+//          }
+//        }
+//      }
+//
+//      @media #{map-get($breakpoint-config, 'query')} and (-webkit-min-device-pixel-ratio: 2), #{map-get($breakpoint-config, 'query')} and (min-resolution: 192dpi) {
+//        @if map-get($breakpoint-config, 'size') == $size-name {
+//          .pastry-card[data-image=#{$base-name}]::before {
+//            $fallback-images: ();
+//
+//            @each $fallback-size-name, $fallback-size-config in $sizes {
+//              $fallback-images: append($fallback-images, url("images/pastries/#{$base-name}-#{$fallback-size-config['width']}x#{$fallback-size-config['height']}.jpg"), comma);
+//            }
+//
+//            $fallback-images: append($fallback-images, url("images/pastries/placeholder-#{$size-config['width']}x#{$size-config['height']}.svg"));
+//
+//            background-image: #{$fallback-images};
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
