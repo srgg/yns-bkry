@@ -3,15 +3,19 @@ languageCode: 'en-us'
 title: "Yana's Bakery"
 enableInlineShortcodes: true
 
+# Disable built-in sitemap generator as it does not support link cus=tomization
+disableKinds:
+  - sitemap
 
 taxonomies:
   category: categories  # This is crucial
 
 permalinks:
   categories: "/categories/:slug/"
+  robots: "/robots.txt"
 
 build:
-  writeStats: true
+  writeStats: false
 
 # Media management
 imaging:
@@ -93,31 +97,7 @@ params:
           near_lossless: 60
           smart_subsample: true
           sharp_yuv: true
-#menu:
-#  main:
-#    - identifier: home
-#      name: Home
-#      url: /
-#      weight: 1
-##    - identifier: products
-##      name: Products
-##      url: /products/
-##      weight: 2
-#    - identifier: cakes
-#      name: Cakes
-#      url: /categories/cakes/
-#      parent: products
-#      weight: 2
-#    - identifier: deserts
-#      name: Deserts
-#      url: /categories/deserts/
-#      parent: categories
-#      weight: 2
-#    - identifier: cookies
-#      name: Cookies
-#      url: /categories/cookies/
-#      parent: products
-#      weight: 2
+
 menu:
   main:
     - identifier: home
@@ -132,21 +112,6 @@ menu:
       name: Cookies
       url: /categories/cookies/
       weight: 2
-
-#menu:
-#  main:
-#    - identifier: home
-#      name: Home
-#      url: /
-#      weight: 1
-#    - identifier: categories
-#      name: Categories
-#      url: /categories/
-#      weight: 2
-#    - identifier: products
-#      name: Products
-#      url: /products/
-#      weight: 3
 
 markup:
   defaultMarkdownHandler: goldmark
