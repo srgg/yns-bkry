@@ -21,7 +21,7 @@ body {
 // New header respect all breaking points
 header {
   background-color: #fff;
-  padding: $spacing-md 0;
+  padding: $spacing-md 0 0;
   box-shadow: $shadow-sm;
   position: sticky;
   top: 0;
@@ -85,15 +85,15 @@ header {
     p {
       font-family: $font-secondary;
       color: $text-color;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       font-style: italic;
 
       @include tablet {
-        font-size: 0.8rem;
+        font-size: 1rem;
       }
 
       @include mobile {
-        font-size: 0.75rem;
+        font-size: 0.9rem;
       }
     }
   }

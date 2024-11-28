@@ -4,11 +4,6 @@
             <h1>{{ .Site.Title }}</h1>
             <p>{{ .Site.Params.description }}</p>
         </div>
-
-        {{ if .Site.Params.showBreadcrumbs | default true }}
-            {{ partial "navbar.html" . }}
-        {{ end }}
-
         <div class="header-contact">
             <a href="mailto:{{ .Site.Params.email }}" title="Email us">
                 {{ partial "icons/email.html" . }}
@@ -23,5 +18,9 @@
                 {{ partial "icons/message.html" . }}
             </a>
         </div>
+
+      {{ if .Site.Params.showBreadcrumbs | default true }}
+        {{ partial "navbar.html" . }}
+      {{ end }}
     </div>
 </header>

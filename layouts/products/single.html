@@ -1,4 +1,17 @@
 {{ define "main" }}
+
+{{/*  <!-- Debug info -->*/}}
+{{/*  {{ printf "<!-- Debug info for page %s -->" .RelPermalink }}*/}}
+{{/*  {{ printf "<!-- .Section: %s -->" .Section }}*/}}
+{{/*  {{ printf "<!-- .Type: %s -->" .Type }}*/}}
+{{/*  {{ printf "<!-- .Kind: %s -->" .Kind }}*/}}
+{{/*  {{ printf "<!-- .Path: %s -->" .Path }}*/}}
+{{/*  {{ printf "<!-- .File.Path: %s -->" .File.Path }}*/}}
+{{/*  {{ printf "<!-- .Permalink: %s -->" .Permalink }}*/}}
+{{/*  {{ range $key, $value := .Params }}*/}}
+{{/*    {{ printf "<!-- Param %s: %v -->" $key $value }}*/}}
+{{/*  {{ end }}*/}}
+
     {{ if not .Site.BuildDrafts }}
         {{ if .Draft }}
             {{ warnf "Skipping draft product page '%s' because --buildDrafts is not set." .File.Path }}
