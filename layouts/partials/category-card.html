@@ -1,9 +1,0 @@
-{{ partial "debug.html" . }}
-
-<div class="item-card">
-    <h2><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h2>
-    <p>{{ len .Pages }} items</p>
-    {{ with .Page.Description }}
-        <p>{{ . }}</p>
-    {{ end }}
-</div>

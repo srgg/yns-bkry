@@ -1,0 +1,110 @@
+{{/*{{ partial "debug.html" . }}*/}}
+
+{{ $category := .Params.category }}
+{{ $products := .Pages }}
+
+{{ if $category }}
+  {{ $products = where $products ".Params.category" $category }}
+{{ end }}
+
+<section class="products-section">
+    <div class="container">
+        <div class="gallery">
+            {{/* First pass - log all errors as warnings */}}
+          {{ range $products.ByWeight }}
+                {{ with .File }}
+                    {{ $content := readFile .Path }}
+                    {{ if findRE "^\\*\\*---" $content }}
+                        {{ warnf "ERROR: Invalid frontmatter format (extra ** marks) in %s" .Path }}
+                    {{ end }}
+                {{ end }}
+
+                {{ $listingImage := or (.Resources.GetMatch "*-listing.jpg") (.Resources.GetMatch "*-listing.jpeg") }}
+                {{ if not $listingImage }}
+                    {{ warnf "ERROR: Missing listing image (*-listing.jpg/*.jpeg) in %s" .File.Path }}
+                {{ end }}
+            {{ end }}
+
+            {{/* Second pass - render valid products */}}
+            {{ range .Pages.ByWeight }}
+                {{ $valid := true }}
+                {{ $listingImage := or (.Resources.GetMatch "*-listing.jpg") (.Resources.GetMatch "*-listing.jpeg") }}
+
+                {{/* Validate content and image */}}
+                {{ with .File }}
+                    {{ $content := readFile .Path }}
+                    {{ if findRE "^\\*\\*---" $content }}
+                        {{ $valid = false }}
+                    {{ end }}
+                {{ end }}
+
+                {{ if not $listingImage }}
+                    {{ $valid = false }}
+                {{ end }}
+
+                {{ if $valid }}
+                    {{/* Process images */}}
+                    {{ $small := $listingImage.Resize "500x" }}
+                    {{ $medium := $listingImage.Resize "800x" }}
+                    {{ $large := $listingImage.Resize "1200x" }}
+
+                    {{/* WebP versions */}}
+                    {{ $smallWebp := $listingImage.Resize "500x webp" }}
+                    {{ $mediumWebp := $listingImage.Resize "800x webp" }}
+                    {{ $largeWebp := $listingImage.Resize "1200x webp" }}
+
+                    <div class="pastry-card" data-image="{{ path.Base .File.Dir }}">
+                        <div class="pastry-image">
+                            <picture>
+                                {{/* WebP sources */}}
+                                <source
+                                        media="(min-width: 1024px)"
+                                        srcset="{{ $largeWebp.RelPermalink }}"
+                                        type="image/webp"
+                                >
+                                <source
+                                        media="(min-width: 768px)"
+                                        srcset="{{ $mediumWebp.RelPermalink }}"
+                                        type="image/webp"
+                                >
+                                <source
+                                        srcset="{{ $smallWebp.RelPermalink }}"
+                                        type="image/webp"
+                                >
+
+                                {{/* Fallback JPEG sources */}}
+                                <source
+                                        media="(min-width: 1024px)"
+                                        srcset="{{ $large.RelPermalink }}"
+                                >
+                                <source
+                                        media="(min-width: 768px)"
+                                        srcset="{{ $medium.RelPermalink }}"
+                                >
+
+                                {{/* Fallback image */}}
+                                <img
+                                        src="{{ $small.RelPermalink }}"
+                                        alt="{{ .Title }}"
+                                        loading="lazy"
+                                        width="{{ $small.Width }}"
+                                        height="{{ $small.Height }}"
+                                >
+                            </picture>
+                        </div>
+
+                        <div class="pastry-info">
+                            <h3>{{ .Title }}</h3>
+                            <p>{{ .Params.description }}</p>
+                            <div class="price">${{ .Params.price }}</div>
+
+                            <a href="{{ .RelPermalink }}" class="view-button">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</section>

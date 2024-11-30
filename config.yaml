@@ -43,25 +43,29 @@ params:
   mainSections:
     - categories
 
-  categories:
-    cakes:
-      title: "Cakes"
-      description: "Cakes"
-      subcategories:
-        cookies:
-          title: "Sub cookies"
+#  categories:
 #    cakes:
 #      title: "Cakes"
 #      description: "Cakes"
-    cookies:
-      title: ""
 #      subcategories:
-#        computers:
-#          title: "Computers"
-#          description: "Desktop and laptop computers"
-#        phones:
-#          title: "Phones"
-#          description: "Mobile phones and accessories"
+#        cookies:
+#          title: "Sub cookies"
+#    desserts:
+#      title: "Desserts"
+#      description: "Desserts"
+#
+##    cakes:
+##      title: "Cakes"
+##      description: "Cakes"
+#    cookies:
+#      title: ""
+##      subcategories:
+##        computers:
+##          title: "Computers"
+##          description: "Desktop and laptop computers"
+##        phones:
+##          title: "Phones"
+##          description: "Mobile phones and accessories"
 
   # Custom image resizing logic
   images:
@@ -111,6 +115,10 @@ menu:
     - identifier: cookies
       name: Cookies
       url: /categories/cookies/
+      weight: 2
+    - identifier: desserts
+      name: Desserts
+      url: /categories/desserts/
       weight: 2
 
 markup:

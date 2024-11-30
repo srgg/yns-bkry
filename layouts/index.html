@@ -1,3 +1,5 @@
 {{ define "main" }}
-    {{ (.Site.GetPage "/products").Render "_list" }}
+{{/*  {{ partial "debug.html" . }}*/}}
+  {{ $productsPage := .Site.GetPage "/products" }}
+  {{ partial "product-list.html" $productsPage }}
 {{ end }}
