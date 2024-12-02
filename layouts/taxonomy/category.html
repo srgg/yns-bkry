@@ -1,33 +1,33 @@
-{{ define "main" }}
-{{ partial "debug.html" . }}
-
-<div class="taxonomy-list">
-        <h1>{{ title .Title }}</h1>
-        {{ $count := len .Pages }}
-        <p class="category-count">{{ $count }} {{ if eq $count 1 }}item{{ else }}items{{ end }}</p>
-
-        <div class="items-grid">
-            {{ range .Pages }}
-                <div class="item-card">
-                    {{ with .Params.image }}
-                        <img src="{{ . }}" alt="{{ $.Title }}">
-                    {{ end }}
-                    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-                    {{ with .Params.price }}
-                        <div class="price">{{ . }}</div>
-                    {{ end }}
-                    {{ with .Params.description }}
-                        <p class="description">{{ . }}</p>
-                    {{ end }}
-                    {{ if in .Params.categories "bestsellers" }}
-                        <span class="badge">★ Bestseller</span>
-                    {{ end }}
-                </div>
-            {{ end }}
-        </div>
-    </div>
-{{ end }}
-
+{{/*{{ define "main" }}*/}}
+{{/*{{ partial "debug.html" . }}*/}}
+{{/**/}}
+{{/*<div class="taxonomy-list">*/}}
+{{/*        <h1>{{ title .Title }}</h1>*/}}
+{{/*        {{ $count := len .Pages }}*/}}
+{{/*        <p class="category-count">{{ $count }} {{ if eq $count 1 }}item{{ else }}items{{ end }}</p>*/}}
+{{/**/}}
+{{/*        <div class="items-grid">*/}}
+{{/*            {{ range .Pages }}*/}}
+{{/*                <div class="item-card">*/}}
+{{/*                    {{ with .Params.image }}*/}}
+{{/*                        <img src="{{ . }}" alt="{{ $.Title }}">*/}}
+{{/*                    {{ end }}*/}}
+{{/*                    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>*/}}
+{{/*                    {{ with .Params.price }}*/}}
+{{/*                        <div class="price">{{ . }}</div>*/}}
+{{/*                    {{ end }}*/}}
+{{/*                    {{ with .Params.description }}*/}}
+{{/*                        <p class="description">{{ . }}</p>*/}}
+{{/*                    {{ end }}*/}}
+{{/*                    {{ if in .Params.categories "bestsellers" }}*/}}
+{{/*                        <span class="badge">★ Bestseller</span>*/}}
+{{/*                    {{ end }}*/}}
+{{/*                </div>*/}}
+{{/*            {{ end }}*/}}
+{{/*        </div>*/}}
+{{/*    </div>*/}}
+{{/*{{ end }}*/}}
+{{/**/}}
 {{/*{{ define "main" }}*/}}
 {{/*    <div class="taxonomy-list">*/}}
 {{/*        <h1>Category: {{ .Title }}</h1>*/}}

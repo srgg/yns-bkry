@@ -1,6 +1,8 @@
 ---
 date: 2024-01-01
-categories: ["cookies", "bestsellers"]
+dietary: [No-Gluten, No-Nuts]
+confections: [cookies]
+categories: [bestsellers]
 price: 6.50
 image: "/images/prjanik-listing.jpg"
 weight: 2

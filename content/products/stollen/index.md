@@ -1,6 +1,7 @@
 ---
 date: 2024-01-01
-categories: ["cakes", "bestsellers"]
+confections: [cakes]
+categories: [bestsellers]
 price: 6.50
 image: "/images/stollen-listing.jpg"
 weight: 2

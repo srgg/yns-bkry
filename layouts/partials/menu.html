@@ -1,0 +1,49 @@
+{{ $currentPage := . }}
+{{ $currentPath := $currentPage.RelPermalink }}
+{{ $isProduct := and (in $currentPath "/products/") (gt (len (split $currentPath "/")) 3) }}
+
+<nav aria-label="Menu" class="menu-nav">
+  <ol class="menu-list">
+    <!-- Loop through menu items as usual -->
+    {{ range .Site.Menus.main }}
+      <li class="menu-item">
+        <a href="{{ .URL }}" class="{{ if eq $currentPage.RelPermalink .URL }}active{{ end }}">
+          {{ if .Params.icon }}
+            {{ $iconPath := printf "icons/%s" .Params.icon }}
+            {{ $iconFileExists := fileExists (printf "layouts/partials/%s" $iconPath) }}
+            {{ if not $iconFileExists }}
+              {{ errorf "Icon '%s' for menu item '%s' not found in '/layouts/partials/icons/'" .Params.icon .Name }}
+            {{ else }}
+              <!-- Render the icon using partials -->
+              {{ partial $iconPath . }}
+            {{ end }}
+          {{ end }}
+          <span>{{ .Name }}</span>
+        </a>
+      </li>
+    {{ end }}
+
+    {{ if $isProduct }}
+      {{ if not .Params.confections }} }}
+        {{ errorf "Product page '%s' (URL: %s) is missing the 'confections' parameter in the front matter. This is required to categorize the product." $currentPage.Title $currentPath }}
+      {{ end }}
+      {{ $foundCategory := false }}
+      {{ if .Params.confections }}
+        {{ $category := index .Params.confections 0 }}
+        {{ range $.Site.Menus.main }}
+          {{ if eq .Identifier $category }}
+            <li class="menu-item active" aria-current="page">
+              {{ $.Title }}
+            </li>
+          {{ end }}
+        {{ end }}
+      {{ else }}
+        {{ if not $foundCategory }}
+          <li class="menu-item active" aria-current="page">
+            {{ $currentPage.Title }}
+          </li>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  </ol>
+</nav>

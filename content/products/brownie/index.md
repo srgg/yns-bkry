@@ -1,6 +1,8 @@
 ---
 date: 2024-01-01
-categories: ["cakes", "bestsellers"]
+confections: [cakes, desserts]
+dietary: [No-Nuts]
+categories: [bestsellers]
 price: 6.50
 #image: "/images/brownie.jpg"
 weight: 2

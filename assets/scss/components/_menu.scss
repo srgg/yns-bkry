@@ -1,0 +1,113 @@
+.menu-nav {
+  width: 100%;
+  margin: $spacing-sm 0;
+  padding: 0 $spacing-xl;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: $shadow-sm;
+
+  @include large-desktop {
+    padding: 0 $spacing-xl;
+  }
+
+  @include desktop {
+    padding: $spacing-lg;
+  }
+
+  @include tablet {
+    padding: 0 $spacing-md;
+    margin: $spacing-sm 0;
+  }
+
+  @include mobile {
+    padding: 0 $spacing-sm;
+    margin: $spacing-xs 0;
+  }
+}
+
+.menu-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  list-style: none;
+  margin: 0;
+  padding: $spacing-sm 0;
+  font-family: $font-secondary;
+  font-size: 0.95rem;
+
+  @include mobile {
+    gap: calc($spacing-xs / 2);
+    font-size: 0.85rem;
+  }
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  color: $text-color;
+
+  &:not(:last-child)::after {
+    content: '/';
+    margin: 0 $spacing-xs;
+    color: $border-color;
+    opacity: 0.7;
+
+    @include mobile {
+      margin: 0 calc($spacing-xs / 2);
+    }
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    color: $primary-color;
+    text-decoration: none;
+    padding: $spacing-xs;
+    border-radius: 0.25rem;
+    transition: all $transition-speed $transition-ease;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      margin-right: 2px;
+
+      @include mobile {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &:hover {
+      color: $secondary-color;
+      background-color: rgba($primary-color, 0.05);
+    }
+
+    &.active {
+      color: $text-color;
+      pointer-events: none;
+    }
+  }
+
+  &.active {
+    color: $text-color;
+    font-style: italic;
+    padding: $spacing-xs;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-nav {
+  animation: fadeIn $transition-speed $transition-ease;
+}

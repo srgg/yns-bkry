@@ -3,15 +3,21 @@ languageCode: 'en-us'
 title: "Yana's Bakery"
 enableInlineShortcodes: true
 
-# Disable built-in sitemap generator as it does not support link cus=tomization
+# Disable built-in sitemap generator as it does not support link customization
 disableKinds:
   - sitemap
 
+# Enhanced taxonomies
 taxonomies:
-  category: categories  # This is crucial
+  category: categories
+  dietary: dietary        # taxonomy for dietary terms
+#  allergen: allergens     # taxonomy for allergen tracking
+  confection: confections # taxonomy for product confection
+  option: options         # taxonomy for product variants/flavors
 
 permalinks:
   categories: "/categories/:slug/"
+  confections: "/confections/:slug/"
   robots: "/robots.txt"
 
 build:
@@ -54,20 +60,19 @@ params:
 #      title: "Desserts"
 #      description: "Desserts"
 #
-##    cakes:
-##      title: "Cakes"
-##      description: "Cakes"
-#    cookies:
-#      title: ""
-##      subcategories:
-##        computers:
-##          title: "Computers"
-##          description: "Desktop and laptop computers"
-##        phones:
-##          title: "Phones"
-##          description: "Mobile phones and accessories"
+#  # Allergen information
+#  allergens:
+#    gluten:
+#      title: "Contains Gluten"
+#      warning: "This product contains gluten"
+#    dairy:
+#      title: "Contains Dairy"
+#      warning: "This product contains dairy"
+#    nuts:
+#      title: "Contains Nuts"
+#      warning: "This product contains nuts"
 
-  # Custom image resizing logic
+  # Custom image resizing logic (keeping your existing configuration)
   images:
     products:
       listing:
@@ -81,8 +86,8 @@ params:
           width: 800
           height: 250
           lossless: false
-          near_lossless: 60  # 0-100, higher is better quality
-          compression: 6     # 0-6, higher is better compression
+          near_lossless: 60
+          compression: 6
         2xsmall:
           width: 600,
           height: 500,
@@ -95,7 +100,7 @@ params:
       options:
         default_format: "webp"
         default_quality: 85
-        fallback_format: "jpg"  # For older browsers
+        fallback_format: "jpg"
         webp:
           compression: 6
           near_lossless: 60
@@ -107,20 +112,33 @@ menu:
     - identifier: home
       name: Home
       url: /
+      params:
+        icon: home.svg
       weight: 1
     - identifier: cakes
       name: Cakes
-      url: /categories/cakes/
+      url: /confections/cakes/
       weight: 2
+      params:
+        icon: cake.svg
     - identifier: cookies
       name: Cookies
-      url: /categories/cookies/
+      url: /confections/cookies/
       weight: 2
+      params:
+        icon: cookie.svg
     - identifier: desserts
       name: Desserts
-      url: /categories/desserts/
+      url: /confections/desserts/
       weight: 2
-
+      params:
+        icon: dessert.svg
+    - identifier: dietary
+      name: Dietary Options
+      weight: 5
+      url: /dietary
+      params:
+        icon: dietary.svg
 markup:
   defaultMarkdownHandler: goldmark
   goldmark:

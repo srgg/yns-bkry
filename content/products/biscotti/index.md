@@ -1,6 +1,8 @@
 ---
 date: 2024-01-01
-categories: ["cookies", "bestsellers"]
+confections: [cookies]
+dietary: [No-Gluten, No-Dairy]
+categories: [bestsellers]
 price: 6.50
 image: "/images/biscotti-listing.jpg"
 weight: 100

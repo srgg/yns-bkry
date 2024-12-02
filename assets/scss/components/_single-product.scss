@@ -51,18 +51,64 @@
       margin-bottom: $spacing-md;
     }
 
-    .price {
+    .product-price {
       font-size: 1.5rem;
       font-weight: bold;
       color: $secondary-color;
       margin-bottom: $spacing-md;
     }
 
-    .description {
+    .product-minimum {
+      font-size: 1rem;
+      color: $text-color;
+      margin-bottom: $spacing-md;
+      font-style: italic;
+    }
+
+    .product-description {
       font-size: 1rem;
       color: $text-color;
       line-height: 1.5;
       margin-bottom: $spacing-lg;
+    }
+
+    .product-variants {
+      margin-bottom: $spacing-lg;
+
+      h3 {
+        font-size: 1.2rem;
+        color: $primary-color;
+        margin-bottom: $spacing-sm;
+        font-family: $font-secondary;
+      }
+
+      .dietary-options,
+      .flavor-options {
+        margin-bottom: $spacing-lg;
+      }
+
+      .options-grid {
+        display: grid;
+        gap: $spacing-sm;
+      }
+
+      .option-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-sm;
+        background-color: rgba($primary-color, 0.05);
+        border-radius: 0.25rem;
+
+        .option-name {
+          color: $text-color;
+        }
+
+        .price-adjust {
+          color: $secondary-color;
+          font-weight: bold;
+        }
+      }
     }
 
     .product-details {
@@ -72,6 +118,24 @@
 
       p {
         margin-bottom: $spacing-md;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: $spacing-md;
+        margin-bottom: $spacing-md;
+
+        li {
+          position: relative;
+          margin-bottom: $spacing-sm;
+
+          &:before {
+            content: "•";
+            color: $primary-color;
+            position: absolute;
+            left: -$spacing-md;
+          }
+        }
       }
     }
 

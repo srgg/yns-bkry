@@ -19,7 +19,11 @@
             </a>
         </div>
 
-      {{ if .Site.Params.showBreadcrumbs | default true }}
+      {{ if .Site.Params.showMenu | default true }}
+        {{ partial "menu.html" . }}
+      {{ end }}
+
+      {{ if .Site.Params.showBreadcrumbs | default false }}
         {{ partial "navbar.html" . }}
       {{ end }}
     </div>

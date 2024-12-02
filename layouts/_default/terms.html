@@ -1,22 +1,22 @@
-{{ define "main" }}
-    <div class="taxonomy-list">
-        <h1>Our Categories</h1>
-
-        <div class="items-grid">
-            {{ range $key, $value := .Site.Taxonomies.categories }}
-                <div class="item-card">
-                    <h2><a href="{{ $value.Page.RelPermalink }}">
-                        {{ title $key }}
-                    </a></h2>
-                    <p>{{ len $value.Pages }} {{ if eq (len $value.Pages) 1 }}item{{ else }}items{{ end }}</p>
-                    {{ if eq $key "bestsellers" }}
-                        <span class="badge">★ Popular Items</span>
-                    {{ end }}
-                </div>
-            {{ end }}
-        </div>
-    </div>
-{{ end }}
+{{/*{{ define "main" }}*/}}
+{{/*    <div class="taxonomy-list">*/}}
+{{/*        <h1>Our Categories</h1>*/}}
+{{/**/}}
+{{/*        <div class="items-grid">*/}}
+{{/*            {{ range $key, $value := .Site.Taxonomies.categories }}*/}}
+{{/*                <div class="item-card">*/}}
+{{/*                    <h2><a href="{{ $value.Page.RelPermalink }}">*/}}
+{{/*                        {{ title $key }}*/}}
+{{/*                    </a></h2>*/}}
+{{/*                    <p>{{ len $value.Pages }} {{ if eq (len $value.Pages) 1 }}item{{ else }}items{{ end }}</p>*/}}
+{{/*                    {{ if eq $key "bestsellers" }}*/}}
+{{/*                        <span class="badge">★ Popular Items</span>*/}}
+{{/*                    {{ end }}*/}}
+{{/*                </div>*/}}
+{{/*            {{ end }}*/}}
+{{/*        </div>*/}}
+{{/*    </div>*/}}
+{{/*{{ end }}*/}}
 
 {{/*{{ define "main" }}*/}}
 {{/*    <div class="taxonomy-list">*/}}

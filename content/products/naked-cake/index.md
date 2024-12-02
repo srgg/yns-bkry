@@ -1,7 +1,8 @@
 ---
 title: "Naked Cake"
 date: 2024-01-01
-categories: ["cakes"]
+dietary: [No-Gluten, No-Nuts]
+confections: [cakes]
 price: 45.00
 image: "/images/naked-cake.jpg"
 weight: 3

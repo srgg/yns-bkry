@@ -1,6 +1,8 @@
 ---
 date: 2024-01-01
-categories: ["desserts", "bestsellers"]
+dietary: [No-Gluten, No-Dairy, No-Nuts]
+confections: [desserts]
+categories: [bestsellers]
 price: 6.50
 image: "/images/trifles-listing.jpg"
 weight: 2

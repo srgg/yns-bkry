@@ -1,6 +1,8 @@
 ---
 date: 2024-01-01
-categories: ["cakes", "bestsellers", "featured"]
+dietary: ["No-Nuts"]
+confections: [cakes]
+categories: [bestsellers, featured]
 price: 6.50
 image: "/images/millefeuille-listing.jpg"
 weight: 2

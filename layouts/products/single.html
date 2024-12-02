@@ -1,68 +1,112 @@
 {{ define "main" }}
 
-{{/*  <!-- Debug info -->*/}}
-{{/*  {{ printf "<!-- Debug info for page %s -->" .RelPermalink }}*/}}
-{{/*  {{ printf "<!-- .Section: %s -->" .Section }}*/}}
-{{/*  {{ printf "<!-- .Type: %s -->" .Type }}*/}}
-{{/*  {{ printf "<!-- .Kind: %s -->" .Kind }}*/}}
-{{/*  {{ printf "<!-- .Path: %s -->" .Path }}*/}}
-{{/*  {{ printf "<!-- .File.Path: %s -->" .File.Path }}*/}}
-{{/*  {{ printf "<!-- .Permalink: %s -->" .Permalink }}*/}}
-{{/*  {{ range $key, $value := .Params }}*/}}
-{{/*    {{ printf "<!-- Param %s: %v -->" $key $value }}*/}}
-{{/*  {{ end }}*/}}
-
-    {{ if not .Site.BuildDrafts }}
-        {{ if .Draft }}
-            {{ warnf "Skipping draft product page '%s' because --buildDrafts is not set." .File.Path }}
-            {{ return }}
-        {{ end }}
+  {{ if not .Site.BuildDrafts }}
+    {{ if .Draft }}
+      {{ warnf "Skipping draft product page '%s' because --buildDrafts is not set." .File.Path }}
+      {{ return }}
     {{ end }}
+  {{ end }}
 
-    <main>
-        <div class="products-section full-width">
-            <div class="single-product">
-                {{ $heroImage := printf "products/%s/%s-hero.*" .File.ContentBaseName .File.ContentBaseName }}
-                {{ $heroImageResource := (.Resources.ByType "image").GetMatch $heroImage }}
+{{/*  {{ printf "Rendering product page: %s" .File.Path }}*/}}
 
-                <div class="product-hero">
-                    {{ if $heroImageResource }}
-                        <img src="{{ $heroImageResource.RelPermalink }}" alt="{{ .Title }} Hero Image" />
-                    {{ else }}
-                        {{ $listingImage := printf "%s-listing.*" .File.ContentBaseName }}
-                        {{ warnf "Looking for listing image with pattern: %s" $listingImage }}
-                        {{ $listingImageResource := (.Resources.ByType "image").GetMatch $listingImage }}
+  <main class="products-section full-width">
+    <div class="single-product">
+      {{ $heroImage := printf "products/%s/%s-hero.*" .File.ContentBaseName .File.ContentBaseName }}
+      {{ $heroImageResource := (.Resources.ByType "image").GetMatch $heroImage }}
 
-                        {{ if $listingImageResource }}
-                            {{ warnf "Hero image not found for product '%s'. Using listing image as fallback." .File.ContentBaseName }}
-                            <img src="{{ $listingImageResource.RelPermalink }}" alt="{{ .Title }} Listing Image" />
-                        {{ else }}
-                            {{ if .Draft }}
-                                {{ warnf "No hero image or listing image found for draft product '%s'." .File.ContentBaseName }}
-                            {{ else }}
-                                {{ errorf "No hero image or listing image found for product '%s'." .File.ContentBaseName }}
-                            {{ end }}
-                        {{ end }}
-                    {{ end }}
-                </div>
-                <div class="product-info">
-                    <h1>{{ .Title }}</h1>
-                    <p class="price">${{ .Params.price }}</p>
-                    <p class="description">{{ .Params.description }}</p>
-                    <div class="product-details">
-                        {{ .Content }}
-                    </div>
-{{/*                    <a href="#" class="add-to-cart-button">Add to Cart</a>*/}}
-                </div>
+      <div class="product-hero">
+        {{ if $heroImageResource }}
+          <img src="{{ $heroImageResource.RelPermalink }}" alt="{{ .Title }} Hero Image">
+        {{ else }}
+          {{ $listingImage := printf "%s-listing.*" .File.ContentBaseName }}
+          {{ warnf "Looking for listing image with pattern: %s" $listingImage }}
+          {{ $listingImageResource := (.Resources.ByType "image").GetMatch $listingImage }}
+          {{ if $listingImageResource }}
+            {{ warnf "Hero image not found for product '%s'. Using listing image as fallback." .File.ContentBaseName }}
+            <img src="{{ $listingImageResource.RelPermalink }}" alt="{{ .Title }} Listing Image">
+          {{ else }}
+            {{ if .Draft }}
+              {{ warnf "No hero image or listing image found for draft product '%s'." .File.ContentBaseName }}
+            {{ else }}
+              {{ errorf "No hero image or listing image found for product '%s'." .File.ContentBaseName }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+
+        <div class="product-gallery">
+          {{ $galleryPath := printf "products/%s/gallery/*" .File.ContentBaseName }}
+          {{ range ((.Resources.ByType "image").Match $galleryPath) }}
+            <div class="gallery-item">
+              <img src="{{ .RelPermalink }}" alt="{{ .Title }}">
             </div>
-            <div class="product-gallery">
-                {{ $galleryPath := printf "products/%s/gallery/*" .File.ContentBaseName }}
-                {{ range ((.Resources.ByType "image").Match $galleryPath) }}
-                    <div class="gallery-item">
-                        <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
-                    </div>
-                {{ end }}
-            </div>
+          {{ end }}
         </div>
-    </main>
+      </div>
+
+      <div class="product-info">
+        <h1>{{ .Title }}</h1>
+
+        <div class="product-price">
+          ${{ .Params.price }}{{ if eq .Params.unit "kg" }}/kg{{ else if eq .Params.unit "pc" }}/piece{{ end }}
+        </div>
+
+        {{ if .Params.minimum_order }}
+          <div class="product-minimum">
+            Minimum Order: {{ .Params.minimum_order }}{{ if eq .Params.unit "kg" }}kg{{ else }} pieces{{ end }}
+          </div>
+        {{ end }}
+
+        <div class="product-description">
+          {{ .Params.description }}
+        </div>
+
+        <div class="product-variants">
+          {{ if .Params.dietary_options }}
+            <div class="dietary-options">
+              <h3>Dietary Options:</h3>
+              <div class="options-grid">
+                {{ with .Params.dietary_options.gluten_free }}
+                  {{ if .available }}
+                    <div class="option-item">
+                      <span class="option-name">Gluten-Free</span>
+                      <span class="price-adjust">+${{ .price_adjustment }}{{ if eq $.Params.unit "kg" }}/kg{{ end }}</span>
+                    </div>
+                  {{ end }}
+                {{ end }}
+
+                {{ with .Params.dietary_options.dairy_free }}
+                  {{ if .available }}
+                    <div class="option-item">
+                      <span class="option-name">Dairy-Free</span>
+                      <span class="price-adjust">+${{ .price_adjustment }}{{ if eq $.Params.unit "kg" }}/kg{{ end }}</span>
+                    </div>
+                  {{ end }}
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+
+          {{ if .Params.flavors }}
+            <div class="flavor-options">
+              <h3>Available Flavors:</h3>
+              <div class="options-grid">
+                {{ range .Params.flavors }}
+                  <div class="option-item">
+                    <span class="option-name">{{ .name }}</span>
+                    {{ if .price_adjustment }}
+                      <span class="price-adjust">+${{ .price_adjustment }}{{ if eq $.Params.unit "kg" }}/kg{{ end }}</span>
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+        </div>
+
+        <div class="product-details">
+          {{ .Content }}
+        </div>
+      </div>
+    </div>
+  </main>
 {{ end }}

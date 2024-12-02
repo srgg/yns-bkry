@@ -1,10 +1,23 @@
 {{/*{{ partial "debug.html" . }}*/}}
 
 {{ $category := .Params.category }}
+{{ $confection := .Params.confection }}
+
+{{ $params := .Params }}
+{{ $category := .Params.category }}
 {{ $products := .Pages }}
 
 {{ if $category }}
+  {{ warnf "INFO: using category %s" $category }}
   {{ $products = where $products ".Params.category" $category }}
+{{ else }}
+  {{ if $confection }}
+    {{ warnf "INFO: using confection %s" $confection }}
+
+    {{ $products = where $products ".Params.confection" $confection }}
+  {{ else }}
+    {{ warnf "INFO: using products" }}
+  {{ end }}
 {{ end }}
 
 <section class="products-section">
@@ -12,6 +25,7 @@
         <div class="gallery">
             {{/* First pass - log all errors as warnings */}}
           {{ range $products.ByWeight }}
+                {{/* Validate content and image */}}
                 {{ with .File }}
                     {{ $content := readFile .Path }}
                     {{ if findRE "^\\*\\*---" $content }}
@@ -21,9 +35,13 @@
 
                 {{ $listingImage := or (.Resources.GetMatch "*-listing.jpg") (.Resources.GetMatch "*-listing.jpeg") }}
                 {{ if not $listingImage }}
-                    {{ warnf "ERROR: Missing listing image (*-listing.jpg/*.jpeg) in %s" .File.Path }}
+                  {{ with .File }}
+                    {{ warnf "ERROR: Missing listing image (*-listing.jpg/*.jpeg) in %s" .Path }}
+                  {{ else }}
+                    {{ warnf "ERROR: Missing listing image for this product, no associated file found in %s, %s" .Path $params }}
+                  {{ end }}
                 {{ end }}
-            {{ end }}
+          {{ end }}
 
             {{/* Second pass - render valid products */}}
             {{ range .Pages.ByWeight }}
