@@ -1,0 +1,13 @@
+{{ define "main" }}
+
+  {{ $taxonomyPages := slice }}
+  {{ range .Site.Taxonomies.dietary }}
+    {{ range .Pages }}
+      {{ if not (in $taxonomyPages .) }}
+        {{ $taxonomyPages = $taxonomyPages | append . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ partial "product-list.html" (dict "products" $taxonomyPages) }}
+{{ end }}

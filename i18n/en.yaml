@@ -1,0 +1,19 @@
+# Dietary
+- id: dietary_option_text
+  translation: "Dietary Options:"
+
+- id: dietary_option_no_gluten_text
+  translation: "No-Gluten"
+
+- id: dietary_option_no_dairy_text
+  translation: "No-Dairy"
+
+- id: dietary_option_no_nuts_text
+  translation: "No-Nuts"
+
+# Flavors
+- id: available_flavors_text
+  translation: "Available Flavors:"
+
+- id: minimum_order_text
+  translation: "Minimum Order:"

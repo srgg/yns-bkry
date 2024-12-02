@@ -1,7 +1,7 @@
 ---
 title: "Honey Cake"
 description: "Traditional honey cake with delicate layers"
-dietary: ["No-Nuts"]
+dietary: [No-Nuts]
 confections: [cakes]
 categories: [bestsellers]
 price: 30.00
@@ -10,15 +10,9 @@ minimum_order: 1.5
 draft: false
 
 dietary_options:
-  gluten_free:
+  no-nuts:
     available: true
-    price_adjustment: 5.00
-  dairy_free:
-    available: true
-    price_adjustment: 3.00
-  combinations:
-    gluten_dairy_free:
-      price_adjustment: 7.00
+    price_adjustment: 0.00
 
 flavors:
   - name: "Classic Honey"

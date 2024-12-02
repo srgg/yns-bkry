@@ -1,3 +1,4 @@
+
 https://its.mw/posts/hugo-responsive-images/
 
 
@@ -39,3 +40,6 @@ The script and debug page will help us identify:
     If all required templates are present
     Any permission issues
     The actual content being processed by Hugo
+
+
+Localization: https://www.regisphilibert.com/blog/2018/08/hugo-multilingual-part-2-i18n-string-localization/

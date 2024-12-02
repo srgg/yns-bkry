@@ -7,6 +7,10 @@
 {{ $category := .Params.category }}
 {{ $products := .Pages }}
 
+{{ if isset . "products" }}
+  {{ $products = .products }}
+{{ end }}}
+
 {{ if $category }}
   {{ warnf "INFO: using category %s" $category }}
   {{ $products = where $products ".Params.category" $category }}
@@ -25,6 +29,7 @@
         <div class="gallery">
             {{/* First pass - log all errors as warnings */}}
           {{ range $products.ByWeight }}
+
                 {{/* Validate content and image */}}
                 {{ with .File }}
                     {{ $content := readFile .Path }}
@@ -44,10 +49,9 @@
           {{ end }}
 
             {{/* Second pass - render valid products */}}
-            {{ range .Pages.ByWeight }}
+            {{ range $products.ByWeight }}
                 {{ $valid := true }}
                 {{ $listingImage := or (.Resources.GetMatch "*-listing.jpg") (.Resources.GetMatch "*-listing.jpeg") }}
-
                 {{/* Validate content and image */}}
                 {{ with .File }}
                     {{ $content := readFile .Path }}
@@ -114,6 +118,16 @@
                         <div class="pastry-info">
                             <h3>{{ .Title }}</h3>
                             <p>{{ .Params.description }}</p>
+
+                          {{ if .Params.dietary }}
+                            <h4>{{ i18n "dietary_option_text" }}</h4>
+                            <ul>
+                              {{ range .Params.dietary }}
+                                <li>{{ . }}</li>
+                              {{ end }}
+                            </ul>
+                            {{ end }}
+
                             <div class="price">${{ .Params.price }}</div>
 
                             <a href="{{ .RelPermalink }}" class="view-button">

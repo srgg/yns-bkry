@@ -168,6 +168,26 @@
       padding-bottom: $spacing-md;
     }
 
+    /* Dietary Information with h4 */
+    h4 {
+      font-size: 1rem;
+      font-weight: bold;
+      color: $primary-color;
+      margin-bottom: $spacing-xs; /* Consistent spacing after h4 */
+    }
+
+    ul {
+      list-style-type: disc;
+      margin-left: 1.5rem; /* Consistent with other lists */
+
+      li {
+        color: $text-color;
+        //margin-bottom: $spacing-sm;
+        line-height: 1.6;
+      }
+    }
+
+    /* */
     .view-button {
       display: inline-block;
       width: 100%;
