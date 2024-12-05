@@ -1,5 +1,18 @@
 {{ define "main" }}
-{{/*  {{ partial "debug.html" . }}*/}}
-  {{ $productsPage := .Site.GetPage "/products" }}
-  {{ partial "product-list.html" $productsPage }}
+  {{ $currentLang := .Site.Language.Lang }}
+  {{ $currentLangName := printf "%s:%s" .Site.Language.LanguageName $currentLang }}
+{{/*  {{ $productsSectionPath := printf "%s/products" $currentLang }}*/}}
+  {{ $productsSectionPath := printf "/products"}}
+
+  {{ partial "debug/page-translation.html"  . }}
+
+
+  {{ $productsPage := .Site.GetPage $productsSectionPath }}
+  {{ if $productsPage }}
+    {{ warnf "DEBUG: [%s] Found products page : %s" $currentLangName $productsPage.RelPermalink }}
+    {{ partial "product-list.html" $productsPage }}
+  {{ else }}
+    {{ errorf "[%s] Products page not found '%s'" $currentLangName $productsSectionPath }}
+  {{ end }}
 {{ end }}
+

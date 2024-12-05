@@ -1,13 +1,74 @@
-{{ $currentPage := . }}
-{{ $currentPath := $currentPage.RelPermalink }}
-{{ $isProduct := and (in $currentPath "/products/") (gt (len (split $currentPath "/")) 3) }}
+{{ $page := . }}
+{{ $currentPath := $page.RelPermalink }}
+
+{{ $isProduct := and (in $currentPath (printf "/%s/products" $page.Language.LanguageCode) ) (gt (len (split $currentPath "/")) 4) }}
+{{/*{{ printf "Page: %s, Product: %v" $page.RelPermalink $isProduct }}*/}}
+
+{{/* https://gohugo.io/templates/menu/ */}}
+{{/*{{ $menuID := "main" }}*/}}
+{{/**/}}
+{{/*{{- with index site.Menus $menuID }}*/}}
+{{/*  <nav aria-label="Menu" class="menu-nav">*/}}
+{{/*    <ol class="menu-list">*/}}
+{{/*      {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}*/}}
+{{/*    </ol>*/}}
+{{/*  </nav>*/}}
+{{/*{{- end }}*/}}
+{{/**/}}
+{{/*{{- define "partials/inline/menu/walk.html" }}*/}}
+{{/*  {{- $page := .page }}*/}}
+{{/*  {{- range .menuEntries }}*/}}
+{{/*    {{- $attrs := dict "href" .URL }}*/}}
+{{/**/}}
+{{/*    {{- if $page.IsMenuCurrent .Menu . }}*/}}
+{{/*      {{- $attrs = merge $attrs (dict "class" "active" "aria-current" "page") }}*/}}
+{{/*    {{- else if $page.HasMenuCurrent .Menu .}}*/}}
+{{/*      {{- $attrs = merge $attrs (dict "class" "ancestor" "aria-current" "true") }}*/}}
+{{/*    {{- end }}*/}}
+{{/**/}}
+{{/*    {{- $name := .Name }}*/}}
+{{/*    {{- with .Identifier }}*/}}
+{{/*      {{- with T . }}*/}}
+{{/*        {{- $name = . }}*/}}
+{{/*      {{- end }}*/}}
+{{/*    {{- end }}*/}}
+{{/**/}}
+{{/*    <li>*/}}
+{{/*      <a*/}}
+{{/*        {{- range $k, $v := $attrs }}*/}}
+{{/*          {{- with $v }}*/}}
+{{/*            {{- printf " %s=%q" $k $v | safeHTMLAttr }}*/}}
+{{/*          {{- end }}*/}}
+{{/*        {{- end -}}*/}}
+{{/*      >*/}}
+{{/*        {{ if .Params.icon }}*/}}
+{{/*          {{ $iconPath := printf "icons/%s" .Params.icon }}*/}}
+{{/*          {{ $iconFileExists := fileExists (printf "layouts/partials/%s" $iconPath) }}*/}}
+{{/*          {{ if not $iconFileExists }}*/}}
+{{/*            {{ errorf "Icon '%s' for menu item '%s' not found in '/layouts/partials/icons/'" .Params.icon .Name }}*/}}
+{{/*          {{ else }}*/}}
+{{/*            <!-- Render the icon using partials -->*/}}
+{{/*            {{ partial $iconPath . }}*/}}
+{{/*          {{ end }}*/}}
+{{/*        {{ end }}*/}}
+{{/*        <span>{{ $name }}</span>*/}}
+{{/*      </a>*/}}
+{{/**/}}
+{{/*      {{- with .Children }}*/}}
+{{/*        <ul>*/}}
+{{/*          {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}*/}}
+{{/*        </ul>*/}}
+{{/*      {{- end }}*/}}
+{{/*    </li>*/}}
+{{/*  {{- end }}*/}}
+{{/*{{- end }}*/}}
 
 <nav aria-label="Menu" class="menu-nav">
   <ol class="menu-list">
     <!-- Loop through menu items as usual -->
     {{ range .Site.Menus.main }}
       <li class="menu-item">
-        <a href="{{ .URL }}" class="{{ if eq $currentPage.RelPermalink .URL }}active{{ end }}">
+        <a href="{{ .URL }}" class="{{ if eq (strings.TrimRight "/" $currentPath ) .URL }}active{{ end }}">
           {{ if .Params.icon }}
             {{ $iconPath := printf "icons/%s" .Params.icon }}
             {{ $iconFileExists := fileExists (printf "layouts/partials/%s" $iconPath) }}
@@ -24,8 +85,8 @@
     {{ end }}
 
     {{ if $isProduct }}
-      {{ if not .Params.confections }} }}
-        {{ errorf "Product page '%s' (URL: %s) is missing the 'confections' parameter in the front matter. This is required to categorize the product." $currentPage.Title $currentPath }}
+      {{ if not .Params.confections }}
+        {{ errorf "Product page '%s' (URL: %s) is missing the 'confections' parameter in the front matter. This is required to categorize the product." $page.Title $currentPath }}
       {{ end }}
       {{ $foundCategory := false }}
       {{ if .Params.confections }}
@@ -40,10 +101,13 @@
       {{ else }}
         {{ if not $foundCategory }}
           <li class="menu-item active" aria-current="page">
-            {{ $currentPage.Title }}
+            {{ $page.Title }}
           </li>
         {{ end }}
       {{ end }}
     {{ end }}
+    <li class="menu-item">
+      {{ partial "language-selector.html" . }}
+    </li>
   </ol>
 </nav>

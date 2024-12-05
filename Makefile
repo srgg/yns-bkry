@@ -1,4 +1,4 @@
-.PHONY: all clean dist deploy serve check-hugo
+.PHONY: all clean dist deploy serve served check-hugo
 
 # Variables
 DIST_DIR = public
@@ -38,5 +38,8 @@ deploy: dist
 		git push origin $$SPLIT_SHA:refs/heads/$(BRANCH) --force
 	@echo "Deployed $DIST_DIR/ to $(BRANCH) branch"
 
+served:
+	 env HUGO_PARAMS_DEBUG=true hugo server -D --printI18nWarnings --cleanDestinationDir --buildDrafts --disableFastRender
+
 serve:
-	hugo server -D --cleanDestinationDir --buildDrafts --disableFastRender
+	hugo server --printI18nWarnings --cleanDestinationDir --disableFastRender

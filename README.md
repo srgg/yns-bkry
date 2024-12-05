@@ -1,5 +1,6 @@
 
 https://its.mw/posts/hugo-responsive-images/
+https://staticmania.com/blog/how-to-set-up-a-multilingual-website-in-hugo
 
 
 ## Dynamic Categories w/o _index.html

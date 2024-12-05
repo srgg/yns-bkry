@@ -1,0 +1,43 @@
+{{/* if block supposed to prevent variables escape */}}
+{{ if true }}
+  {{ $currentLang := .Site.Language.Lang }}
+  {{ $debug := printf "=== START DEBUG-TRANSLATION ===\n" }}
+
+  {{ $debug = printf "%sSite:\n" $debug }}
+  {{ $debug = printf "%s   Default Lang: %s\n" $debug .Site.Language.Lang }}
+  {{ $debug = printf "%s   Languages:\n" $debug }}
+  {{ range .Site.Languages }}
+    {{ $debug = printf "%s      %s Code: %s (Weight: %d)\n" $debug .Lang .LanguageCode .Weight }}
+  {{ end }}
+  {{ $debug = printf "%s   Home Sections [.Site.Home.Section]:\n" $debug }}
+  {{ range .Site.Home.Sections }}
+    {{ $debug = printf "%s      %s (%s)\n" $debug .RelPermalink .Path }}
+  {{ end }}
+
+  {{ $debug = printf "%s\nCurrent Context:\n" $debug }}
+  {{ $debug = printf "%s   Language [.Site.Language.Lang]: %s\n" $debug $currentLang }}
+  {{ $debug = printf "%s   Page: %s Lang: %s\n" $debug .Page.RelPermalink .Page.Language.Lang }}
+  {{ $debug = printf "%s   Available Pages [.Site.Pages]:\n" $debug }}
+  {{ range .Site.Pages }}
+    {{ $page := . }}
+    {{ with .File }}
+      {{ $debug = printf "%s      %s, file: %s]\n" $debug $page.RelPermalink .Path }}
+    {{ end }}
+  {{ end }}
+  {{ $debug = printf "%s   Available Page Translation [.Page.AllTranslations]:\n" $debug }}
+  {{ with .Page.AllTranslations }}
+    <ul>
+      {{ range . }}
+        {{ $debug = printf "%s      %s, path: %s, pages:\n" $debug .Lang .RelPermalink }}
+        {{ range .Pages }}
+          {{ with .File }}
+            {{ $debug = printf "%s         - %s\n" $debug .Path }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    </ul>
+  {{ end }}
+
+  {{ $debug = printf "%s\n=== END DEBUG-TRANSLATION ===\n" $debug }}
+  {{ warnf $debug }}
+{{ end }}

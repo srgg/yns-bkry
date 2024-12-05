@@ -1,0 +1,19 @@
+# Dietary
+- id: dietary_option_text
+  translation: "Дієтичні опції:"
+
+- id: dietary_option_no_gluten_text
+  translation: "Без глютену"
+
+- id: dietary_option_no_dairy_text
+  translation: "Без лактози"
+
+- id: dietary_option_no_nuts_text
+  translation: "Без горіхів"
+
+# Flavors
+- id: available_flavors_text
+  translation: "Доступні смаки:"
+
+- id: minimum_order_text
+  translation: "Мінімальне замовлення:"

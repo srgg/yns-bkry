@@ -1,0 +1,23 @@
+{{ if eq hugo.Environment "development" }}
+  {{ if .Site.Params.debug }}
+
+    <div class="language-selector">
+      {{ $siteLanguages := site.Languages }}
+      {{ $pageLang := .Page.Language }}
+      {{ $currentPage := . }}
+
+      <div class="language-selector">
+          <select class="language-select" onchange="window.location.href=this.value" aria-label="Select Language">
+          {{ range site.Languages }}
+            {{ $isActive := eq . $.Site.Language }}
+            {{/* Replace lang in current URL instead of redirecting to root */}}
+            <option value="{{ $currentPage.RelPermalink | replaceRE (print "/" $pageLang.Lang "/") (print "/" .Lang "/") }}"
+                    {{ if eq . $pageLang }}selected{{ end }}>
+              {{ .Params.flag }} {{ .LanguageName }}
+            </option>
+          {{ end }}
+        </select>
+      </div>
+    </div>
+  {{ end }}
+{{ end }}

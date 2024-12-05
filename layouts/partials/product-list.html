@@ -5,7 +5,9 @@
 
 {{ $params := .Params }}
 {{ $category := .Params.category }}
-{{ $products := .Pages }}
+
+{{/*properly gets all language-specific pages in the products section.*/}}
+{{ $products := .RegularPages }}
 
 {{ if isset . "products" }}
   {{ $products = .products }}
@@ -28,8 +30,8 @@
     <div class="container">
         <div class="gallery">
             {{/* First pass - log all errors as warnings */}}
-          {{ range $products.ByWeight }}
-
+{{/*          {{ range $products.ByWeight }}*/}}
+          {{ range sort $products "Weight" }}
                 {{/* Validate content and image */}}
                 {{ with .File }}
                     {{ $content := readFile .Path }}
@@ -49,7 +51,7 @@
           {{ end }}
 
             {{/* Second pass - render valid products */}}
-            {{ range $products.ByWeight }}
+          {{ range sort $products "Weight" }}
                 {{ $valid := true }}
                 {{ $listingImage := or (.Resources.GetMatch "*-listing.jpg") (.Resources.GetMatch "*-listing.jpeg") }}
                 {{/* Validate content and image */}}

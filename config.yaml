@@ -1,11 +1,109 @@
-baseURL: "https://yanasbakery.com"
-languageCode: 'en-us'
+baseURL: "https://yanasbakery.com/"
 title: "Yana's Bakery"
 enableInlineShortcodes: true
 
 # Disable built-in sitemap generator as it does not support link customization
 disableKinds:
   - sitemap
+
+#languageCode: 'en-us'
+#defaultContentLanguage: en
+defaultContentLanguageInSubdir: true
+
+#
+#  https://gohugo.io/content-management/multilingual/#menus
+#
+languages:
+  en:
+    languageCode: "en"
+    languageName: "English"
+    weight: 0
+    contentDir: "content/en"
+    default: true
+    params:
+      market: "us"
+      flag: "🇺🇸"
+      currency: "$"
+      unit: "lb"
+    menus:
+      main:
+        - identifier: home
+          name: Home (en)
+          url: /en/
+          params:
+            icon: home.svg
+          weight: 1
+        - identifier: cakes
+          name: Cakes
+          url: /en/confections/cakes
+          weight: 2
+          params:
+            icon: cake.svg
+        - identifier: cookies
+          name: Cookies
+          url: /en/confections/cookies
+          weight: 2
+          params:
+            icon: cookie.svg
+        - identifier: desserts
+          name: Desserts
+          url: /en/confections/desserts
+          weight: 2
+          params:
+            icon: dessert.svg
+        - identifier: dietary
+          name: Dietary Options
+          weight: 5
+          url: /en/dietary
+          params:
+            icon: dietary.svg
+
+  uk:
+    languageCode: "uk"
+    languageName: "Українська"
+    weight: 1
+    contentDir: "content/uk"
+    params:
+      market: "ua"
+      flag: "🇺🇦"
+      currency: "₴"
+      unit: "кг"
+    menus:
+      main:
+        - identifier: home
+          name: Головна
+          url: /uk
+          params:
+            icon: home.svg
+          weight: 1
+        - identifier: cakes
+          name: Торти
+          url: /uk/confections/cakes
+          weight: 2
+          params:
+            icon: cake.svg
+        - identifier: cookies
+          name: Печиво
+          url: /uk/confections/cookies
+          weight: 3
+          params:
+            icon: cookie.svg
+        - identifier: desserts
+          name: Десерти
+          url: /uk/confections/desserts
+          weight: 4
+          params:
+            icon: dessert.svg
+        - identifier: dietary
+          name: Дієтичні опції
+          weight: 5
+          url: /uk/dietary
+          params:
+            icon: dietary.svg
+
+# Remove any trailing slashes from internal URLs
+#removePathAccents: true
+cleanDestinationDir: true
 
 # Enhanced taxonomies
 taxonomies:
@@ -29,8 +127,7 @@ imaging:
   resampleFilter: Lanczos
   anchor: Smart
 
-# Asset pipeline
-module:
+## Asset pipeline
   mounts:
     - source: assets
       target: assets
@@ -38,9 +135,8 @@ module:
       target: static
     - source: content
       target: content
-
 params:
-  debug: true
+#  debug: true
   description: Handcrafted Memorable Bites
   email: yanas.cosbakery@gmail.com
   phone: '+17193018351'
@@ -106,39 +202,6 @@ params:
           near_lossless: 60
           smart_subsample: true
           sharp_yuv: true
-
-menu:
-  main:
-    - identifier: home
-      name: Home
-      url: /
-      params:
-        icon: home.svg
-      weight: 1
-    - identifier: cakes
-      name: Cakes
-      url: /confections/cakes/
-      weight: 2
-      params:
-        icon: cake.svg
-    - identifier: cookies
-      name: Cookies
-      url: /confections/cookies/
-      weight: 2
-      params:
-        icon: cookie.svg
-    - identifier: desserts
-      name: Desserts
-      url: /confections/desserts/
-      weight: 2
-      params:
-        icon: dessert.svg
-    - identifier: dietary
-      name: Dietary Options
-      weight: 5
-      url: /dietary
-      params:
-        icon: dietary.svg
 markup:
   defaultMarkdownHandler: goldmark
   goldmark:
