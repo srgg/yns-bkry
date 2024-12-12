@@ -1,6 +1,9 @@
+- id: view_details_text
+  translation: Детальніше
+
 # Dietary
 - id: dietary_option_text
-  translation: "Дієтичні опції:"
+  translation: "Опції:"
 
 - id: dietary_option_no_gluten_text
   translation: "Без глютену"
@@ -15,5 +18,16 @@
 - id: available_flavors_text
   translation: "Доступні смаки:"
 
-- id: minimum_order_text
-  translation: "Мінімальне замовлення:"
+# Pricing
+- id: price_minimum_order_text
+  translation: "Мінімальне замовлення"
+#  translation: "мін"
+- id: price_per_item_text
+  translation: "шт"
+- id: price_per_pound_text
+  translation: "фунт"
+- id: price_or_text
+  translation: "aбо"
+
+
+

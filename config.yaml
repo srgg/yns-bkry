@@ -28,7 +28,7 @@ languages:
     menus:
       main:
         - identifier: home
-          name: Home (en)
+          name: Home
           url: /en/
           params:
             icon: home.svg
@@ -51,12 +51,12 @@ languages:
           weight: 2
           params:
             icon: dessert.svg
-        - identifier: dietary
-          name: Dietary Options
-          weight: 5
-          url: /en/dietary
-          params:
-            icon: dietary.svg
+#        - identifier: dietary
+#          name: Dietary Options
+#          weight: 5
+#          url: /en/dietary
+#          params:
+#            icon: dietary.svg
 
   uk:
     languageCode: "uk"
@@ -64,7 +64,6 @@ languages:
     weight: 1
     contentDir: "content/uk"
     params:
-      market: "ua"
       flag: "🇺🇦"
       currency: "₴"
       unit: "кг"
@@ -108,7 +107,7 @@ cleanDestinationDir: true
 # Enhanced taxonomies
 taxonomies:
   category: categories
-  dietary: dietary        # taxonomy for dietary terms
+  dietary: dietaries        # taxonomy for dietary terms
 #  allergen: allergens     # taxonomy for allergen tracking
   confection: confections # taxonomy for product confection
   option: options         # taxonomy for product variants/flavors
@@ -128,15 +127,15 @@ imaging:
   anchor: Smart
 
 ## Asset pipeline
-  mounts:
-    - source: assets
-      target: assets
-    - source: static
-      target: static
-    - source: content
-      target: content
+mounts:
+  - source: assets
+    target: assets
+  - source: static
+    target: static
+  - source: content
+    target: content
 params:
-#  debug: true
+  debug: false
   description: Handcrafted Memorable Bites
   email: yanas.cosbakery@gmail.com
   phone: '+17193018351'

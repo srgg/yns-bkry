@@ -1,0 +1,265 @@
+@import "product/pricing-block";
+
+// Mixin Definitions
+@mixin product-padding($padding: $spacing-xl) {
+  padding: 0 $padding $padding;
+}
+
+.product-detail {
+  grid-template-columns: 1fr 1fr;
+  //max-width: $container-max-width;
+
+  .product-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: $spacing-xl $spacing-md;
+
+    @include grid-md {
+      grid-template-columns: 1fr 1fr;
+      padding: $spacing-xl;
+    }
+  }
+
+  .product-gallery {
+    .main-image {
+      width: 100%;
+      margin-bottom: $spacing-xl;
+      //width: 100%;
+      //aspect-ratio: 1;
+      //margin-bottom: $spacing-md;
+
+      img {
+        //width: 100%;
+        //height: 100%;
+        //object-fit: cover;
+        //border-radius: 0.5rem;
+        //box-shadow: $shadow-md;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: $shadow-md;
+      }
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: $spacing-sm;
+
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: transform $transition-speed $transition-ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  .product-info {
+    h1 {
+      font-size: 2.5rem;
+      color: $primary-color;
+      margin-bottom: $spacing-sm;
+      font-family: $font-display;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: $spacing-lg;
+      color: $text-color;
+      //font-size: 1rem;
+      //color: $text-color;
+      //line-height: 1.5;
+      //margin-bottom: $spacing-lg;
+    }
+
+    @include pricing-block(
+      $price-font-size: 1.5rem,
+      $unit-font-size: 1.25rem,
+      $separator-font-size: 0.75rem,
+      $min-order-font-size: 1.1rem,
+      $is_card_view: false
+    );
+
+    .min-order {
+      //&::before {
+      //  content: ",";
+      //  margin: 0 $spacing-xs;
+      //}
+      font-size: 1.1rem;
+      color: rgba($text-color, 0.6);
+      font-weight: normal;
+      font-style: italic;
+    }
+
+    .product-variants {
+      margin-bottom: $spacing-lg;
+
+      h3 {
+        font-size: 1.2rem;
+        color: $primary-color;
+        margin-bottom: $spacing-sm;
+        font-family: $font-secondary;
+      }
+
+      .dietary-options,
+      .flavor-options {
+        margin-bottom: $spacing-lg;
+      }
+
+      .options-grid {
+        display: grid;
+        gap: $spacing-sm;
+      }
+
+      .option-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-sm;
+        //padding: 0 $spacing-sm;
+        background-color: rgba($primary-color, 0.05);
+        border-radius: 0.25rem;
+        min-height: 100%;
+
+        //.pricing-block {
+        //  display: flex;
+        //  margin-bottom: 0;  // Remove bottom margin that might affect centering
+        //  padding-bottom: 0; // Remove bottom padding that might affect centering
+        //}
+
+        .option-name {
+          color: $text-color;
+          // Preventing breaking "No-" from the next word in dietary options
+          span[data-nobreak] {
+            white-space: nowrap;
+          }
+        }
+
+        .price-adjust {
+          color: $secondary-color;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .product-details {
+      margin-bottom: $spacing-lg;
+      font-family: $font-secondary;
+      color: $text-color;
+
+      p {
+        margin-bottom: $spacing-md;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: $spacing-md;
+        margin-bottom: $spacing-md;
+
+        li {
+          position: relative;
+          margin-bottom: $spacing-sm;
+
+          &:before {
+            content: "•";
+            color: $primary-color;
+            position: absolute;
+            left: -$spacing-md;
+          }
+        }
+      }
+    }
+
+    //// Additional product details
+    //.product-details {
+    //  h2 {
+    //    font-size: 1.5rem;
+    //    color: $primary-color;
+    //    margin-bottom: $spacing-md;
+    //    margin-top: $spacing-lg;
+    //  }
+    //
+    //  .details-grid {
+    //    display: grid;
+    //    gap: $spacing-md;
+    //    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    //
+    //    .detail-item {
+    //      h3 {
+    //        font-size: 1.1rem;
+    //        color: $primary-color;
+    //        margin-bottom: $spacing-xs;
+    //      }
+    //
+    //      p, ul {
+    //        font-size: 1rem;
+    //        color: $text-color;
+    //        line-height: 1.5;
+    //      }
+    //
+    //      ul {
+    //        list-style-type: disc;
+    //        padding-left: $spacing-md;
+    //      }
+    //    }
+    //  }
+    //}
+  }
+}
+
+// Breakpoints
+@include grid-md {
+  .product-detail {
+    @include product-padding($spacing-xl);
+
+    .product-content {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+@include tablet {
+  .product-detail {
+    @include product-padding($spacing-lg);
+
+    .product-info {
+      h1 {
+        font-size: 2rem;
+      }
+
+      @include pricing-block(
+        $price-font-size: 1.75rem,
+        $unit-font-size: 1.1rem,
+        $separator-font-size: 0.75rem,
+        $min-order-font-size: 1rem,
+        $is_card_view: false
+      );
+    }
+  }
+}
+
+@include mobile {
+  .product-detail {
+    .product-info {
+      @include pricing-block(
+        $price-font-size: 1.5rem,
+        $unit-font-size: 1rem,
+        $separator-font-size: 0.75rem,
+        $min-order-font-size: 0.9rem,
+        $is_card_view: false
+      );
+    }
+  }
+}

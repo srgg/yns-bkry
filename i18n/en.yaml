@@ -1,6 +1,9 @@
+- id: view_details_text
+  translation: View Details
+
 # Dietary
 - id: dietary_option_text
-  translation: "Dietary Options:"
+  translation: "Options"
 
 - id: dietary_option_no_gluten_text
   translation: "No-Gluten"
@@ -15,5 +18,17 @@
 - id: available_flavors_text
   translation: "Available Flavors:"
 
-- id: minimum_order_text
-  translation: "Minimum Order:"
+# Pricing
+- id: price_minimum_order_text
+  translation: "Minimum Order"
+#  translation: "min"
+- id: price_per_item_text
+  translation: "each"
+- id: price_per_pound_text
+  translation: "lb"
+- id: price_or_text
+  translation: "or"
+
+##  Peroduct variants
+#- id: base_variant
+#  translation: "Base options"

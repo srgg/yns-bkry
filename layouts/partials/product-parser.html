@@ -1,0 +1,115 @@
+{{- /* Initialize the product variable */ -}}
+{{- $product := dict -}}
+
+<!--
+  Core Data
+-->
+{{- $product = merge $product (dict
+  "title" .Title
+  "description" .Params.description
+  "weight" (default 0 .Params.weight)
+  "draft" .Draft
+  ) -}}
+
+<!--
+  Taxonomy
+-->
+{{- /* Add taxonomies with nil checks */ -}}
+{{- $dietaries := slice -}}
+{{- with .Params.dietaries -}}
+  {{- range . -}}
+    {{- $dietaries = $dietaries | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $confections := slice -}}
+{{- with .Params.confections -}}
+  {{- range . -}}
+    {{- $confections = $confections | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $categories := slice -}}
+{{- with .Params.categories -}}
+  {{- range . -}}
+    {{- $categories = $categories | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $product = merge $product (dict
+  "taxonomies" (dict
+  "dietaries" $dietaries
+  "confections" $confections
+  "categories" $categories
+  )
+  ) -}}
+
+
+<!--
+-->
+{{- $base := partial "product-parser/parse-variant.html" .Params -}}
+{{/*{{ warnf "Base: %s'" .File.Path ($base | jsonify (dict "prefix" "" "indent" "  ")) }}*/}}
+
+
+<!--
+  Process variants
+-->
+{{- $additionalVariants := slice -}}
+{{- $baseVariants := slice -}}
+{{- if .Params.variants -}}
+  {{- range .Params.variants -}}
+    {{- $variant := partial "product-parser/parse-variant.html" . -}}
+    {{- if $variant.isBaseVariant -}}
+      {{- /* Handle base variant logic if needed (e.g., fallback title) */ -}}
+      {{- $baseVariants = $baseVariants | append $variant -}}
+{{/*      {{ $baseVariants = $variant }}*/}}
+    {{ else }}
+      {{- $additionalVariants = $additionalVariants | append $variant -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Add variants to product */ -}}
+{{- $product = merge $product $base (dict
+  "baseVariants" $baseVariants
+  "additionalVariants" $additionalVariants
+  ) -}}
+
+{{- return $product -}}
+
+<!--
+|
+|
+-->
+{{- define "partials/product-parser/parse-variant.html" }}
+  {{- $variant := . -}}
+
+  {{- /* Parse the dietary data */ -}}
+  {{- $dietary := $variant.dietary -}}
+
+  {{- /* Initialize pricing, with null values if keys don't exist */ -}}
+  {{- $byEach := $variant.not_existing_prop -}}
+  {{- $byWeight := $variant.not_existing_prop -}}
+
+  {{- /* Check if pricing exists and process if available */ -}}
+  {{- with $variant.pricing -}}
+    {{- with .byEach -}}
+      {{- $byEach = . -}}
+    {{- end -}}
+    {{- with .byWeight -}}
+      {{- $byWeight = . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $pricing := (dict "byEach" $byEach "byWeight" $byWeight ) -}}
+
+  {{- /* Set isBaseVariant to true if variant has no title */ -}}
+  {{- $isBaseVariant := not $variant.title -}}
+
+  {{- /* Return the parsed variant as a dictionary with isBaseVariant flag */ -}}
+  {{- return dict
+    "dietary" $dietary
+    "pricing" $pricing
+    "title" $variant.title
+    "isBaseVariant" $isBaseVariant
+  }}
+{{- end }}

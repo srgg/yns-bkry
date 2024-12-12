@@ -1,12 +1,19 @@
 ---
 date: 2024-01-01
-dietary: [No-Nuts]
+#dietary: [no-nuts]
 confections: [cakes, desserts]
 categories: [bestsellers]
-price: 6.50
 weight: 2
 title: "Tart"
 #description: "Tradiditonal German cristmas cake"
+
+pricing:
+  byWeight:
+    price: 20
+    minOrder: 2
+  byEach:
+    price: 5
+    minOrder: 6
 ---
 
-Additional details about the Tart can go here as markdown content.
+[//]: # (Additional details about the Tart can go here as markdown content.)

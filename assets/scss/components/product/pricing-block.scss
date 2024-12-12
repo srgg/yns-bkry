@@ -1,0 +1,48 @@
+@mixin pricing-block(
+  $price-font-size: 1rem,
+  $unit-font-size: 0.75rem,
+  $separator-font-size: 0.75rem,
+  $min-order-font-size: 0.75rem,
+  $is_card_view: true
+) {
+  .pricing-block {
+    display: flex;
+    //flex-direction: row;
+    align-items: baseline;
+    padding: 0;
+    margin-bottom: auto;
+
+    padding-bottom: $spacing-sm;
+    padding-top: $spacing-sm;
+    //padding-bottom: $spacing-md;
+    gap: $spacing-xs;
+  }
+
+  .product-price {
+    display: inline-flex;
+    align-items: baseline;
+    //gap: 0.25rem;
+    font-size: $price-font-size;
+    color: $secondary-color;
+    font-weight: bold;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+
+    .price-value, .price-unit {
+      display: inline;
+    }
+
+    .price-unit {
+      font-size: $unit-font-size;
+      font-weight: normal;
+    }
+  }
+
+  @if not $is_card_view {
+    @include mobile {
+      .product-price {
+        align-items: baseline;
+      }
+    }
+  }
+}

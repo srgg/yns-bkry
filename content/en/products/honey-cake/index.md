@@ -1,28 +1,15 @@
 ---
 title: "Honey Cake"
 description: "Traditional honey cake with delicate layers"
-dietary: [No-Nuts]
 confections: [cakes]
-categories: [bestsellers]
-price: 30.00
-unit: "kg"
-minimum_order: 1.5
+dietaries: []
 draft: false
 
-dietary_options:
-  no-nuts:
-    available: true
-    price_adjustment: 0.00
 
-flavors:
-  - name: "Classic Honey"
-    price_adjustment: 0.00
-  - name: "Chocolate"
-    price_adjustment: 2.00
-  - name: "Walnut"
-    price_adjustment: 3.00
-    dietary_pricing:
-      nut_free: false
+pricing:
+  byWeight:
+    price: 20
+    minOrder: 3
 ---
 
 Our signature honey cake is made with natural honey and premium ingredients. Perfect for any celebration.

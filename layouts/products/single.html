@@ -7,125 +7,143 @@
   {{ end }}
 {{ end }}
 
-{{/*  {{ printf "Rendering product page: %s" .File.Path }}*/}}
 
-<main class="products-section full-width">
-  <div class="single-product">
-    {{ $heroImage := printf "products/%s/%s-hero.*" .File.ContentBaseName .File.ContentBaseName }}
-    {{ $heroImageResource := (.Resources.ByType "image").GetMatch $heroImage }}
+{{ $product := partial "product-parser.html" . }}
+{{/*{{ warnf "Product Data Debug: %#v" $product }}*/}}
+{{ $json := $product | jsonify (dict "indent" "  ") }}
+{{ warnf "Rendering product page: %s\n%s" .File.Path $json }}
 
-    <div class="product-hero">
-      {{ if $heroImageResource }}
-        <img src="{{ $heroImageResource.RelPermalink }}" alt="{{ .Title }} Hero Image">
-      {{ else }}
-        {{ $listingImage := printf "%s-listing.*" .File.ContentBaseName }}
-        {{ warnf "Looking for listing image with pattern: %s" $listingImage }}
-        {{ $listingImageResource := (.Resources.ByType "image").GetMatch $listingImage }}
-        {{ if $listingImageResource }}
-          {{ warnf "Hero image not found for product '%s'. Using listing image as fallback." .File.ContentBaseName }}
-          <img src="{{ $listingImageResource.RelPermalink }}" alt="{{ .Title }} Listing Image">
-        {{ else }}
-          {{ if .Draft }}
-            {{ warnf "No hero image or listing image found for draft product '%s'." .File.ContentBaseName }}
-          {{ else }}
-            {{ errorf "No hero image or listing image found for product '%s'." .File.ContentBaseName }}
-          {{ end }}
-        {{ end }}
-      {{ end }}
+{{/*<main class="products-section full-width">*/}}
+    <div class="product-detail">
+        <div class="product-content">
+            {{ $heroImage := printf "products/%s/%s-hero.*" .File.ContentBaseName .File.ContentBaseName }}
+            {{ $heroImageResource := (.Resources.ByType "image").GetMatch $heroImage }}
 
-      <div class="product-gallery">
-        {{ $galleryPath := printf "products/%s/gallery/*" .File.ContentBaseName }}
-        {{ range ((.Resources.ByType "image").Match $galleryPath) }}
-          <div class="gallery-item">
-            <img src="{{ .RelPermalink }}" alt="{{ .Title }}">
-          </div>
-        {{ end }}
-      </div>
-    </div>
+            <!-- Gallery section (placeholder) -->
+            <div class="product-gallery">
+                <div class="main-image">
+{{/*                    <img src="/placeholder/800/800" alt="{{ .Title }}" />*/}}
+                    {{ if $heroImageResource }}
+                        <img src="{{ $heroImageResource.RelPermalink }}" alt="{{ $product.title }}" />
+                    {{ else }}
+                        {{ $listingImage := printf "%s-listing.*" .File.ContentBaseName }}
+                        {{ warnf "Looking for listing image with pattern: %s" $listingImage }}
+                        {{ $listingImageResource := (.Resources.ByType "image").GetMatch $listingImage }}
+                        {{ if $listingImageResource }}
+                            {{ warnf "Hero image not found for product '%s'. Using listing image as fallback." .File.ContentBaseName }}
+                            <img src="{{ $listingImageResource.RelPermalink }}" alt="{{ $product.title }} Listing Image">
+                        {{ else }}
+                            {{ if $product.draft }}
+                                {{ warnf "No hero image or listing image found for draft product '%s'." .File.ContentBaseName }}
+                            {{ else }}
+                                {{ errorf "No hero image or listing image found for product '%s'." .File.ContentBaseName }}
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                </div>
+                <div class="gallery-grid">
+                  {{ $galleryPath := printf "products/%s/gallery/*" .File.ContentBaseName }}
+                  {{ range ((.Resources.ByType "image").Match $galleryPath) }}
+                    <div class="gallery-item">
+                      <img src="{{ .RelPermalink }}" alt="{{ $product.title }}">
+                    </div>
+                  {{ end }}
+                </div>
+            </div>
 
-    <div class="product-info">
-      <h1>{{ .Title }}</h1>
+            <!-- Product information -->
+            <div class="product-info">
+                <h1>{{ $product.title }}</h1>
 
-      <div class="product-price">
-        ${{ .Params.price }}{{ if eq .Params.unit "kg" }}/kg{{ else if eq .Params.unit "pc" }}/piece{{ end }}
-      </div>
+                <!-- Base pricing block -->
+                <div class="pricing-block">
+                  {{ partial "pricing.html" $product.pricing }}
+                </div>
 
-      {{ if .Params.minimum_order }}
-        <div class="product-minimum">
-          {{ i18n "minimum_order_text" }} {{ .Params.minimum_order }}{{ if eq .Params.unit "kg" }}kg{{ else }} pieces{{ end }}
-        </div>
-      {{ end }}
+                <!-- Min order block -->
+                {{ with $product.pricing  }}
+                  {{ if or (and .byWeight .byWeight.minOrder) (and .byEach .byEach.minOrder) }}
+                    <div class="min-order">{{ i18n "price_minimum_order_text" }}:
+                      {{ with $product.pricing }}
+                        {{ with .byWeight }}
+                          {{ .minOrder }} {{ i18n "price_per_pound_text" }}
+                        {{ end }}
 
-      <div class="product-description">
-        {{ .Params.description }}
-      </div>
+                        {{ if and .byEach .byWeight }}
+                            {{ i18n "price_or_text" }}
+                        {{ end }}
 
-
-      <div class="product-variants">
-
-        <!--  Dietary Options Section -->
-        {{ if .Params.dietary }}
-          <div class="dietary-options">
-            <h3>{{ i18n "dietary_option_text" }}</h3>
-            <div class="options-grid">
-              {{ if isset .Params "dietary" }}
-                {{ $currentPageParams := .Params }}
-
-                <!-- Lower case page dietary -->
-                {{ $lower_dietary := slice }}
-                {{ range $i, $term := $currentPageParams.dietary }}
-                  {{ $lower_dietary = $lower_dietary | append (lower $term) }}
-                {{ end }}
-
-                <!-- Create a slice of dietary terms (keys) -->
-                {{ $dietaryTerms := slice }}
-                {{ range $termSlug, $value := .Site.Taxonomies.dietary }}
-                  {{ $dietaryTerms = $dietaryTerms | append $termSlug }}
-                {{ end }}
-
-                <!-- Iterate over the slice of dietary terms -->
-                {{ range $index, $term := $dietaryTerms }}
-                  {{ if in $lower_dietary $term }}
-                    <div class="option-item">
-                      {{ $termWithoutDash := replace $term "-" "_" }}
-                      <span class="option-name">{{ i18n (printf "dietary_option_%s_text" $termWithoutDash) }}</span>
-
-                      <!-- Check if price adjustment is available for the dietary option -->
-                      {{ with $currentPageParams.dietary_options }}
-                        {{ $optionData := index . $term }}
-                        {{ if $optionData }}
-                          <span class="price-adjust">+${{ $optionData.price_adjustment }}{{ if eq $.Params.unit "kg" }}/kg{{ end }}</span>
+                        {{ with .byEach }}
+                          {{ .minOrder }} {{ i18n "price_per_item_text" }}
                         {{ end }}
                       {{ end }}
                     </div>
                   {{ end }}
                 {{ end }}
-              {{ end }}
-            </div>
-          </div>
-        {{ end }}
 
-        {{ if .Params.flavors }}
-          <div class="flavor-options">
-            <h3>{{ i18n "available_flavors_text" }}</h3>
-            <div class="options-grid">
-              {{ range .Params.flavors }}
-                <div class="option-item">
-                  <span class="option-name">{{ .name }}</span>
-                  {{ if .price_adjustment }}
-                    <span class="price-adjust">+${{ .price_adjustment }}{{ if eq $.Params.unit "kg" }}/kg{{ end }}</span>
+                <div class="description">{{ $product.description }}</div>
+
+                <!-- General dietary options if not a variant -->
+                {{ with $product.baseVariants }}
+                    <div class="product-variants">
+                      <h3>{{ i18n "dietary_option_text" }}</h3>
+                      <div class="options-grid">
+                        <!-- Create a slice of dietary terms (keys) -->
+                        {{ $dietaryTerms := slice }}
+                        {{ range $termSlug, $value := site.Taxonomies.dietaries }}
+                          {{ $dietaryTerms = $dietaryTerms | append $termSlug }}
+                        {{ end }}
+                        {{ warnf "Dietary terms superset: %s" $dietaryTerms }}
+                        {{ range . }}
+                            {{ $variant := . }}
+                            {{ with $variant.dietary }}
+                                <!-- Lower case page dietary -->
+                                {{ $lower_dietary := slice }}
+                                {{ range $i, $term := $variant.dietary }}
+                                  {{ $lower_dietary = $lower_dietary | append (lower $term) }}
+                                {{ end }}
+
+                                {{ warnf "Product dietary terms: %s\n" $lower_dietary }}
+
+                                <!-- Build dietary string: iterating over the slice of dietary terms -->
+                                {{ $dietary := slice }}
+                                {{ range $index, $term := $dietaryTerms }}
+                                  {{ if in $lower_dietary $term }}
+                                      {{ $termWithoutDash := replace $term "-" "_" }}
+                                    {{ $dietary = $dietary | append (print "<span data-nobreak>" (i18n (printf "dietary_option_%s_text" $termWithoutDash)) "</span>") }}
+                                  {{ end }}
+                                {{ end }}
+                                {{ $dietaryString := delimit $dietary ", " | safeHTML}}
+
+                                <!--  -->
+                                <div class="option-item">
+                                  <span class="option-name">{{ $dietaryString }}</span>
+                                  <!-- Base pricing block -->
+                                  <div class="pricing-block">
+                                    {{ partial "pricing.html" $variant.pricing }}
+                                  </div>
+                                </div>
+
+                            {{ end }}
+                          {{ end }}
+                      </div>
+                    </div>
                   {{ end }}
-                </div>
-                {{ end }}
-              </div>
-          </div>
-        {{ end }}
-      </div>
 
-      <div class="product-details">
-        {{ .Content }}
-      </div>
+              <div class="product-details">
+                {{ .Content }}
+              </div>
+
+{{/*              <!-- Add to cart button -->*/}}
+{{/*              <button class="add-to-cart-button">*/}}
+{{/*                  {{ i18n "add_to_cart" }}*/}}
+{{/*              </button>*/}}
+            </div>
+
+        </div>
     </div>
-  </div>
 </main>
 {{ end }}
+
+
+

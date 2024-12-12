@@ -2,11 +2,16 @@
 date: 2024-01-01
 confections: [cakes]
 categories: [bestsellers]
-price: 6.50
-image: "/images/stollen-listing.jpg"
+#image: "/images/stollen-listing.jpg"
 weight: 2
 title: "Stollen"
-description: "Tradiditonal German cristmas cake"
+description: >
+  Traditional German Christmas cake, rich and festive in flavor, featuring Panama rum-soaked dried fruits.
+
+pricing:
+  byWeight:
+    price: 15
+
 ---
 
-Additional details about the Stollen can go here as markdown content.
+After baking, each loaf is soaked with French butter and orange liqueur for an extra layer of tenderness and aroma.

@@ -29,8 +29,7 @@
 <section class="products-section">
     <div class="container">
         <div class="gallery">
-            {{/* First pass - log all errors as warnings */}}
-{{/*          {{ range $products.ByWeight }}*/}}
+          {{/* First pass - log all errors as warnings */}}
           {{ range sort $products "Weight" }}
                 {{/* Validate content and image */}}
                 {{ with .File }}
@@ -117,23 +116,28 @@
                             </picture>
                         </div>
 
-                        <div class="pastry-info">
-                            <h3>{{ .Title }}</h3>
-                            <p>{{ .Params.description }}</p>
+                      {{ $product := partial "product-parser.html" . }}
 
-                          {{ if .Params.dietary }}
+                      <div class="pastry-info">
+                            <h3>{{ $product.title }}</h3>
+                            <p>{{ $product.description }}</p>
+
+                          {{ if $product.dietary }}
                             <h4>{{ i18n "dietary_option_text" }}</h4>
                             <ul>
-                              {{ range .Params.dietary }}
+                              {{ range $product.dietary }}
                                 <li>{{ . }}</li>
                               {{ end }}
                             </ul>
                             {{ end }}
 
-                            <div class="price">${{ .Params.price }}</div>
+                            <div class="pricing-block">
+{{/*                              {{ warnf "Product: %s, pricing: %+v" $product.title $product.pricing }}*/}}
+                              {{ partial "pricing.html" $product.pricing }}
+                            </div>
 
                             <a href="{{ .RelPermalink }}" class="view-button">
-                                View Details
+                              {{ i18n "view_details_text" }}
                             </a>
                         </div>
                     </div>
