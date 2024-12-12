@@ -10,8 +10,8 @@
 
 {{ $product := partial "product-parser.html" . }}
 {{/*{{ warnf "Product Data Debug: %#v" $product }}*/}}
-{{ $json := $product | jsonify (dict "indent" "  ") }}
-{{ warnf "Rendering product page: %s\n%s" .File.Path $json }}
+{{/*{{ $json := $product | jsonify (dict "indent" "  ") }}*/}}
+{{/*{{ warnf "Rendering product page: %s\n%s" .File.Path $json }}*/}}
 
 {{/*<main class="products-section full-width">*/}}
     <div class="product-detail">
