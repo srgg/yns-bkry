@@ -17,13 +17,13 @@ variants:
       byWeight:
         price: '+3'
   - dietary: [no-dairy]
-    pricing:
-      byWeight:
-        price: '+0'
+#    pricing:
+#      byWeight:
+#        price: '+0'
   - dietary: [no-nuts]
-    pricing:
-      byWeight:
-        price: '+0'
+#    pricing:
+#      byWeight:
+#        price: '+0'
 ---
 
 [//]: # (Additional details about the naked cake can go here as markdown content.)

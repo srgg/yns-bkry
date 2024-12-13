@@ -15,17 +15,17 @@ pricing:
 
 variants:
   - dietary: [no-nuts]
-    pricing:
-      byEach:
-        price: '+0'
+#    pricing:
+#      byEach:
+#        price: '+0'
   - dietary: [no-gluten]
     pricing:
       byEach:
         price: '+1'
   - dietary: [no-dairy]
-    pricing:
-      byEach:
-        price: '+0'
+#    pricing:
+#      byEach:
+#        price: '+0'
 ---
 
 [//]: # (Additional details about the trifles can go here as markdown content.)

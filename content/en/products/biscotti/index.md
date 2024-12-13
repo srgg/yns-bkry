@@ -24,9 +24,9 @@ variants:
       byWeight:
         price: '+5'
   - dietary: [no-dairy]
-    pricing:
-      byWeight:
-        price: '+0'
+#    pricing:
+#      byWeight:
+#        price: '+0'
 ---
 
 [//]: # (Additional details about the Biscotti can go here as markdown content.)

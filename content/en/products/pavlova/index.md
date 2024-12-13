@@ -21,9 +21,9 @@ pricing:
 
 variants:
   - dietary: [no-dairy]
-    pricing:
-      byEach:
-        price: '+0'
+#    pricing:
+#      byEach:
+#        price: '+0'
 
 # Flavor variants
   - title: Passion Fruits
