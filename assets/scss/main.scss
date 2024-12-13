@@ -17,6 +17,12 @@ body {
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
+  display: flex;          /* Add this */
+  flex-direction: column; /* Add this */
+}
+
+main {
+  flex: 1 0 auto;        /* Add this - makes main content take up available space */
 }
 
 // New header respect all breaking points
@@ -167,9 +173,11 @@ header {
 }
 
 .footer {
+  flex-shrink: 0;        /* prevents footer from shrinking */
   background-color: #fff;
-  padding: ($spacing-xl * 1.5) 0 $spacing-xl;
-  margin-top: $spacing-xl * 2;
+  padding: $spacing-md 0 $spacing-xl;
+  padding-bottom: $spacing-sm;
+  margin-top: auto;
   border-top: 2px solid $border-color;
   width: 100%;
 
@@ -185,7 +193,7 @@ header {
 
     .contact-section {
       width: 100%;
-      margin-bottom: $spacing-xl;
+      margin-bottom: $spacing-sm;
       text-align: center;
 
       h3 {
@@ -279,16 +287,22 @@ header {
 
   .footer-bottom {
     width: 100%;
-    padding-top: $spacing-xl;
-    margin-top: $spacing-xl;
+    padding: $spacing-sm 0;
+    padding-top: $spacing-sm + $spacing-sm / 2;
     border-top: 1px solid $border-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 
     .copyright {
       color: $text-color;
       font-family: $font-secondary;
       font-size: 0.9rem;
-      margin-bottom: $spacing-md;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
     }
 
     .address {

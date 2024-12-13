@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="footer-content">
         <div class="contact-section">
-            <h3>Stay Connected</h3>
+{{/*            <h3>Stay Connected</h3>*/}}
             <div class="contact-links">
                 <div class="contact-group">
                     <div class="contact-group-title">Email us</div>
@@ -57,7 +57,7 @@
 
         <div class="footer-bottom">
             <div class="copyright">
-                © {{ now.Format "2006" }} <span>{{ .Site.Title }}</span> • All rights reserved • Handcrafted with love
+              © {{ now.Format "2006" }} <span>{{ .Site.Title }}</span><span>• All rights reserved</span><span> • Handcrafted with love</span>
             </div>
 
             {{ with .Site.Params.address }}
