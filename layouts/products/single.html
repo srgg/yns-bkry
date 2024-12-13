@@ -14,32 +14,26 @@
 {{/*{{ warnf "Rendering product page: %s\n%s" .File.Path $json }}*/}}
 
 {{/*<main class="products-section full-width">*/}}
+<main>
     <div class="product-detail">
         <div class="product-content">
-            {{ $heroImage := printf "products/%s/%s-hero.*" .File.ContentBaseName .File.ContentBaseName }}
-            {{ $heroImageResource := (.Resources.ByType "image").GetMatch $heroImage }}
 
             <!-- Gallery section (placeholder) -->
             <div class="product-gallery">
                 <div class="main-image">
-{{/*                    <img src="/placeholder/800/800" alt="{{ .Title }}" />*/}}
-                    {{ if $heroImageResource }}
-                        <img src="{{ $heroImageResource.RelPermalink }}" alt="{{ $product.title }}" />
-                    {{ else }}
-                        {{ $listingImage := printf "%s-listing.*" .File.ContentBaseName }}
-                        {{ warnf "Looking for listing image with pattern: %s" $listingImage }}
-                        {{ $listingImageResource := (.Resources.ByType "image").GetMatch $listingImage }}
-                        {{ if $listingImageResource }}
-                            {{ warnf "Hero image not found for product '%s'. Using listing image as fallback." .File.ContentBaseName }}
-                            <img src="{{ $listingImageResource.RelPermalink }}" alt="{{ $product.title }} Listing Image">
-                        {{ else }}
-                            {{ if $product.draft }}
-                                {{ warnf "No hero image or listing image found for draft product '%s'." .File.ContentBaseName }}
-                            {{ else }}
-                                {{ errorf "No hero image or listing image found for product '%s'." .File.ContentBaseName }}
-                            {{ end }}
-                        {{ end }}
-                    {{ end }}
+                  {{ $heroImage := .Page.Resources.Get $product.images.hero }}
+                  {{ if not $heroImage }}
+                      {{ warnf "Hero image not found for product '%s'. Using listing image as fallback." .File.ContentBaseName }}
+                      {{ $heroImage = .Page.Resources.Get $product.images.listing }}
+                  {{ end}}
+
+                  {{ partial "images/responsive-picture.html" (dict
+                    "image" $heroImage
+                    "alt" .Title
+                    "smallWidth" "300x"
+                    "mediumWidth" "600x"
+                    "largeWidth" "1000x"
+                    ) }}
                 </div>
                 <div class="gallery-grid">
                   {{ $galleryPath := printf "products/%s/gallery/*" .File.ContentBaseName }}

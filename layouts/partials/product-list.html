@@ -11,7 +11,7 @@
 
 {{ if isset . "products" }}
   {{ $products = .products }}
-{{ end }}}
+{{ end }}
 
 {{ if $category }}
   {{ warnf "INFO: using category %s" $category }}
@@ -51,8 +51,9 @@
 
             {{/* Second pass - render valid products */}}
           {{ range sort $products "Weight" }}
+                {{ $product := partial "product-parser.html" . }}
+
                 {{ $valid := true }}
-                {{ $listingImage := or (.Resources.GetMatch "*-listing.jpg") (.Resources.GetMatch "*-listing.jpeg") }}
                 {{/* Validate content and image */}}
                 {{ with .File }}
                     {{ $content := readFile .Path }}
@@ -61,62 +62,22 @@
                     {{ end }}
                 {{ end }}
 
-                {{ if not $listingImage }}
+                {{ if not $product.images.listing }}
                     {{ $valid = false }}
                 {{ end }}
 
                 {{ if $valid }}
-                    {{/* Process images */}}
-                    {{ $small := $listingImage.Resize "500x" }}
-                    {{ $medium := $listingImage.Resize "800x" }}
-                    {{ $large := $listingImage.Resize "1200x" }}
-
-                    {{/* WebP versions */}}
-                    {{ $smallWebp := $listingImage.Resize "500x webp" }}
-                    {{ $mediumWebp := $listingImage.Resize "800x webp" }}
-                    {{ $largeWebp := $listingImage.Resize "1200x webp" }}
-
                     <div class="pastry-card" data-image="{{ path.Base .File.Dir }}">
                         <div class="pastry-image">
-                            <picture>
-                                {{/* WebP sources */}}
-                                <source
-                                        media="(min-width: 1024px)"
-                                        srcset="{{ $largeWebp.RelPermalink }}"
-                                        type="image/webp"
-                                >
-                                <source
-                                        media="(min-width: 768px)"
-                                        srcset="{{ $mediumWebp.RelPermalink }}"
-                                        type="image/webp"
-                                >
-                                <source
-                                        srcset="{{ $smallWebp.RelPermalink }}"
-                                        type="image/webp"
-                                >
-
-                                {{/* Fallback JPEG sources */}}
-                                <source
-                                        media="(min-width: 1024px)"
-                                        srcset="{{ $large.RelPermalink }}"
-                                >
-                                <source
-                                        media="(min-width: 768px)"
-                                        srcset="{{ $medium.RelPermalink }}"
-                                >
-
-                                {{/* Fallback image */}}
-                                <img
-                                        src="{{ $small.RelPermalink }}"
-                                        alt="{{ .Title }}"
-                                        loading="lazy"
-                                        width="{{ $small.Width }}"
-                                        height="{{ $small.Height }}"
-                                >
-                            </picture>
+                          {{ $listingImage := .Page.Resources.Get $product.images.listing }}
+                          {{ partial "images/responsive-picture.html" (dict
+                            "image" $listingImage
+                            "alt" .Title
+                            "smallWidth" "300x"
+                            "mediumWidth" "600x"
+                            "largeWidth" "1000x"
+                            ) }}
                         </div>
-
-                      {{ $product := partial "product-parser.html" . }}
 
                       <div class="pastry-info">
                             <h3>{{ $product.title }}</h3>
@@ -132,7 +93,6 @@
                             {{ end }}
 
                             <div class="pricing-block">
-{{/*                              {{ warnf "Product: %s, pricing: %+v" $product.title $product.pricing }}*/}}
                               {{ partial "pricing.html" $product.pricing }}
                             </div>
 

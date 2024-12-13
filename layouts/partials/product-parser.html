@@ -50,6 +50,8 @@
 {{- $base := partial "product-parser/parse-variant.html" .Params -}}
 {{/*{{ warnf "Base: %s'" .File.Path ($base | jsonify (dict "prefix" "" "indent" "  ")) }}*/}}
 
+{{- $images := partial "product-parser/parse-images.html" .Page -}}
+{{/*{{ warnf "Images: %s'" .File.Path ($images | jsonify (dict "prefix" "" "indent" "  ")) }}*/}}
 
 <!--
   Process variants
@@ -70,7 +72,7 @@
 {{- end -}}
 
 {{- /* Add variants to product */ -}}
-{{- $product = merge $product $base (dict
+{{- $product = merge $product $base $images (dict
   "baseVariants" $baseVariants
   "additionalVariants" $additionalVariants
   ) -}}
@@ -113,3 +115,51 @@
     "isBaseVariant" $isBaseVariant
   }}
 {{- end }}
+
+{{- define "partials/product-parser/parse-images.html" -}}
+  {{ $page := . }}
+  {{ $params := .Params }}
+
+  {{/* Get listing image - mandatory */}}
+  {{ $listingImage := or (.Resources.GetMatch "*-listing.jpg") (.Resources.GetMatch "*-listing.jpeg") }}
+
+  {{/* Handle missing listing image */}}
+  {{ if not $listingImage }}
+    {{ with .File }}
+      {{ warnf "ERROR: Product Missing mandatory listing image (*-listing.jpg/*.jpeg) in %s" .Path }}
+    {{ else }}
+      {{ warnf "ERROR: Missing mandatory listing image for this product, no associated file found in %s, %s" .Path $params }}
+    {{ end }}
+  {{ else }}
+    {{ $listingImage = $listingImage }}
+  {{ end }}
+
+  {{/* Create result structure with proper nil checks */}}
+  {{ $result := dict
+    "images" (dict
+    "listing" $listingImage
+    )
+  }}
+
+  {{/* Add hero image if exists */}}
+  {{ $heroImage := or (.Resources.GetMatch "*-hero.jpg") (.Resources.GetMatch "*-hero.jpeg") }}
+  {{ if $heroImage }}
+    {{ $result = merge $result (dict "images" (dict "hero" $heroImage.RelPermalink)) }}
+  {{ end }}
+
+  {{/* Process gallery if exists */}}
+  {{ with .File }}
+    {{ $galleryPath := path.Join .Dir "gallery" }}
+    {{ if fileExists $galleryPath }}
+      {{ $galleryImages := slice }}
+      {{ range sort ($page.Resources.Match "gallery/*") "Name" }}
+        {{ if and . (or (strings.HasSuffix .Name ".jpg") (strings.HasSuffix .Name ".jpeg")) }}
+          {{ $galleryImages = $galleryImages | append (dict "image" .RelPermalink) }}
+        {{ end }}
+      {{ end }}
+      {{ $result = merge $result (dict "images" (dict "gallery" $galleryImages)) }}
+    {{ end }}
+  {{ end }}
+
+  {{ return $result }}
+{{- end -}}

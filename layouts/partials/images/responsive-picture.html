@@ -1,0 +1,60 @@
+{{/*
+Params:
+- image: The original image resource
+- alt: Alt text for the image
+- smallWidth: Width for small images (default: "500x")
+- mediumWidth: Width for medium images (default: "800x")
+- largeWidth: Width for large images (default: "1200x")
+*/}}
+{{ $image := .image }}
+{{ $alt := .alt }}
+{{ $smallWidth := default "500x" .smallWidth }}
+{{ $mediumWidth := default "800x" .mediumWidth }}
+{{ $largeWidth := default "1200x" .largeWidth }}
+
+{{/* Process images in different sizes */}}
+{{ $small := $image.Resize $smallWidth }}
+{{ $medium := $image.Resize $mediumWidth }}
+{{ $large := $image.Resize $largeWidth }}
+
+{{/* WebP versions */}}
+{{ $smallWebp := $image.Resize (printf "%s webp" $smallWidth) }}
+{{ $mediumWebp := $image.Resize (printf "%s webp" $mediumWidth) }}
+{{ $largeWebp := $image.Resize (printf "%s webp" $largeWidth) }}
+
+<picture>
+  {{/* WebP sources */}}
+  <source
+    media="(min-width: 1024px)"
+    srcset="{{ $largeWebp.RelPermalink }}"
+    type="image/webp"
+  >
+  <source
+    media="(min-width: 768px)"
+    srcset="{{ $mediumWebp.RelPermalink }}"
+    type="image/webp"
+  >
+  <source
+    srcset="{{ $smallWebp.RelPermalink }}"
+    type="image/webp"
+  >
+
+  {{/* Fallback JPEG sources */}}
+  <source
+    media="(min-width: 1024px)"
+    srcset="{{ $large.RelPermalink }}"
+  >
+  <source
+    media="(min-width: 768px)"
+    srcset="{{ $medium.RelPermalink }}"
+  >
+
+  {{/* Fallback image */}}
+  <img
+    src="{{ $small.RelPermalink }}"
+    alt="{{ $alt }}"
+    loading="lazy"
+    width="{{ $small.Width }}"
+    height="{{ $small.Height }}"
+  >
+</picture>
