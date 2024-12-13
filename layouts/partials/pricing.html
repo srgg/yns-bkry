@@ -14,7 +14,11 @@
       {{- else -}}
         ${{ .price }}
       {{- end -}}
-    </span>/<span class="price-unit">{{ i18n "price_per_pound_text" }}</span>
+    </span>/<span class="price-unit">{{ i18n "price_per_pound_text" }}
+    {{ with .count }}
+      ({{ . }} {{ i18n "price_item_text" . }})
+    {{ end }}
+    </span>
   </div>
 {{ end }}
 

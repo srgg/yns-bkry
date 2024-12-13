@@ -9,6 +9,11 @@ weight: 100
 title: "Biscotti"
 description: "Traditional Italian cookies, twice-baked to perfection. Ideal with coffee or tea."
 
+pricing:
+  byWeight:
+    price:  20
+    count: 15-18
+
 variants:
   - pricing:
       byWeight:

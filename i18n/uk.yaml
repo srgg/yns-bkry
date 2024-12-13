@@ -24,6 +24,8 @@
 #  translation: "мін"
 - id: price_per_item_text
   translation: "шт"
+- id: price_item_text
+  translation: "шт"
 - id: price_per_pound_text
   translation: "фунт"
 - id: price_or_text

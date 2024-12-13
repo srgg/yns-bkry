@@ -24,6 +24,10 @@
 #  translation: "min"
 - id: price_per_item_text
   translation: "each"
+- id: price_item_text
+  translation:
+    one: "item"
+    other: "items"
 - id: price_per_pound_text
   translation: "lb"
 - id: price_or_text

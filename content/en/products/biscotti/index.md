@@ -16,7 +16,7 @@ ingredients:
 pricing:
   byWeight:
     price:  20
-    count: 15-18 items
+    count: 15-18
 
 variants:
   - dietary: [no-gluten]

@@ -17,7 +17,7 @@ dietary: [no-gluten]
 pricing:
   byWeight:
     price:  20
-    count: 20-24 items
+    count: 20-24
 
 ---
 
