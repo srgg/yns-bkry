@@ -8,7 +8,7 @@ disableKinds:
 
 #languageCode: 'en-us'
 #defaultContentLanguage: en
-defaultContentLanguageInSubdir: true
+defaultContentLanguageInSubdir: false
 
 #
 #  https://gohugo.io/content-management/multilingual/#menus
@@ -16,9 +16,9 @@ defaultContentLanguageInSubdir: true
 languages:
   en:
     languageCode: "en"
+    contentDir: "content/en"
     languageName: "English"
     weight: 0
-    contentDir: "content/en"
     default: true
     params:
       market: "us"
@@ -29,25 +29,25 @@ languages:
       main:
         - identifier: home
           name: Home
-          url: /en/
+          url: /
           params:
             icon: home.svg
           weight: 1
         - identifier: cakes
           name: Cakes
-          url: /en/confections/cakes
+          url: /confections/cakes
           weight: 2
           params:
             icon: cake.svg
         - identifier: cookies
           name: Cookies
-          url: /en/confections/cookies
+          url: /confections/cookies
           weight: 2
           params:
             icon: cookie.svg
         - identifier: desserts
           name: Desserts
-          url: /en/confections/desserts
+          url: /confections/desserts
           weight: 2
           params:
             icon: dessert.svg
@@ -60,9 +60,9 @@ languages:
 
   uk:
     languageCode: "uk"
+    contentDir: "content/uk"
     languageName: "Українська"
     weight: 1
-    contentDir: "content/uk"
     params:
       flag: "🇺🇦"
       currency: "₴"

@@ -1,23 +1,30 @@
 {{ if eq hugo.Environment "development" }}
   {{ if .Site.Params.debug }}
-
     <div class="language-selector">
-      {{ $siteLanguages := site.Languages }}
-      {{ $pageLang := .Page.Language }}
-      {{ $currentPage := . }}
+      {{ $currentLang := .Page.Language.Lang }}
+      <select class="language-select" onchange="window.location.href=this.value" aria-label="Select Language">
+        {{ range .Site.Languages }}
+          {{ $lang := .Lang }}
+          {{ $relPermalink := $.Page.RelPermalink }}
+          {{/* Strip any existing language prefix from the current URL */}}
+          {{ $cleanRelPermalink := $relPermalink | replaceRE (print "^/" $currentLang "/") "/" }}
 
-      <div class="language-selector">
-          <select class="language-select" onchange="window.location.href=this.value" aria-label="Select Language">
-          {{ range site.Languages }}
-            {{ $isActive := eq . $.Site.Language }}
-            {{/* Replace lang in current URL instead of redirecting to root */}}
-            <option value="{{ $currentPage.RelPermalink | replaceRE (print "/" $pageLang.Lang "/") (print "/" .Lang "/") }}"
-                    {{ if eq . $pageLang }}selected{{ end }}>
-              {{ .Params.flag }} {{ .LanguageName }}
-            </option>
+          {{/* Construct the URL */}}
+          {{ $langUrl := "" }}
+
+          {{/* TODO: find a better mechanism to check  default content language */}}
+          {{ if eq "en" $lang }}
+            {{/* For the default language, remove the prefix */}}
+            {{ $langUrl = $cleanRelPermalink }}
+          {{ else }}
+            {{/* For other languages, prepend the language code */}}
+            {{ $langUrl = (print "/" $lang $cleanRelPermalink) }}
           {{ end }}
-        </select>
-      </div>
+          <option value="{{ $langUrl }}" {{ if eq $lang $currentLang }}selected{{ end }}>
+            {{ .Params.flag }} {{ .LanguageName }}
+          </option>
+        {{ end }}
+      </select>
     </div>
   {{ end }}
 {{ end }}

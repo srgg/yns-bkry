@@ -1,7 +1,10 @@
 {{ $page := . }}
 {{ $currentPath := $page.RelPermalink }}
 
-{{ $isProduct := and (in $currentPath (printf "/%s/products" $page.Language.LanguageCode) ) (gt (len (split $currentPath "/")) 4) }}
+{{ $isProduct := or
+  (and (eq $page.Language.LanguageCode "en") (in $currentPath "/products") (gt (len (split $currentPath "/")) 3))
+  (and (in $currentPath (printf "/%s/products" $page.Language.LanguageCode)) (gt (len (split $currentPath "/")) 4))
+}}
 {{/*{{ printf "Page: %s, Product: %v" $page.RelPermalink $isProduct }}*/}}
 
 <nav aria-label="Menu" class="menu-nav">
