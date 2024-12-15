@@ -19,7 +19,7 @@
   {{ if in $lower_dietaryTerms $lower_term  }}
     {{ $termWithoutDash := replace $lower_term "-" "_" }}
     {{ $translated := partial "translate-or-fail.html" (printf "dietary_option_%s_text" $termWithoutDash) }}
-    {{ $dietary = $dietary | append $translated }}
+    {{ $dietary = $dietary | append (printf "<span>%s</span>" $translated) }}
   {{ else }}
     {{ errorf "Dietary term '%s' did not match any of dietaries taxonomy terms: [%s]" $term $dietaryTerms  }}
   {{ end }}

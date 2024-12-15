@@ -110,23 +110,18 @@
       color: $primary-color;
     }
 
-    /* Dietary Information with h4 */
-    h4 {
+    .no-wrap-container {
+      display: inline;
+      margin-bottom: $spacing-sm;
+    }
+
+    h4.no-wrap {
       font-size: 1rem;
       font-weight: bold;
       color: $primary-color;
-      margin-bottom: $spacing-xs; /* Consistent spacing after h4 */
+      display: inline;
+      margin: 0;
     }
-
-    //ul {
-    //  list-style-type: disc;
-    //  margin-left: 1.5rem; /* Consistent with other lists */
-    //
-    //  li {
-    //    color: $text-color;
-    //    line-height: 1;
-    //  }
-    //}
 
     p {
       font-size: 0.875rem;
@@ -135,14 +130,18 @@
       line-height: 1.5;
     }
 
-    // Added new styles for "nobreak" class
     .nobreak {
-      white-space: nowrap; // Prevent line breaks for content inside this element
-      font-size: inherit;  // Maintain font size consistency
-      color: $text-color;  // Use the same text color as the rest of the content
+      display: inline;
+      color: $text-color;
+      margin: 0;
+      font-size: inherit;
+
+      span {
+        white-space: nowrap; // Change back to nowrap to prevent hyphen breaks
+        display: inline-block; // Add this to help with wrapping between spans
+      }
     }
 
-    //// Compact pricing for card view
     @include pricing-block(
       $price-font-size: 1rem,
       $unit-font-size: 0.75rem,
@@ -241,12 +240,10 @@
       font-size: 0.85rem;
     }
 
-    @include mobile {
-      @include pricing-block(
-        $price-font-size: 0.9rem,
-        $unit-font-size: 0.7rem,
-        $separator-font-size: 0.7rem
-      );
-    }
+    @include pricing-block(
+      $price-font-size: 0.9rem,
+      $unit-font-size: 0.7rem,
+      $separator-font-size: 0.7rem
+    );
   }
 }
