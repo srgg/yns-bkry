@@ -77,6 +77,10 @@
   "additionalVariants" $additionalVariants
   ) -}}
 
+
+{{ $yamlString := partial "debug/dump-yaml.html" (dict "data" $product "params" .Params ) }}
+{{ warnf "[Product Parse: %s]:\n%s" .Path $yamlString }}
+
 {{- return $product -}}
 
 <!--

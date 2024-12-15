@@ -2,7 +2,8 @@
 date: 2024-01-01
 dietary: [No-Gluten, No-Dairy, No-Nuts]
 confections: [desserts]
-categories: [bestsellers]
+categories: [bestsellers, featured]
+
 #price: 6.50
 #image: "/images/trifles-listing.jpg"
 weight: 2

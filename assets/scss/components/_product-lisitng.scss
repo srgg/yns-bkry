@@ -118,22 +118,28 @@
       margin-bottom: $spacing-xs; /* Consistent spacing after h4 */
     }
 
-    ul {
-      list-style-type: disc;
-      margin-left: 1.5rem; /* Consistent with other lists */
-
-      li {
-        color: $text-color;
-        //margin-bottom: $spacing-sm;
-        line-height: 1;
-      }
-    }
+    //ul {
+    //  list-style-type: disc;
+    //  margin-left: 1.5rem; /* Consistent with other lists */
+    //
+    //  li {
+    //    color: $text-color;
+    //    line-height: 1;
+    //  }
+    //}
 
     p {
       font-size: 0.875rem;
       color: $text-color;
       margin-bottom: $spacing-sm;
       line-height: 1.5;
+    }
+
+    // Added new styles for "nobreak" class
+    .nobreak {
+      white-space: nowrap; // Prevent line breaks for content inside this element
+      font-size: inherit;  // Maintain font size consistency
+      color: $text-color;  // Use the same text color as the rest of the content
     }
 
     //// Compact pricing for card view

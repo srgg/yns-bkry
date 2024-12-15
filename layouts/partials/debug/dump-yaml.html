@@ -1,0 +1,293 @@
+{{/* Variables for indentation */}}
+{{- $indent := .indent | default 2 -}}
+{{- $padding := strings.Repeat $indent " " -}}
+{{- $data := .data -}}
+
+ Resulting YAML string
+{{- $result := "" -}}
+
+{{/* Handle strings */}}
+{{- if eq (printf "%T" $data) "string" }}
+  {{ $result = printf "\"%s\"" ($data | replace "\"" "\\\"") }}
+
+{{/* Handle null values */}}
+{{- else if eq (printf "%T" $data) "<nil>" }}
+  {{ $result = "null" }}
+
+{{/* Handle boolean values */}}
+{{- else if eq (printf "%T" $data) "bool" }}
+  {{ $result = printf "%v" $data }}
+
+{{/* Handle integer values */}}
+{{- else if eq (printf "%T" $data) "int" }}
+  {{ $result = printf "%d" $data }}
+
+{{/* Handle float values */}}
+{{- else if eq (printf "%T" $data) "float64" }}
+  {{ $result = printf "%f" $data }}
+
+{{/* Handle arrays generically (check if type starts with "[]") */}}
+{{- else if strings.HasPrefix (printf "%T" $data) "[]" }}
+  {{- if eq (len $data) 0 }}
+    {{/* Empty arrays are rendered as [] */}}
+    {{ $result = "[]" }}
+  {{- else }}
+    {{/* Start the array on a newline for consistency */}}
+    {{ $result = "\n" }}
+    {{- range $index, $value := $data }}
+
+      {{/* Add line breaks between array elements */}}
+      {{- if $index }}
+        {{ $result = printf "%s\n" $result }}
+      {{ end }}
+
+      {{- if strings.HasPrefix (printf "%T" $value) "map" }}
+        {{/* Recursively process maps inside arrays */}}
+        {{ $result = printf "%s%s- %s" $result $padding (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}
+      {{- else if strings.HasPrefix (printf "%T" $value) "[]" }}
+        {{/* Recursively process arrays inside arrays */}}
+        {{ $result = printf "%s%s- %s" $result $padding (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}
+      {{- else }}
+        {{/* Directly render scalar values */}}
+        {{ $result = printf "%s%s- %v" $result $padding $value }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+
+{{/* Handle maps (check if type starts with "map") */}}
+{{- else if strings.HasPrefix (printf "%T" $data) "map" }}
+  {{- range $key, $value := $data }}
+    {{/* Recursively process map keys and values */}}
+    {{ $result = printf "%s\n%s%s: %s" $result $padding $key (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}
+  {{- end }}
+
+  {{/* Fallback for unsupported types */}}
+{{- else }}
+  {{ $result = printf "%v" $data }}
+{{- end }}
+{{- return $result -}}
+
+
+
+{{/* Variables for indentation */}}
+{{/*{{- $indent := .indent | default 2 -}}*/}}
+{{/*{{- $padding := strings.Repeat $indent " " -}}*/}}
+{{/*{{- $data := .data -}}*/}}
+{{/**/}}
+{{/* Resulting YAML string */}}
+{{/*{{- $result := "" -}}*/}}
+{{/**/}}
+{{/* Handle strings */}}
+{{/*{{- if eq (printf "%T" $data) "string" }}*/}}
+{{/*  {{ $result = printf "\"%s\"" ($data | replace "\"" "\\\"") }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle null values */}}
+{{/*{{- else if eq (printf "%T" $data) "<nil>" }}*/}}
+{{/*  {{ $result = "null" }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle boolean values */}}
+{{/*{{- else if eq (printf "%T" $data) "bool" }}*/}}
+{{/*  {{ $result = printf "%v" $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle integer values */}}
+{{/*{{- else if eq (printf "%T" $data) "int" }}*/}}
+{{/*  {{ $result = printf "%d" $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle float values */}}
+{{/*{{- else if eq (printf "%T" $data) "float64" }}*/}}
+{{/*  {{ $result = printf "%f" $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle arrays generically (check if type starts with "[]") */}}
+{{/*{{- else if strings.HasPrefix (printf "%T" $data) "[]" }}*/}}
+{{/*  {{- if eq (len $data) 0 }}*/}}
+{{/*    */}}{{/* Empty arrays are rendered as [] */}}
+{{/*    {{ $result = "[]" }}*/}}
+{{/*  {{- else }}*/}}
+{{/*    */}}{{/* Non-empty arrays */}}
+{{/*    {{- range $index, $value := $data }}*/}}
+{{/*      */}}{{/* Add line breaks between array elements */}}
+{{/*      {{- if $index }}{{ $result = printf "%s\n" $result }}{{ end }}*/}}
+{{/*      {{- if strings.HasPrefix (printf "%T" $value) "map" }}*/}}
+{{/*        */}}{{/* Recursively process maps inside arrays */}}
+{{/*        {{ $result = printf "%s%s- %s" $result $padding (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}*/}}
+{{/*      {{- else if strings.HasPrefix (printf "%T" $value) "[]" }}*/}}
+{{/*        */}}{{/* Recursively process arrays inside arrays */}}
+{{/*        {{ $result = printf "%s%s- %s" $result $padding (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}*/}}
+{{/*      {{- else }}*/}}
+{{/*        */}}{{/* Directly render scalar values */}}
+{{/*        {{ $result = printf "%s%s- %v" $result $padding $value }}*/}}
+{{/*      {{- end }}*/}}
+{{/*    {{- end }}*/}}
+{{/*  {{- end }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle maps (check if type starts with "map") */}}
+{{/*{{- else if strings.HasPrefix (printf "%T" $data) "map" }}*/}}
+{{/*  {{- range $key, $value := $data }}*/}}
+{{/*    */}}{{/* Recursively process map keys and values */}}
+{{/*    {{ $result = printf "%s\n%s%s: %s" $result $padding $key (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}*/}}
+{{/*  {{- end }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Fallback for unsupported types */}}
+{{/*{{- else }}*/}}
+{{/*  {{ $result = printf "%v" $data }}*/}}
+{{/*{{- end }}*/}}
+{{/**/}}
+{{/*{{- return $result -}}*/}}
+
+
+{{/* Variables for indentation */}}
+{{/*{{- $indent := .indent | default 2 -}}*/}}
+{{/*{{- $padding := strings.Repeat $indent " "  -}}*/}}
+{{/*{{- $data := .data -}}*/}}
+{{/**/}}
+{{/* Resulting YAML string */}}
+{{/*{{- $result := "" -}}*/}}
+{{/**/}}
+{{/* Handle strings */}}
+{{/*{{- if eq (printf "%T" $data) "string" }}*/}}
+{{/*  {{ $result = printf "\"%s\"" ($data | replace "\"" "\\\"") }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle null values */}}
+{{/*{{- else if eq (printf "%T" $data) "<nil>" }}*/}}
+{{/*  {{ $result = "null" }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle boolean values */}}
+{{/*{{- else if eq (printf "%T" $data) "bool" }}*/}}
+{{/*  {{ $result = printf "%v" $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle integer values */}}
+{{/*{{- else if eq (printf "%T" $data) "int" }}*/}}
+{{/*  {{ $result = printf "%d" $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle arrays */}}
+{{/*{{- else if eq (printf "%T" $data) "[]interface {}" }}*/}}
+{{/*  {{- $result = "" -}}*/}}
+{{/*  {{- range $index, $value := $data }}*/}}
+{{/*    {{- if $index }}{{ $result = printf "%s\n" $result }}{{ end }}*/}}
+{{/*    {{- $result = printf "%s%s- %s" $result $padding (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}*/}}
+{{/*  {{- end }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle maps - Always expanded! */}}
+{{/*{{- else if eq (printf "%T" $data) "map[string]interface {}" }}*/}}
+{{/*  {{- $result = "" -}}*/}}
+{{/*  {{- range $key, $value := $data }}*/}}
+{{/*    {{- $result = printf "%s\n%s%s: %s" $result $padding $key (partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2))) }}*/}}
+{{/*  {{- end }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Fallback for unsupported types */}}
+{{/*{{- else }}*/}}
+{{/*  {{ $result = printf "%v" $data }}*/}}
+{{/*{{- end }}*/}}
+{{/**/}}
+{{/*{{- return $result -}}*/}}
+
+
+{{- /* Variables for indenting and data */ -}}
+{{/*{{- $indent := .indent | default 2 -}}*/}}
+{{/*{{- $padding := strings.Repeat $indent " " -}}*/}}
+{{/*{{- $data := .data -}}*/}}
+{{/**/}}
+{{- /* Resulting YAML string */ -}}
+{{/*{{- $result := "" -}}*/}}
+{{/**/}}
+{{/* Render strings */}}
+{{/*{{- if eq (printf "%T" $data) "string" }}*/}}
+{{/*  {{ $result = printf "\"%s\"" ($data | replace "\"" "\\\"") }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Render null values */}}
+{{/*{{- else if eq (printf "%T" $data) "<nil>" }}*/}}
+{{/*  {{ $result = "null" }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Render boolean values */}}
+{{/*{{- else if eq (printf "%T" $data) "bool" }}*/}}
+{{/*  {{ $result = printf "%v" $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Render integer values */}}
+{{/*{{- else if eq (printf "%T" $data) "int" }}*/}}
+{{/*  {{ $result = printf "%d" $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Render arrays */}}
+{{/*{{- else if eq (printf "%T" $data) "[]interface {}" }}*/}}
+{{/*  {{ $result = "[" }}*/}}
+{{/*  {{- range $index, $value := $data }}*/}}
+{{/*    {{- if $index }} {{ $result = printf "%s, " $result }}{{ end }}*/}}
+{{/*    {{ $subResult := partial "debug/dump-yaml" (dict "data" $value "indent" 0) }}*/}}
+{{/*    {{ $result = printf "%s%s" $result $subResult }}*/}}
+{{/*  {{- end }}*/}}
+{{/*  {{ $result = printf "%s]" $result }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Render maps */}}
+{{/*{{- else if eq (printf "%T" $data) "map[string]interface {}" }}*/}}
+{{/*  {{ $inline := true }}*/}}
+{{/*  {{ $mapResult := "" }}*/}}
+{{/*  {{- range $key, $value := $data }}*/}}
+{{/*    {{- if $mapResult }} {{ $mapResult = printf "%s, " $mapResult }}{{ end }}*/}}
+{{/*    {{ $subResult := partial "debug/dump-yaml" (dict "data" $value "indent" 0) }}*/}}
+{{/*    {{ $mapResult = printf "%s%s: %s" $mapResult $key $subResult }}*/}}
+{{/*    {{- if not (or (eq (printf "%T" $value) "string") (eq (printf "%T" $value) "int") (eq (printf "%T" $value) "bool") (eq (printf "%T" $value) "<nil>")) }}*/}}
+{{/*      {{ $inline = false }}*/}}
+{{/*    {{- end }}*/}}
+{{/*  {{- end }}*/}}
+{{/*  {{- if $inline }}*/}}
+{{/*    {{ $result = printf "{%s}" $mapResult }}*/}}
+{{/*  {{- else }}*/}}
+{{/*    {{ $result = "" }}*/}}
+{{/*    {{- range $key, $value := $data }}*/}}
+{{/*      {{ $subResult := partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2)) }}*/}}
+{{/*      {{ $result = printf "%s\n%s%s: %s" $result $padding $key $subResult }}*/}}
+{{/*    {{- end }}*/}}
+{{/*  {{- end }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Fallback for unsupported types */}}
+{{/*{{- else }}*/}}
+{{/*  {{ $result = printf "%v" $data }}*/}}
+{{/*{{- end }}*/}}
+{{/**/}}
+{{/*{{- return $result -}}*/}}
+
+
+
+{{/* Variables for config */}}
+{{/*{{- $indent := .indent | default 2 -}} <!-- How many spaces to indent -->*/}}
+{{/*{{- $data := .data -}}                   <!-- The data to render as YAML -->*/}}
+{{/*{{- $padding := strings.Repeat $indent " " -}} <!-- Indentation string -->*/}}
+{{/**/}}
+{{/* The resultant YAML string */}}
+{{/*{{- $result := "" -}}*/}}
+{{/**/}}
+{{/* Handle strings */}}
+{{/*{{- if eq (printf "%T" $data) "string" -}}*/}}
+{{/*  {{ $result = printf "%s\"%s\"\n" $padding ($data | replace "\"" "\\\"") }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle boolean values */}}
+{{/*{{- else if eq (printf "%T" $data) "bool" -}}*/}}
+{{/*  {{ $result = printf "%s%s%s\n" $result $padding $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle integer values */}}
+{{/*{{- else if eq (printf "%T" $data) "int" -}}*/}}
+{{/*  {{ $result = printf "%s%s%d\n" $result $padding $data }}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle arrays/slices */}}
+{{/*{{- else if eq (printf "%T" $data) "[]interface {}" -}}*/}}
+{{/*  {{- range $data }}*/}}
+{{/*    {{- $subYaml := partial "debug/dump-yaml" (dict "data" . "indent" (add $indent 2)) }}*/}}
+{{/*    {{ $result = printf "%s%s-\n%s" $result $padding $subYaml }}*/}}
+{{/*  {{- end -}}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle maps */}}
+{{/*{{- else if eq (printf "%T" $data) "map[string]interface {}" -}}*/}}
+{{/*  {{- range $key, $value := $data }}*/}}
+{{/*    {{- if or (eq (printf "%T" $value) "bool") (eq (printf "%T" $value) "float64") (eq (printf "%T" $value) "int") (eq (printf "%T" $value) "string") -}}*/}}
+{{/*      {{ $result = printf "%s%s%s: %v\n" $result $padding $key ($value | printf "%v") }}*/}}
+{{/*    {{- else -}}*/}}
+{{/*      {{- $subYaml := partial "debug/dump-yaml" (dict "data" $value "indent" (add $indent 2)) }}*/}}
+{{/*      {{ $result = printf "%s%s%s:\n%s" $result $padding $key $subYaml }}*/}}
+{{/*    {{- end -}}*/}}
+{{/*  {{- end -}}*/}}
+{{/**/}}
+{{/*  */}}{{/* Handle fallback for other primitives (numbers, nil, or others) */}}
+{{/*{{- else -}}*/}}
+{{/*  {{ $result = printf "%s%s%s\n" $result $padding $data }}*/}}
+{{/*{{- end -}}*/}}
+{{/**/}}
+{{/*{{- return $result -}}*/}}

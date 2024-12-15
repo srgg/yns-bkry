@@ -1,0 +1,7 @@
+{{ $key := . }}
+{{ $translation := i18n $key }}
+{{ if not (len $translation) }}
+  {{ errorf "Missing i18n translation for key: '%s'" $key }}
+{{ else }}
+  {{ return $translation }}
+{{ end }}

@@ -1,0 +1,31 @@
+{{ $dietaryOptions := . }}
+
+{{ $dietaryTerms := slice }}
+{{ range $termSlug, $value := site.Taxonomies.dietaries }}
+{{ $dietaryTerms = $dietaryTerms | append $termSlug }}
+{{ end }}
+
+{{/*{{ warnf "Dietary terms superset: %s" $dietaryTerms }}*/}}
+
+{{ $lower_dietaryTerms := slice }}
+{{ range $i, $term := $dietaryTerms }}
+  {{ $lower_dietaryTerms = $lower_dietaryTerms | append (lower $term) }}
+{{ end }}
+
+<!-- Build dietary string: iterating over the slice of dietary terms -->
+{{ $dietary := slice }}
+{{ range $index, $term := $dietaryOptions }}
+  {{ $lower_term := lower $term }}
+  {{ if in $lower_dietaryTerms $lower_term  }}
+    {{ $termWithoutDash := replace $lower_term "-" "_" }}
+    {{ $translated := partial "translate-or-fail.html" (printf "dietary_option_%s_text" $termWithoutDash) }}
+    {{ $dietary = $dietary | append $translated }}
+  {{ else }}
+    {{ errorf "Dietary term '%s' did not match any of dietaries taxonomy terms: [%s]" $term $dietaryTerms  }}
+  {{ end }}
+{{ end }}
+
+{{/*{{ $dietaryString := delimit $dietary ", " | safeHTML}}*/}}
+{{ $dietaryString := (printf "<p class=\"nobreak\">%s</p>" (delimit $dietary ", ")) | safeHTML }}
+
+{{ return $dietaryString }}

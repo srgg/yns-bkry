@@ -1,7 +1,7 @@
 ---
 title: "Naked Cake"
 date: 2024-01-01
-dietaries: [no-gluten, no-nuts, no-diary]
+dietaries: [no-gluten, no-nuts, no-dairy]
 confections: [cakes]
 weight: 3
 description: "A rustic beauty with delicate layers and subtle frosting, perfect for modern celebrations."

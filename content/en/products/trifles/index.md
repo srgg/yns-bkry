@@ -2,7 +2,7 @@
 date: 2024-01-01
 dietaries: [no-gluten, no-dairy, no-nuts]
 confections: [desserts]
-categories: [bestsellers]
+categories: [bestsellers, featured]
 #image: "/images/trifles-listing.jpg"
 weight: 2
 title: "Trifles"

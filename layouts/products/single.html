@@ -82,34 +82,11 @@
                     <div class="product-variants">
                       <h3>{{ i18n "dietary_option_text" }}</h3>
                       <div class="options-grid">
-                        <!-- Create a slice of dietary terms (keys) -->
-                        {{ $dietaryTerms := slice }}
-                        {{ range $termSlug, $value := site.Taxonomies.dietaries }}
-                          {{ $dietaryTerms = $dietaryTerms | append $termSlug }}
-                        {{ end }}
-                        {{ warnf "Dietary terms superset: %s" $dietaryTerms }}
                         {{ range . }}
                             {{ $variant := . }}
                             {{ with $variant.dietary }}
-                                <!-- Lower case page dietary -->
-                                {{ $lower_dietary := slice }}
-                                {{ range $i, $term := $variant.dietary }}
-                                  {{ $lower_dietary = $lower_dietary | append (lower $term) }}
-                                {{ end }}
+                                {{ $dietaryString := partial "dietary-options-csv.html" . }}
 
-                                {{ warnf "Product dietary terms: %s\n" $lower_dietary }}
-
-                                <!-- Build dietary string: iterating over the slice of dietary terms -->
-                                {{ $dietary := slice }}
-                                {{ range $index, $term := $dietaryTerms }}
-                                  {{ if in $lower_dietary $term }}
-                                      {{ $termWithoutDash := replace $term "-" "_" }}
-                                    {{ $dietary = $dietary | append (print "<span data-nobreak>" (i18n (printf "dietary_option_%s_text" $termWithoutDash)) "</span>") }}
-                                  {{ end }}
-                                {{ end }}
-                                {{ $dietaryString := delimit $dietary ", " | safeHTML}}
-
-                                <!--  -->
                                 <div class="option-item">
                                   <span class="option-name">{{ $dietaryString }}</span>
                                   <!-- Base pricing block -->
@@ -117,7 +94,6 @@
                                     {{ partial "pricing.html" $variant.pricing }}
                                   </div>
                                 </div>
-
                             {{ end }}
                           {{ end }}
                       </div>
