@@ -43,6 +43,10 @@
                     </div>
                   {{ end }}
                 </div>
+              <!-- Product details moved here, under gallery -->
+              <div class="product-details">
+                {{ .Content }}
+              </div>
             </div>
 
             <!-- Product information -->
@@ -66,22 +70,53 @@
 
                 <!-- Min order block -->
                 {{ with $product.pricing  }}
-                  {{ if or (and .byWeight .byWeight.minOrder) (and .byEach .byEach.minOrder) }}
-                    <div class="min-order">{{ i18n "price_minimum_order_text" }}:
-                      {{ with $product.pricing }}
-                        {{ with .byWeight }}
-                          {{ .minOrder }} {{ i18n "price_per_pound_text" }}
-                        {{ end }}
+{{/*                  {{ if or (and .byWeight .byWeight.minOrder) (and .byEach .byEach.minOrder) }}*/}}
+{{/*                    <div class="min-order">{{ i18n "price_minimum_order_text" }}:*/}}
+{{/*                      {{ with $product.pricing }}*/}}
+{{/*                        {{ with .byWeight }}*/}}
+{{/*                          {{ .minOrder }} {{ i18n "price_per_pound_text" }}*/}}
+{{/*                        {{ end }}*/}}
+{{/**/}}
+{{/*                        {{ if and .byEach .byWeight }}*/}}
+{{/*                            {{ i18n "price_or_text" }}*/}}
+{{/*                        {{ end }}*/}}
+{{/**/}}
+{{/*                        {{ with .byEach }}*/}}
+{{/*                          {{ .minOrder }} {{ i18n "price_per_item_text" }}*/}}
+{{/*                        {{ end }}*/}}
+{{/*                      {{ end }}*/}}
+{{/*                    </div>*/}}
+{{/*                  {{ end }}*/}}
 
-                        {{ if and .byEach .byWeight }}
-                            {{ i18n "price_or_text" }}
-                        {{ end }}
+                  {{ $hasMinOrder := false }}
+                  {{ $minOrderText := "" }}
 
-                        {{ with .byEach }}
-                          {{ .minOrder }} {{ i18n "price_per_item_text" }}
+                  {{/* Check byWeight minimum order */}}
+                  {{ with .byWeight }}
+                    {{ if .minOrder }}
+                      {{ $hasMinOrder = true }}
+                      {{ $minOrderText = printf "%d %s" .minOrder (i18n "price_per_pound_text") }}
+                    {{ end }}
+                  {{ end }}
+
+                  {{/* Check byEach minimum order */}}
+                  {{ with .byEach }}
+                    {{ if eq (printf "%T" .) "[]interface {}" }}
+                      {{/* Array format - currently no min order handling */}}
+                    {{ else }}
+                      {{ if .minOrder }}
+                        {{ if $hasMinOrder }}
+                          {{ $minOrderText = printf "%s %s %d %s" $minOrderText (i18n "price_or_text") .minOrder (i18n "price_per_item_text") }}
+                        {{ else }}
+                          {{ $hasMinOrder = true }}
+                          {{ $minOrderText = printf "%d %s" .minOrder (i18n "price_per_item_text") }}
                         {{ end }}
                       {{ end }}
-                    </div>
+                    {{ end }}
+                  {{ end }}
+
+                  {{ if $hasMinOrder }}
+                    <div class="min-order">{{ i18n "price_minimum_order_text" }}: {{ $minOrderText }}</div>
                   {{ end }}
                 {{ end }}
 
@@ -109,11 +144,6 @@
                       </div>
                     </div>
                   {{ end }}
-
-              <div class="product-details">
-                {{ .Content }}
-              </div>
-
 {{/*              <!-- Add to cart button -->*/}}
 {{/*              <button class="add-to-cart-button">*/}}
 {{/*                  {{ i18n "add_to_cart" }}*/}}

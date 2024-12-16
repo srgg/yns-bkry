@@ -4,20 +4,13 @@
 {{ with $pricing.byWeight }}
   <div class="product-price">
     <span class="price-value">
-    {{/* Handle quoted positive numbers (e.g. "+1") */}}
-      {{- if hasPrefix (printf "%v" .price) "+" -}}
-        +${{ trim (printf "%v" .price) "+" -}}
-        {{/* Handle negative numbers (e.g. -2) so sign appears before $ */}}
-      {{- else if lt .price 0 -}}
-        -${{ math.Abs .price }}
-        {{/* All other numbers - display as is */}}
-      {{- else -}}
-        ${{ .price }}
-      {{- end -}}
-    </span>/<span class="price-unit">{{ i18n "price_per_pound_text" }}
-    {{ with .count }}
-      ({{ . }} {{ i18n "price_item_text" . }})
-    {{ end }}
+      {{ partial "pricing/price-str.html" .price }}
+    </span>
+    <span>/</span>
+    <span class="price-unit">{{ i18n "price_per_pound_text" }}
+      {{ with .count }}
+        ({{ . }} {{ i18n "price_item_text" . }})
+      {{ end }}
     </span>
   </div>
 {{ end }}
@@ -29,19 +22,46 @@
 {{ end }}
 
 {{ with $pricing.byEach }}
-  <div class="product-price">
-    <span class="price-value">
-    {{/* Handle quoted positive numbers (e.g. "+1") */}}
-      {{- if hasPrefix (printf "%v" .price) "+" -}}
-        +${{ trim (printf "%v" .price) "+" -}}
-        {{/* Handle negative numbers (e.g. -2) so sign appears before $ */}}
-      {{- else if lt .price 0 -}}
-        -${{ math.Abs .price }}
-        {{/* All other numbers - display as is */}}
-      {{- else -}}
-        ${{ .price }}
-      {{- end -}}
-    </span><span>/</span><span class="price-unit">{{ i18n "price_per_item_text" }}</span>
-{{/*    </span>/<span class="price-unit">{{ i18n "price_per_item_text" }}</span>*/}}
-  </div>
+  {{ if reflect.IsSlice . }}
+    {{/* Handle array of prices */}}
+    {{ range . }}
+      <div class="product-price">
+        <span class="price-value">
+          {{ partial "pricing/price-str.html" .price }}
+        </span>
+        <span>/</span>
+        <span class="price-unit">{{ i18n "price_item_text" 1 }}
+          {{ with .weight }}
+            ({{ . }} {{ i18n "price_per_pound_text" . }} )
+          {{ end }}
+        </span>
+      </div>
+    {{ end }}
+  {{ else }}
+    {{/* Handle single price */}}
+    <div class="product-price">
+      <span class="price-value">
+        {{ partial "pricing/price-str.html" .price }}
+      </span>
+      <span>/</span>
+      <span class="price-unit">{{ i18n "price_per_item_text" }}</span>
+    </div>
+  {{ end }}
 {{ end }}
+
+{{- define "partials/pricing/price-str.html" -}}
+  {{- $result := "" -}}
+  {{- $price := . -}}
+
+  {{- if hasPrefix (printf "%v" $price) "+" -}}
+    {{/* Handle quoted positive numbers (e.g. "+1") */}}
+    {{- $result = printf "+$%v" (trim (printf "%v" $price) "+") -}}
+  {{- else if lt $price 0 -}}
+    {{/* Handle negative numbers (e.g. -2) so sign appears before $ */}}
+    {{- $result = printf "-$%v" (math.Abs $price) -}}
+  {{- else -}}
+    {{/* All other numbers - display as is*/}}
+    {{- $result = printf "$%v" $price -}}
+  {{- end -}}
+  {{- return $result -}}
+{{- end -}}

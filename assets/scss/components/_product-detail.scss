@@ -40,6 +40,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: $spacing-sm;
+      margin-bottom: $spacing-xl;  // Added to create space before details
 
       img {
         width: 100%;
@@ -51,6 +52,37 @@
 
         &:hover {
           transform: scale(1.05);
+        }
+      }
+    }
+
+    // Moved from .product-info to .product-gallery
+    .product-details {
+      margin-top: $spacing-lg;
+      padding-top: $spacing-lg;
+      border-top: 1px solid rgba($primary-color, 0.1);
+      font-family: $font-secondary;
+      color: $text-color;
+
+      p {
+        margin-bottom: $spacing-md;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: $spacing-md;
+        margin-bottom: $spacing-md;
+
+        li {
+          position: relative;
+          margin-bottom: $spacing-sm;
+
+          &:before {
+            content: "•";
+            color: $primary-color;
+            position: absolute;
+            left: -$spacing-md;
+          }
         }
       }
     }
@@ -68,12 +100,8 @@
       padding: 0;
       background: none;
       color: $secondary-color;
-      //margin-bottom: $spacing-md;
-      //font-family: $font-display;
       font-size: 1rem;
       font-weight: bold;
-      //color: rgba($text-color, 0.8);
-      //font-style: italic;
     }
 
     .description {
@@ -108,11 +136,6 @@
         font-family: $font-secondary;
       }
 
-      .dietary-options,
-      .flavor-options {
-        margin-bottom: $spacing-lg;
-      }
-
       .options-grid {
         display: grid;
         gap: $spacing-sm;
@@ -137,34 +160,6 @@
         .price-adjust {
           color: $secondary-color;
           font-weight: bold;
-        }
-      }
-    }
-
-    .product-details {
-      margin-bottom: $spacing-lg;
-      font-family: $font-secondary;
-      color: $text-color;
-
-      p {
-        margin-bottom: $spacing-md;
-      }
-
-      ul {
-        list-style: none;
-        padding-left: $spacing-md;
-        margin-bottom: $spacing-md;
-
-        li {
-          position: relative;
-          margin-bottom: $spacing-sm;
-
-          &:before {
-            content: "•";
-            color: $primary-color;
-            position: absolute;
-            left: -$spacing-md;
-          }
         }
       }
     }

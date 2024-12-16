@@ -18,8 +18,9 @@ meta:
 # Taxonomies
 #
 
-# Dietary information - all default to false meaning contains by default
+# Dietary information - superposition of all available dietary options over all variants (including base variant)
 dietaries: [no-gluten, no-dairy]
+
 confections: [cakes, cookies, desserts]
 categories: [bestsellers, featured]
 
@@ -28,6 +29,7 @@ categories: [bestsellers, featured]
 #
 # ??
 
+# Dietary options for base variant
 dietary: [no-nuts, no-gluten, no-dairy]
 
 ingredients: []  # list of ingredients
@@ -39,8 +41,17 @@ storage:
 pricing:
   # Price per each item
   byEach:
-    price: 3.50
-    minOrder: 5  #  Minimum order of 5 items
+    #  can be either a single price or an array of pricess
+    #    price: 3.50
+    #    minOrder: 5  #  Minimum order of 5 items
+    #  byEach:
+    #    # 1 pound option for $15
+    #    - price: 15
+    #      weight: 1
+    #    # 2 pound option for $26
+    #    - price: 28
+    #      weight: 2
+
 
     bulkDiscount:
       - threshold: 5 # Minimum quantity for the first discount tier
