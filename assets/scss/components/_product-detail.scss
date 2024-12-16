@@ -7,7 +7,6 @@
 
 .product-detail {
   grid-template-columns: 1fr 1fr;
-  //max-width: $container-max-width;
 
   .product-content {
     display: grid;
@@ -27,16 +26,8 @@
     .main-image {
       width: 100%;
       margin-bottom: $spacing-xl;
-      //width: 100%;
-      //aspect-ratio: 1;
-      //margin-bottom: $spacing-md;
 
       img {
-        //width: 100%;
-        //height: 100%;
-        //object-fit: cover;
-        //border-radius: 0.5rem;
-        //box-shadow: $shadow-md;
         width: 100%;
         height: auto;
         object-fit: cover;
@@ -69,19 +60,27 @@
     h1 {
       font-size: 2.5rem;
       color: $primary-color;
-      margin-bottom: $spacing-sm;
+      margin-bottom: $spacing-xs;
       font-family: $font-display;
+    }
+
+    > .dietary {
+      padding: 0;
+      background: none;
+      color: $secondary-color;
+      //margin-bottom: $spacing-md;
+      //font-family: $font-display;
+      font-size: 1rem;
+      font-weight: bold;
+      //color: rgba($text-color, 0.8);
+      //font-style: italic;
     }
 
     .description {
       font-size: 1.1rem;
       line-height: 1.6;
-      margin-bottom: $spacing-lg;
+      margin: $spacing-sm 0;
       color: $text-color;
-      //font-size: 1rem;
-      //color: $text-color;
-      //line-height: 1.5;
-      //margin-bottom: $spacing-lg;
     }
 
     @include pricing-block(
@@ -93,10 +92,6 @@
     );
 
     .min-order {
-      //&::before {
-      //  content: ",";
-      //  margin: 0 $spacing-xs;
-      //}
       font-size: 1.1rem;
       color: rgba($text-color, 0.6);
       font-weight: normal;
@@ -128,20 +123,12 @@
         justify-content: space-between;
         align-items: center;
         padding: $spacing-sm;
-        //padding: 0 $spacing-sm;
         background-color: rgba($primary-color, 0.05);
         border-radius: 0.25rem;
         min-height: 100%;
 
-        //.pricing-block {
-        //  display: flex;
-        //  margin-bottom: 0;  // Remove bottom margin that might affect centering
-        //  padding-bottom: 0; // Remove bottom padding that might affect centering
-        //}
-
         .option-name {
           color: $text-color;
-          // Preventing breaking "No-" from the next word in dietary options
           span[data-nobreak] {
             white-space: nowrap;
           }
@@ -181,41 +168,6 @@
         }
       }
     }
-
-    //// Additional product details
-    //.product-details {
-    //  h2 {
-    //    font-size: 1.5rem;
-    //    color: $primary-color;
-    //    margin-bottom: $spacing-md;
-    //    margin-top: $spacing-lg;
-    //  }
-    //
-    //  .details-grid {
-    //    display: grid;
-    //    gap: $spacing-md;
-    //    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    //
-    //    .detail-item {
-    //      h3 {
-    //        font-size: 1.1rem;
-    //        color: $primary-color;
-    //        margin-bottom: $spacing-xs;
-    //      }
-    //
-    //      p, ul {
-    //        font-size: 1rem;
-    //        color: $text-color;
-    //        line-height: 1.5;
-    //      }
-    //
-    //      ul {
-    //        list-style-type: disc;
-    //        padding-left: $spacing-md;
-    //      }
-    //    }
-    //  }
-    //}
   }
 }
 

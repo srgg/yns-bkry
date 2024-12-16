@@ -103,16 +103,22 @@
     flex-direction: column;
     flex-grow: 1;
     position: relative;
+    gap: $spacing-sm;
+
+    .content-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
 
     h3 {
       font-size: 1.25rem;
-      margin-bottom: $spacing-sm;
       color: $primary-color;
     }
 
     .no-wrap-container {
       display: inline;
-      margin-bottom: $spacing-sm;
     }
 
     h4.no-wrap {
@@ -126,7 +132,6 @@
     p {
       font-size: 0.875rem;
       color: $text-color;
-      margin-bottom: $spacing-sm;
       line-height: 1.5;
     }
 
@@ -137,8 +142,8 @@
       font-size: inherit;
 
       span {
-        white-space: nowrap; // Change back to nowrap to prevent hyphen breaks
-        display: inline-block; // Add this to help with wrapping between spans
+        white-space: nowrap;
+        display: inline-block;
       }
     }
 
@@ -146,8 +151,13 @@
       $price-font-size: 1rem,
       $unit-font-size: 0.75rem,
       $separator-font-size: 0.75rem,
-      $is_card_view: false
+      $is_card_view: true
     );
+
+    .pricing-block {
+      margin-top: auto;
+      margin-bottom: $spacing-sm;
+    }
 
     .view-button {
       display: inline-block;
@@ -159,7 +169,6 @@
       border-radius: 0.25rem;
       transition: background-color $transition-speed $transition-ease;
       text-align: center;
-      margin-top: auto;
 
       &:hover {
         background-color: $secondary-color;
@@ -183,7 +192,8 @@
     @include pricing-block(
       $price-font-size: 1.125rem,
       $unit-font-size: 0.875rem,
-      $separator-font-size: 0.875rem
+      $separator-font-size: 0.875rem,
+      $is_card_view: true
     );
   }
 }
@@ -243,7 +253,8 @@
     @include pricing-block(
       $price-font-size: 0.9rem,
       $unit-font-size: 0.7rem,
-      $separator-font-size: 0.7rem
+      $separator-font-size: 0.7rem,
+      $is_card_view: true
     );
   }
 }

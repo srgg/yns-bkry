@@ -7,15 +7,17 @@
 ) {
   .pricing-block {
     display: flex;
-    //flex-direction: row;
     align-items: baseline;
-    padding: 0;
-    margin-bottom: auto;
-
-    padding-bottom: $spacing-sm;
-    padding-top: $spacing-sm;
-    //padding-bottom: $spacing-md;
     gap: $spacing-xs;
+
+    @if $is_card_view {
+      padding: $spacing-sm 0;
+      margin-top: auto;  // Only apply in card view
+    } @else {
+      padding: $spacing-xs 0;
+      //margin-bottom: $spacing-md;
+      margin-bottom: 0;
+    }
   }
 
   .product-price {
