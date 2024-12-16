@@ -6,13 +6,13 @@
   translation: "Options"
 
 - id: dietary_option_no_gluten_text
-  translation: "No-Gluten"
+  translation: "No Gluten"
 
 - id: dietary_option_no_dairy_text
-  translation: "No-Dairy"
+  translation: "No Dairy"
 
 - id: dietary_option_no_nuts_text
-  translation: "No-Nuts"
+  translation: "No Nuts"
 
 # Flavors
 - id: available_flavors_text
